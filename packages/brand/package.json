@@ -1,0 +1,24 @@
+{
+  "name": "@gigshive/brand",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GigsHive brand kit: colour tokens, Tailwind preset, logos, icons and images",
+  "main": "./tokens/tailwind.preset.ts",
+  "exports": {
+    "./tokens/tailwind.preset": "./tokens/tailwind.preset.ts",
+    "./tokens/tokens.css": "./tokens/tokens.css",
+    "./tokens/colors.json": "./tokens/colors.json"
+  },
+  "files": [
+    "tokens",
+    "logo",
+    "favicon",
+    "icons",
+    "images",
+    "social",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "tailwindcss": ">=3.4.0"
+  }
+}
