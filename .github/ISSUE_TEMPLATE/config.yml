@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Specification and decisions (gigshive_doc)
+    url: https://github.com/cmrade488-blip/gigshive_doc
+    about: Questions about scope, business rules or the data model belong in the documentation repository.

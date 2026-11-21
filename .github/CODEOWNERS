@@ -1,0 +1,9 @@
+# Default reviewer. Replace with the two frontend engineers (FE1, FE2) when their handles are known,
+# e.g. "* @handle-fe1 @handle-fe2". Money-flow and API-contract changes also need a backend reviewer
+# (CODEOWNERS cannot request reviewers from another repository, so the PR template enforces this).
+*                          @cmrade488-blip
+/packages/api-client/      @cmrade488-blip
+/apps/web/src/features/payments/   @cmrade488-blip
+/apps/web/src/features/wallet/     @cmrade488-blip
+/apps/web/src/features/contracts/  @cmrade488-blip
+/.github/                  @cmrade488-blip

@@ -1,0 +1,78 @@
+name: PR checks
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  title:
+    name: Conventional PR title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            refactor
+            perf
+            test
+            docs
+            chore
+            ci
+          scopes: |
+            web
+            admin
+            auth
+            profiles
+            verification
+            media
+            catalog
+            jobs
+            proposals
+            contracts
+            payments
+            wallet
+            admin-ops
+            api-client
+            ui
+            config
+            testing
+            docs
+            ci
+            deps
+            repo
+          requireScope: false
+          subjectPattern: ^(?![A-Z]).+$
+          subjectPatternError: The summary must start with a lower-case imperative verb, for example "add register screen".
+
+  task-reference:
+    name: Task reference present
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const type = (pr.title.match(/^(\w+)/) || [])[1];
+            const needsTask = ["feat", "fix", "refactor", "perf"].includes(type);
+            const hasTask = /\bFE-\d{3}\b/.test(pr.body || "");
+            if (needsTask && !hasTask) {
+              core.setFailed(
+                "PRs of type " + type + " must reference a task ID such as FE-013 in the description (see docs/tasks/TASKS.md)."
+              );
+            }
+
+  label:
+    name: Label by changed paths
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/labeler@v5
+        with:
+          sync-labels: true

@@ -1,4 +1,9 @@
 # apps/web
 
-GigsHive marketplace web app (visitors, clients, workers). Next.js App Router.
-Routes in `src/app`, feature modules in `src/features`, app glue (session, providers) in `src/lib`.
+Marketplace web app for visitors, clients and workers. Next.js App Router.
+
+- `src/app`: routes and layouts only. `src/features`: feature modules (see each README). `src/lib`: app glue (session, providers).
+- Public pages (jobs, workers) are server rendered; authenticated pages are client rendered behind the session proxy.
+- Environment: copy `.env.example` to `.env.local`.
+- Must not import from `apps/admin`.
+- Spec: Blueprint sections 2 to 6, Data and State Design section 6 (routes).

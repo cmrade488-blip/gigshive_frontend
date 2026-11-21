@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  repo-checks:
+    name: Repository checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Required files exist
+        run: |
+          missing=0
+          for f in README.md AGENTS.md CONTRIBUTING.md ARCHITECTURE.md \
+                   docs/tasks/TASKS.md docs/DOC_MAP.md \
+                   .github/PULL_REQUEST_TEMPLATE.md .github/CODEOWNERS; do
+            if [ ! -f "$f" ]; then echo "::error::Missing required file: $f"; missing=1; fi
+          done
+          exit $missing
+
+      - name: JSON and YAML files are valid
+        run: |
+          set -e
+          jq empty package.json
+          for f in $(git ls-files '*.yml' '*.yaml'); do
+            yq e '.' "$f" > /dev/null || { echo "::error::Invalid YAML: $f"; exit 1; }
+          done
+
+      - name: No environment files or secrets-by-name committed
+        run: |
+          bad=$(git ls-files | grep -E '(^|/)\.env($|\.)' | grep -v '\.env\.example$' || true)
+          if [ -n "$bad" ]; then echo "::error::Environment files must not be committed:"; echo "$bad"; exit 1; fi
+
+  secret-scan:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
