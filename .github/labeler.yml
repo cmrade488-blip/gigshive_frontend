@@ -1,0 +1,30 @@
+"area:web":
+  - changed-files:
+      - any-glob-to-any-file: "apps/web/**"
+"area:admin":
+  - changed-files:
+      - any-glob-to-any-file: "apps/admin/**"
+"pkg:api-client":
+  - changed-files:
+      - any-glob-to-any-file: "packages/api-client/**"
+"pkg:ui":
+  - changed-files:
+      - any-glob-to-any-file: "packages/ui/**"
+"pkg:config":
+  - changed-files:
+      - any-glob-to-any-file: "packages/config/**"
+"pkg:testing":
+  - changed-files:
+      - any-glob-to-any-file: "packages/testing/**"
+"docs":
+  - changed-files:
+      - any-glob-to-any-file: ["docs/**", "*.md"]
+"ci":
+  - changed-files:
+      - any-glob-to-any-file: ".github/**"
+"money-flow":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "apps/web/src/features/payments/**"
+          - "apps/web/src/features/wallet/**"
+          - "apps/web/src/features/contracts/**"

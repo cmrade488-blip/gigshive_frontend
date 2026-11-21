@@ -1,0 +1,68 @@
+name: Task
+description: A unit of planned work from the Frontend MVP Scope and Implementation Plan
+title: "FE-___: "
+labels: ["type:task"]
+body:
+  - type: input
+    id: task_id
+    attributes:
+      label: Task ID
+      description: From docs/tasks/TASKS.md (FE-001 to FE-074). Create a new ID there first if this is new work.
+      placeholder: FE-013
+    validations:
+      required: true
+  - type: input
+    id: slice
+    attributes:
+      label: Slice
+      placeholder: A
+    validations:
+      required: true
+  - type: dropdown
+    id: module
+    attributes:
+      label: Module
+      options:
+        - auth
+        - profiles
+        - verification
+        - media
+        - catalog
+        - jobs
+        - proposals
+        - contracts
+        - payments
+        - wallet
+        - admin-ops
+        - api-client
+        - ui
+        - config
+        - testing
+        - infra
+        - shared
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What to build. Link the Blueprint section and the Data and State Design section.
+    validations:
+      required: true
+  - type: input
+    id: rules
+    attributes:
+      label: Business rules (BR-nn)
+      placeholder: BR-02, BR-03
+  - type: input
+    id: depends
+    attributes:
+      label: Depends on
+      placeholder: FE-006, FE-008
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Copy the slice acceptance criteria that apply, plus the Definition of Done items that need extra care.
+    validations:
+      required: true

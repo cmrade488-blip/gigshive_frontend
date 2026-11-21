@@ -1,0 +1,8 @@
+# Markdown and GitHub config are not format-checked yet; enable when the team adds Prettier to editors.
+*.md
+.github/
+pnpm-lock.yaml
+**/generated/
+.next/
+dist/
+coverage/
