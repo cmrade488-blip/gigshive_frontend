@@ -1,0 +1,51 @@
+// Tailwind preset for GigsHive. Add to tailwind.config: presets: [require('@gigshive/brand/tokens/tailwind.preset')] or import by path.
+// Semantic colours point at the CSS variables in tokens.css, so light and dark themes switch without class changes.
+import type { Config } from 'tailwindcss';
+
+const preset: Partial<Config> = {
+  theme: {
+    extend: {
+      colors: {
+        honey: { 50: '#FFF8E6', 100: '#FFEEC2', 200: '#FFDF8A', 300: '#FFCC4D', 400: '#FFB91F', 500: '#F5A000', 600: '#CC8100', 700: '#9E6200', 800: '#6E4400', 900: '#432900' },
+        ink: { 50: '#F4F6FA', 100: '#E8ECF3', 200: '#D0D7E3', 300: '#AEB9CC', 400: '#7F8DA6', 500: '#5A6985', 600: '#3E4B66', 700: '#2A3650', 800: '#1A233A', 900: '#0F1626', 950: '#090E1A' },
+        success: { 50: '#F0FDF4', 100: '#DCFCE7', 500: '#16A34A', 600: '#15803D', 700: '#166534' },
+        danger: { 50: '#FEF2F2', 100: '#FEE2E2', 500: '#DC2626', 600: '#B91C1C', 700: '#991B1B' },
+        warning: { 50: '#FFF7ED', 100: '#FFEDD5', 500: '#EA580C', 600: '#C2410C', 700: '#9A3412' },
+        info: { 50: '#EFF6FF', 100: '#DBEAFE', 300: '#93C5FD', 500: '#2563EB', 600: '#1D4ED8', 700: '#1E40AF' },
+        brand: { honey: '#F5A000', ink: '#0F1626' },
+        'gh-bg': 'var(--gh-bg)',
+        'gh-surface': 'var(--gh-surface)',
+        'gh-surface-raised': 'var(--gh-surface-raised)',
+        'gh-surface-sunken': 'var(--gh-surface-sunken)',
+        'gh-border': 'var(--gh-border)',
+        'gh-border-strong': 'var(--gh-border-strong)',
+        'gh-text': 'var(--gh-text)',
+        'gh-text-muted': 'var(--gh-text-muted)',
+        'gh-text-subtle': 'var(--gh-text-subtle)',
+        'gh-text-inverse': 'var(--gh-text-inverse)',
+        'gh-primary': 'var(--gh-primary)',
+        'gh-primary-hover': 'var(--gh-primary-hover)',
+        'gh-primary-active': 'var(--gh-primary-active)',
+        'gh-primary-text': 'var(--gh-primary-text)',
+        'gh-secondary': 'var(--gh-secondary)',
+        'gh-secondary-hover': 'var(--gh-secondary-hover)',
+        'gh-secondary-text': 'var(--gh-secondary-text)',
+        'gh-link': 'var(--gh-link)',
+        'gh-focus-ring': 'var(--gh-focus-ring)',
+        'gh-success': 'var(--gh-success)',
+        'gh-success-bg': 'var(--gh-success-bg)',
+        'gh-danger': 'var(--gh-danger)',
+        'gh-danger-bg': 'var(--gh-danger-bg)',
+        'gh-warning': 'var(--gh-warning)',
+        'gh-warning-bg': 'var(--gh-warning-bg)',
+        'gh-info': 'var(--gh-info)',
+        'gh-info-bg': 'var(--gh-info-bg)',
+      },
+      fontFamily: { sans: ['var(--gh-font-sans)'], display: ['var(--gh-font-display)'], mono: ['var(--gh-font-mono)'] },
+      borderRadius: { sm: '6px', md: '10px', lg: '16px', xl: '24px' },
+      boxShadow: { sm: 'var(--gh-shadow-sm)', md: 'var(--gh-shadow-md)', lg: 'var(--gh-shadow-lg)' },
+    },
+  },
+};
+
+export default preset;
