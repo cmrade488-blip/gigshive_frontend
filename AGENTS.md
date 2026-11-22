@@ -14,6 +14,7 @@ The backend is a separate Laravel REST API (`/api/v1`). The frontend renders bac
 2. The task: `docs/tasks/TASKS.md` row and its GitHub issue (FE-nnn).
 3. The feature's own `README.md` under `apps/*/src/features/<name>/`.
 4. The specs in the `gigshive_doc` repository (links in `docs/DOC_MAP.md`): Blueprint (architecture and module spec), Data and State Design (types, keys, routes, state machines), MVP Plan (acceptance criteria for the slice).
+5. For any UI work: `docs/DESIGN.md`, then `packages/brand/` (tokens, logo, icons) and the screen previews in `design/public-site/previews/` (once synced).
 
 Precedence when documents disagree: backend docs (API behaviour, business rules, enumerations) > Data and State Design (client data model) > Blueprint (architecture and standards) > MVP Plan (scope and order). The generated OpenAPI types are authoritative for response shapes.
 
@@ -65,6 +66,15 @@ Rules:
 - Copy lives in the feature's `copy/` folder. Backend error codes map to messages; never show raw codes.
 - Accessibility is part of "done": labels, focus, keyboard path, axe passing, usable at 360 px.
 - Do not invent endpoints, fields, enum values or business rules. If the spec does not cover it, stop and raise it (see section 7).
+
+## 5a. Design and brand
+
+- Build screens from the design: find the screen in the map in `docs/DESIGN.md`, open its preview PNG, then its `.dc.html` source for structure and copy. The `.dc.html` files are reference only; never copy them into the app.
+- Use semantic tokens from `@gigshive/brand` (via the Tailwind preset and `tokens.css`), never raw hex values. Use components from `@gigshive/ui` before writing new ones.
+- Honey (`#F5A000`) is for fills, never for body text on white. Inter for interface text, Poppins Bold only for the wordmark and display headings. Never recolour, stretch or retype the logo. Icons use `currentColor`.
+- `design/` is mirrored from gigshive_doc: never edit it here. `packages/brand` comes from `gigshive_doc/brand`: if you change a token or asset, make the same change in gigshive_doc in a linked PR (`bash scripts/sync-design.sh` prints a drift report).
+- Production error rule: users never see a server message, error code, URL or stack trace. Show app copy; for 5xx also show a short reference to quote to support. Details go to the error tracker. This tightens Blueprint 7.5.
+- Sample content in the designs (jobs, names, prices, fees) is placeholder. Real data comes from the API; money is integer kobo.
 
 ## 6. Workflow (every change)
 
