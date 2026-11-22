@@ -10,12 +10,12 @@ Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are p
 | ID | Task | Module | Owner | Depends on | Size | Status |
 |---|---|---|---|---|---|---|
 | FE-001 | Monorepo (pnpm workspaces), TypeScript strict, ESLint, Prettier, PR template | shared | FE1 | none | S | done |
-| FE-002 | Next.js skeletons for web and admin: layouts, environment config, providers | shared | FE1 | FE-001 | M | review |
+| FE-002 | Next.js skeletons for web and admin: layouts, environment config, providers | shared | FE1 | FE-001 | M | done |
 | FE-003 | CI pipeline: install, lint, types, tests, build, audit, secret scan, bundle budgets | infra | FE2 | FE-001 | M | in progress (repository checks, secret scan, PR checks live; build, test, audit and budget stages pending) |
 | FE-004 | API client package: OpenAPI type generation, drift check, fetch wrapper | api-client | FE2 | FE-002 | L | todo |
 | FE-005 | Mock layer: MSW handlers from the spec; typed fixture factories | testing | FE2 | FE-004 | M | todo |
 | FE-006 | Design tokens, Tailwind preset, base components | ui | FE1 | FE-002 | L | todo |
-| FE-007 | Shared utilities: money, dates (Africa/Lagos), ids, idempotency key, status-map framework | shared | FE1 | FE-001 | M | todo |
+| FE-007 | Shared utilities: money, dates (Africa/Lagos), ids, idempotency key, status-map framework | shared | FE1 | FE-001 | M | review |
 | FE-008 | Session proxy layer: server-held session, token attach, CSRF, logout (FOI-01) | session | FE2 | FE-004 | L | todo |
 | FE-009 | Error boundaries and standard screen states | shared | FE1 | FE-006 | M | todo |
 | FE-010 | Import-boundary lint rules and architecture tests | shared | FE1 | FE-002 | S | todo |
