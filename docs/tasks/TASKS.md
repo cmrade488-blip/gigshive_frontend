@@ -9,8 +9,8 @@ Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are p
 ## Slice 0: Foundation
 | ID | Task | Module | Owner | Depends on | Size | Status |
 |---|---|---|---|---|---|---|
-| FE-001 | Monorepo (pnpm workspaces), TypeScript strict, ESLint, Prettier, PR template | shared | FE1 | none | S | review (workspace, Prettier, PR template, workflows, shared tsconfig + ESLint flat configs done) |
-| FE-002 | Next.js skeletons for web and admin: layouts, environment config, providers | shared | FE1 | FE-001 | M | todo |
+| FE-001 | Monorepo (pnpm workspaces), TypeScript strict, ESLint, Prettier, PR template | shared | FE1 | none | S | done |
+| FE-002 | Next.js skeletons for web and admin: layouts, environment config, providers | shared | FE1 | FE-001 | M | review |
 | FE-003 | CI pipeline: install, lint, types, tests, build, audit, secret scan, bundle budgets | infra | FE2 | FE-001 | M | in progress (repository checks, secret scan, PR checks live; build, test, audit and budget stages pending) |
 | FE-004 | API client package: OpenAPI type generation, drift check, fetch wrapper | api-client | FE2 | FE-002 | L | todo |
 | FE-005 | Mock layer: MSW handlers from the spec; typed fixture factories | testing | FE2 | FE-004 | M | todo |
