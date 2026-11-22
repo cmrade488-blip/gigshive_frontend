@@ -9,12 +9,7 @@ export {
   koboToNaira,
 } from "./money";
 
-export {
-  DISPLAY_TIMEZONE,
-  type FormatDateOptions,
-  formatDate,
-  formatRelative,
-} from "./date";
+export { DISPLAY_TIMEZONE, type FormatDateOptions, formatDate, formatRelative } from "./date";
 
 export { createId } from "./id";
 

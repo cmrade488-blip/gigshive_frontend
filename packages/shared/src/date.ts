@@ -18,21 +18,13 @@ export type FormatDateOptions = {
 /**
  * Format an ISO string or Date for display in Africa/Lagos.
  */
-export function formatDate(
-  value: string | Date,
-  options: FormatDateOptions = {},
-): string {
+export function formatDate(value: string | Date, options: FormatDateOptions = {}): string {
   const date = typeof value === "string" ? new Date(value) : value;
   if (Number.isNaN(date.getTime())) {
     throw new Error(`formatDate(): invalid date ${String(value)}`);
   }
 
-  const {
-    locale = "en-NG",
-    time = false,
-    dateStyle = "medium",
-    timeStyle = "short",
-  } = options;
+  const { locale = "en-NG", time = false, dateStyle = "medium", timeStyle = "short" } = options;
 
   if (time) {
     return new Intl.DateTimeFormat(locale, {
@@ -52,10 +44,7 @@ export function formatDate(
  * Relative label for recent times ("just now", "5 minutes ago", …).
  * Falls back to formatDate for older values.
  */
-export function formatRelative(
-  value: string | Date,
-  now: Date = new Date(),
-): string {
+export function formatRelative(value: string | Date, now: Date = new Date()): string {
   const date = typeof value === "string" ? new Date(value) : value;
   if (Number.isNaN(date.getTime())) {
     throw new Error(`formatRelative(): invalid date ${String(value)}`);

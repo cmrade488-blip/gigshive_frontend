@@ -1,9 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  bodyFingerprint,
-  nextIdempotencySession,
-  createIdempotencyKey,
-} from "./idempotency";
+import { bodyFingerprint, nextIdempotencySession, createIdempotencyKey } from "./idempotency";
 
 describe("createIdempotencyKey", () => {
   it("returns a non-empty string", () => {

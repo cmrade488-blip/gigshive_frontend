@@ -1,11 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  formatMoney,
-  parseMoney,
-  kobo,
-  nairaToKobo,
-  koboToNaira,
-} from "./money";
+import { formatMoney, parseMoney, kobo, nairaToKobo, koboToNaira } from "./money";
 
 describe("kobo()", () => {
   it("accepts integers", () => {

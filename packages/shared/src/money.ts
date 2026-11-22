@@ -40,11 +40,7 @@ export function formatMoney(amountKobo: number, options: FormatMoneyOptions = {}
     throw new Error(`formatMoney(): amount must be an integer (kobo), got ${amountKobo}`);
   }
 
-  const {
-    currency = true,
-    currencyDisplay = "symbol",
-    locale = "en-NG",
-  } = options;
+  const { currency = true, currencyDisplay = "symbol", locale = "en-NG" } = options;
 
   const naira = amountKobo / KOBO_PER_NAIRA;
 
@@ -64,9 +60,7 @@ export function formatMoney(amountKobo: number, options: FormatMoneyOptions = {}
   }).format(naira);
 }
 
-export type ParseMoneyResult =
-  | { ok: true; kobo: Kobo }
-  | { ok: false; error: string };
+export type ParseMoneyResult = { ok: true; kobo: Kobo } | { ok: false; error: string };
 
 /**
  * Parse a user-entered naira string into kobo.
@@ -83,11 +77,7 @@ export function parseMoney(
   }
 
   // Strip currency symbols and whitespace/grouping separators common in NG input
-  let cleaned = raw
-    .replace(/₦/g, "")
-    .replace(/NGN/gi, "")
-    .replace(/\s/g, "")
-    .replace(/,/g, "");
+  let cleaned = raw.replace(/₦/g, "").replace(/NGN/gi, "").replace(/\s/g, "").replace(/,/g, "");
 
   // Allow a single leading minus if permitted
   const negative = cleaned.startsWith("-");
@@ -107,8 +97,8 @@ export function parseMoney(
   }
 
   const [wholePart, fracPart = ""] = cleaned.split(".");
-  const whole = Number.parseInt(wholePart, 10);
-  const frac = Number.parseInt(fracPart.padEnd(2, "0").slice(0, 2), 10);
+  const whole = Number.parseInt(wholePart ?? "0", 10);
+  const frac = Number.parseInt((fracPart ?? "").padEnd(2, "0").slice(0, 2), 10);
 
   if (!Number.isFinite(whole) || !Number.isFinite(frac)) {
     return { ok: false, error: "Enter a valid amount" };
