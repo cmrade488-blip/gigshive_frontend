@@ -70,7 +70,7 @@ export default tseslint.config(
       // General quality
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "prefer-const": "error",
-      "eqeqeq": ["error", "always", { null: "ignore" }],
+      eqeqeq: ["error", "always", { null: "ignore" }],
     },
   },
   // Allow default exports where frameworks require them

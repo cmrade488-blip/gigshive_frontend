@@ -1,4 +1,6 @@
-/* Minimal reset. Design tokens and full styles arrive with FE-006 (packages/ui + brand). */
+@import "@gigshive/brand/tokens/tokens.css";
+
+/* Minimal reset. Design tokens arrive via brand tokens CSS. */
 *,
 *::before,
 *::after {
