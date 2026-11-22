@@ -1,8 +1,18 @@
 # apps/admin
 
-Staff console: verification, moderation, support and finance. Separate origin and session from `apps/web` (30 minutes idle, 8 hours absolute, mandatory OTP).
+Staff console for verification, moderation, support and finance. Next.js App Router.
 
-- Same structure as `apps/web`. Navigation is built from the permissions the API returns, never role names.
-- Restricted data is shown only where the role permits, masked by default.
+- `src/app`: routes and layouts only. `src/features`: feature modules (see each README). `src/lib`: app glue (session, providers).
+- Separate origin and session from the marketplace web app.
+- Environment: copy `.env.example` to `.env.local`.
 - Must not import from `apps/web`.
-- Spec: Blueprint sections 6.13 and 10.4.
+- Spec: Blueprint sections 2 to 6, Data and State Design section 6 (routes).
+
+## Scripts
+
+```bash
+pnpm --filter @gigshive/admin dev      # http://localhost:3001
+pnpm --filter @gigshive/admin build
+pnpm --filter @gigshive/admin typecheck
+pnpm --filter @gigshive/admin lint
+```
