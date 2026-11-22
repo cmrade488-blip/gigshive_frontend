@@ -2,7 +2,7 @@
 
 Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are proposals (FE1, FE2); either engineer may swap. Size: S/M/L (relative).
 
-**Status values:** `todo`, `in progress`, `blocked`, `review`, `done`. The PR that finishes a task sets it to `done` in this file. Each task has a GitHub issue titled `FE-nnn: <task>`.
+**Status values:** `proposed`, `todo`, `in progress`, `blocked`, `review`, `done`. The PR that finishes a task sets it to `done` in this file. Each task has a GitHub issue titled `FE-nnn: <task>`.
 
 **Slice acceptance** is in the MVP Plan section 11. Slices F and G can run in parallel with A to E. Slice H is the convergence point; K needs I and J.
 
@@ -14,8 +14,8 @@ Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are p
 | FE-003 | CI pipeline: install, lint, types, tests, build, audit, secret scan, bundle budgets | infra | FE2 | FE-001 | M | in progress (repository checks, secret scan, PR checks live; build, test, audit and budget stages pending) |
 | FE-004 | API client package: OpenAPI type generation, drift check, fetch wrapper | api-client | FE2 | FE-002 | L | todo |
 | FE-005 | Mock layer: MSW handlers from the spec; typed fixture factories | testing | FE2 | FE-004 | M | todo |
-| FE-006 | Design tokens, Tailwind preset, base components | ui | FE1 | FE-002 | L | todo |
-| FE-007 | Shared utilities: money, dates (Africa/Lagos), ids, idempotency key, status-map framework | shared | FE1 | FE-001 | M | review |
+| FE-006 | Design tokens, Tailwind preset, base components (use packages/brand; replaces the placeholder set, FOI-05) | ui | FE1 | FE-002 | L | done (tokens, Tailwind wiring, Button, Input, Textarea, Card, Badge, Modal in packages/ui; fonts and favicon not wired yet, see FE-080) |
+| FE-007 | Shared utilities: money, dates (Africa/Lagos), ids, idempotency key, status-map framework | shared | FE1 | FE-001 | M | done |
 | FE-008 | Session proxy layer: server-held session, token attach, CSRF, logout (FOI-01) | session | FE2 | FE-004 | L | todo |
 | FE-009 | Error boundaries and standard screen states | shared | FE1 | FE-006 | M | todo |
 | FE-010 | Import-boundary lint rules and architecture tests | shared | FE1 | FE-002 | S | todo |
@@ -71,7 +71,7 @@ Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are p
 ## Slice F: Funding and Payments UI
 | ID | Task | Module | Owner | Depends on | Size | Status |
 |---|---|---|---|---|---|---|
-| FE-037 | Money components: MoneyDisplay, MoneyInput; exhaustive formatting and parsing tests | shared | FE2 | FE-007 | M | todo |
+| FE-037 | Money components: MoneyDisplay, MoneyInput; exhaustive formatting and parsing tests | shared | FE2 | FE-007 | M | in progress (components exist in packages/ui; MoneyDisplay tested, MoneyInput tests pending) |
 | FE-038 | Funding dialog: fee breakdown, idempotency key, redirect allow-list | payments | FE2 | FE-037, FE-008 | L | todo |
 | FE-039 | Payment return page: bounded polling, all states, timeout, forged-query-string test | payments | FE2 | FE-038 | L | todo |
 | FE-040 | Status badge and action-availability framework for contracts and payments | shared | FE2 | FE-009 | M | todo |
@@ -131,5 +131,17 @@ Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are p
 | FE-070 | Slice P: Subscriptions and connects | subscriptions | FE2 | FE-064 | L | todo |
 | FE-071 | Slice Q: Request for Quote reusing job and proposal screens | jobs | FE1 | FE-064 | M | todo |
 | FE-072 | Slice R: Skills pickers and matching display | catalog | FE1 | FE-064 | M | todo |
+
+## Public site (proposed, not in MVP Plan v1.1)
+The designs for these pages are done (see [docs/DESIGN.md](../DESIGN.md)) but the MVP Plan has no tasks for them. They need product owner confirmation and an update to the MVP Plan in gigshive_doc before work starts.
+
+| ID | Task | Module | Owner | Depends on | Size | Status |
+|---|---|---|---|---|---|---|
+| FE-075 | Public site shell: floating pill navbar, footer, dark hero band with hex texture | site | FE1 | FE-006 | M | proposed |
+| FE-076 | Home page, desktop and phone | site | FE1 | FE-075 | L | proposed |
+| FE-077 | How it works page | site | FE1 | FE-075 | S | proposed |
+| FE-078 | Info pages: Safety, Fees (values from the API), Help and FAQ, Contact, About, Terms and Privacy (legal text placeholder) | site | FE1 | FE-075 | M | proposed |
+| FE-079 | System pages: not found, access denied, error with reference, maintenance (503); production error rule | site, shared | FE1 | FE-009, FE-075 | S | proposed |
+| FE-080 | Launch metadata: fonts via next/font (Inter, Poppins), favicon and manifest from packages/brand, social card, robots.txt, sitemap.xml, per-page titles and descriptions | web | FE1 | FE-002, FE-075 | S | proposed |
 
 `GH-nnn` ids refer to backend tasks in the backend plan; a dependency on one means the endpoint must exist on staging (or be mocked behind the generated types).

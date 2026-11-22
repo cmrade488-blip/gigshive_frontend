@@ -1,0 +1,6 @@
+# design/ is mirrored from gigshive_doc: hide from language stats and collapse in diffs.
+design/** linguist-vendored
+
+*.png binary
+*.ico binary
+*.sh text eol=lf
