@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin sidebar</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+.navi:hover{background:rgba(255,255,255,0.08) !important}
+</style>
+</helmet>
+<aside style="box-sizing: border-box; width: 100%; min-height: 100%; background: #0B1120; color: #FFFFFF; padding: 24px 16px; display: flex; flex-direction: column; gap: 22px; font-family: Inter, system-ui, sans-serif">
+<div style="padding: 0 8px; display: flex; align-items: center; justify-content: space-between"><img src="../../../brand/logo/gigshive-logo-reversed.svg" alt="GigsHive" style="height: 30px; width: auto; display: block"><span style="font-size: 11px; font-weight: 700; letter-spacing: 0.6px; background: #2563EB; color: #FFFFFF; padding: 4px 10px; border-radius: 9999px">ADMIN</span></div>
+<nav aria-label="Admin" style="display: flex; flex-direction: column; gap: 3px">
+<sc-for list="{{items}}" as="n" hint-placeholder-count="8">
+<a class="navi" href="{{n.href}}" style="{{n.style}}"><span style="flex: 1">{{n.label}}</span><span style="{{n.badgeStyle}}">{{n.badge}}</span></a>
+</sc-for>
+</nav>
+<div style="margin-top: auto; background: rgba(255,255,255,0.07); border-radius: 18px; padding: 14px; font-size: 13px; color: #D0D7E3"><b style="color: #FFFFFF">Staff console</b><br>Every action here is written to the audit log.</div>
+</aside>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"active":{"editor":"text","default":"overview"},"$preview":{"width":264,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+const active = this.props.active ?? 'overview';
+const on = 'display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 12px; font-size: 15px; font-weight: 600; color: #0F1626; background: #FFB91F';
+const off = 'display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 12px; font-size: 15px; font-weight: 500; color: #D0D7E3';
+const list = [['overview','Overview','AdminDashboard.dc.html',''],['profiles','Profiles','AdminDashboard.dc.html',''],['verifications','Verifications','AdminVerifications.dc.html','14'],['jobs','Jobs','AdminDashboard.dc.html',''],['contracts','Contracts','AdminDashboard.dc.html',''],['payments','Payments','AdminDashboard.dc.html',''],['payouts','Payouts','AdminPayouts.dc.html','6'],['categories','Categories','AdminSettings.dc.html',''],['config','Config','AdminSettings.dc.html',''],['audit','Audit logs','AdminSettings.dc.html','']];
+return { items: list.map(([k, label, href, badge]) => ({ label, href, badge, style: k === active ? on : off, badgeStyle: badge ? 'font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 9999px; background: ' + (k === active ? '#0F1626' : '#2563EB') + '; color: #FFFFFF' : 'display: none' })) };
+}
+}
+</script>
+</body>
+</html>
