@@ -11,8 +11,7 @@ export default function HomePage() {
         GigsHive Console
       </h1>
       <p style={{ color: "#555", marginBottom: "1.5rem" }}>
-        Staff console skeleton. Queues, finance views and ops screens land with later
-        tasks.
+        Staff console skeleton. Queues, finance views and ops screens land with later tasks.
       </p>
       <p style={{ fontSize: "0.875rem", color: "#777" }}>
         Surface: <code>apps/admin</code> · Port 3001 · FE-002

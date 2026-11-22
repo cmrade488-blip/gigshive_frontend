@@ -7,9 +7,7 @@ export default function HomePage() {
         padding: "0 1.5rem",
       }}
     >
-      <h1 style={{ fontSize: "1.75rem", fontWeight: 600, marginBottom: "0.5rem" }}>
-        GigsHive
-      </h1>
+      <h1 style={{ fontSize: "1.75rem", fontWeight: 600, marginBottom: "0.5rem" }}>GigsHive</h1>
       <p style={{ color: "#555", marginBottom: "1.5rem" }}>
         Marketplace web app skeleton. Feature screens land with later tasks.
       </p>
