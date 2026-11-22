@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GigsHive home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+.hexbg{background-image:url(../../../brand/images/patterns/hex-pattern.svg);background-size:104px 120px;opacity:0.07}
+.lift{transition:transform .2s ease, box-shadow .2s ease}
+.lift:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(15,22,38,0.14) !important}
+</style>
+</helmet>
+<div style="width: 100%; background: #FFFFFF; font-family: Inter, system-ui, sans-serif; color: #0F1626; line-height: 1.5">
+
+<section style="position: relative; overflow: hidden; background: #0F1626; border-radius: 0 0 56px 56px; padding-bottom: 96px">
+<div class="hexbg" style="position: absolute; inset: 0"></div>
+<div style="position: absolute; right: -160px; top: -200px; width: 760px; height: 760px; background: radial-gradient(circle, rgba(245,160,0,0.42), rgba(245,160,0,0) 66%)"></div>
+<div style="position: absolute; left: -200px; bottom: -260px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(37,99,235,0.25), rgba(37,99,235,0) 66%)"></div>
+<div style="position: relative">
+<dc-import name="SiteHeader" active="none" hint-size="100%,92px"></dc-import>
+<div style="max-width: 1200px; margin: 0 auto; padding: 72px 40px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 40px">
+<div style="flex: 1 1 540px; min-width: 0">
+<span style="display: inline-flex; gap: 8px; align-items: center; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); color: #FFDF8A; font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 9999px"><span style="width: 8px; height: 8px; border-radius: 9999px; background: #FFB91F"></span>Work with people you can trust</span>
+<h1 style="font-family: Poppins, Inter, sans-serif; font-weight: 700; font-size: 62px; line-height: 1.05; letter-spacing: -1.5px; color: #FFFFFF; margin: 24px 0 20px">Hire skilled people.<br><span style="color: #FFB91F">Pay when the work is done.</span></h1>
+<p style="font-size: 19px; color: #AEB9CC; margin: 0 0 36px; max-width: 520px">Post a job, compare proposals and fund the contract. Your payment is held until you approve the work.</p>
+<form action="Jobs.dc.html" style="display: flex; flex-wrap: wrap; gap: 8px; background: #FFFFFF; border-radius: 9999px; padding: 8px 8px 8px 28px; max-width: 600px; box-shadow: 0 20px 50px rgba(0,0,0,0.35); align-items: center">
+<label for="q" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Search for work</label>
+<input id="q" type="search" placeholder="Search for work, for example logo design" style="flex: 1 1 220px; min-width: 0; border: 0; outline: 0; font: inherit; font-size: 16px; padding: 12px 0; color: #0F1626; background: transparent">
+<a href="Jobs.dc.html" style="flex: 0 0 auto; background: #F5A000; color: #0F1626; font-weight: 600; font-size: 16px; padding: 15px 32px; border-radius: 9999px; text-align: center">Find work</a>
+</form>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 28px; color: #D0D7E3; font-size: 14px">
+<span style="display: inline-flex; gap: 8px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB91F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Payment held until approval</span>
+<span style="display: inline-flex; gap: 8px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB91F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Verified workers</span>
+<span style="display: inline-flex; gap: 8px; align-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB91F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Paid in naira</span>
+</div>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; display: flex; justify-content: center">
+<img data-slot="IMG-HERO-01" src="../../../brand/images/illustrations/hero-collage.svg" alt="A worker profile, a funded contract and a released payment" style="width: 100%; max-width: 580px; height: auto; display: block">
+</div>
+</div>
+</div>
+</section>
+
+<section style="padding: 96px 40px 24px">
+<div style="max-width: 1200px; margin: 0 auto">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 36px">
+<div><h2 style="font-family: Poppins, Inter, sans-serif; font-size: 40px; letter-spacing: -0.5px; margin: 0 0 8px">Browse by category</h2><p style="margin: 0; color: #3E4B66; font-size: 18px">Find the kind of work you need, or the kind you do.</p></div>
+<a href="Jobs.dc.html" style="font-weight: 600; color: #0F1626; border-bottom: 2px solid #F5A000; padding-bottom: 2px">All categories</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px">
+<sc-for list="{{cats}}" as="c" hint-placeholder-count="8">
+<a class="lift" href="Jobs.dc.html" style="display: block; border-radius: 24px; overflow: hidden; background: #FFFFFF; border: 1px solid #E8ECF3; box-shadow: 0 4px 12px rgba(15,22,38,0.06)">
+<img data-slot="{{c.slot}}" src="{{c.img}}" alt="" style="width: 100%; height: auto; display: block">
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px"><b style="font-size: 16px">{{c.name}}</b><span style="width: 32px; height: 32px; border-radius: 9999px; background: #FFEEC2; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F1626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+</a>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section style="padding: 72px 40px">
+<div style="max-width: 1200px; margin: 0 auto; background: #F4F6FA; border-radius: 40px; padding: 64px 48px">
+<h2 style="font-family: Poppins, Inter, sans-serif; font-size: 40px; letter-spacing: -0.5px; margin: 0 0 8px; text-align: center">How it works</h2>
+<p style="margin: 0 auto 48px; color: #3E4B66; font-size: 18px; text-align: center; max-width: 560px">One account. Hire when you need help, work when you have time.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="3">
+<div style="background: #FFFFFF; border-radius: 28px; padding: 28px; box-shadow: 0 4px 12px rgba(15,22,38,0.06)">
+<img data-slot="{{s.slot}}" src="{{s.img}}" alt="" style="width: 100%; max-width: 300px; height: auto; display: block; margin: 0 auto 8px">
+<span style="font-family: Poppins, sans-serif; font-weight: 700; font-size: 14px; color: #9E6200">{{s.n}}</span>
+<h3 style="font-size: 21px; margin: 6px 0 8px">{{s.title}}</h3>
+<p style="margin: 0; color: #3E4B66; font-size: 16px">{{s.text}}</p>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section style="padding: 24px 40px 72px">
+<div style="max-width: 1200px; margin: 0 auto">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 36px">
+<div><h2 style="font-family: Poppins, Inter, sans-serif; font-size: 40px; letter-spacing: -0.5px; margin: 0 0 8px">Open jobs</h2><p style="margin: 0; color: #3E4B66; font-size: 18px">Sample listings. Real jobs appear here when clients publish them.</p></div>
+<a href="Jobs.dc.html" style="font-weight: 600; color: #0F1626; border-bottom: 2px solid #F5A000; padding-bottom: 2px">See all jobs</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px">
+<sc-for list="{{jobs}}" as="job" hint-placeholder-count="3">
+<a class="lift" href="Job.dc.html" style="display: flex; flex-direction: column; gap: 16px; padding: 28px; border: 1px solid #E8ECF3; border-radius: 28px; background: #FFFFFF; box-shadow: 0 4px 12px rgba(15,22,38,0.06)">
+<div style="display: flex; justify-content: space-between; gap: 8px; align-items: center"><span style="font-size: 12px; font-weight: 600; background: #E8ECF3; color: #2A3650; padding: 5px 12px; border-radius: 9999px">{{job.category}}</span><span style="font-size: 13px; color: #5A6985">{{job.posted}}</span></div>
+<b style="font-size: 20px; line-height: 1.3">{{job.title}}</b>
+<span style="font-size: 15px; color: #3E4B66">{{job.summary}}</span>
+<div style="display: flex; align-items: center; gap: 12px"><img data-slot="{{job.slot}}" src="{{job.avatar}}" alt="" style="width: 36px; height: 36px; border-radius: 9999px; display: block"><span style="font-size: 14px; color: #3E4B66">{{job.client}}</span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 16px; border-top: 1px solid #E8ECF3"><b style="font-size: 17px">{{job.budget}}</b><span style="font-size: 13px; font-weight: 600; color: #9E6200">{{job.mode}}</span></div>
+</a>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section style="padding: 0 40px 72px">
+<div style="max-width: 1200px; margin: 0 auto">
+<h2 style="font-family: Poppins, Inter, sans-serif; font-size: 40px; letter-spacing: -0.5px; margin: 0 0 8px">Meet workers on GigsHive</h2>
+<p style="margin: 0 0 36px; color: #3E4B66; font-size: 18px">Sample profiles. Every worker confirms their identity before applying.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px">
+<sc-for list="{{people}}" as="p" hint-placeholder-count="4">
+<a class="lift" href="Profile.dc.html" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 32px 24px; border: 1px solid #E8ECF3; border-radius: 28px; background: #FFFFFF; box-shadow: 0 4px 12px rgba(15,22,38,0.06)">
+<img data-slot="{{p.slot}}" src="{{p.img}}" alt="" style="width: 88px; height: 88px; border-radius: 9999px; display: block; margin-bottom: 8px">
+<b style="font-size: 18px">{{p.name}}</b>
+<span style="font-size: 14px; color: #3E4B66">{{p.role}}</span>
+<span style="display: inline-flex; gap: 6px; align-items: center; font-size: 12px; font-weight: 600; background: #DCFCE7; color: #166534; padding: 4px 10px; border-radius: 9999px; margin-top: 8px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Verified</span>
+</a>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section style="padding: 0 40px 96px">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 24px">
+<div style="flex: 2 1 560px; min-width: 0; background: linear-gradient(135deg, #FFB91F, #F5A000); border-radius: 40px; padding: 48px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px">
+<div style="flex: 1 1 260px"><h3 style="font-family: Poppins, Inter, sans-serif; font-size: 30px; line-height: 1.2; margin: 0 0 12px; color: #0F1626">Payment held until approval</h3><p style="margin: 0; font-size: 17px; color: #0F1626">Clients fund the contract first, so workers start knowing the money is there. Clients release it only when they are happy.</p></div>
+<img data-slot="IMG-STEP-02" src="../../../brand/images/steps/fund.svg" alt="" style="width: 240px; max-width: 100%; height: auto; display: block">
+</div>
+<div style="flex: 1 1 260px; background: #0F1626; color: #FFFFFF; border-radius: 40px; padding: 40px"><span style="width: 52px; height: 52px; border-radius: 16px; background: #1A233A; display: flex; align-items: center; justify-content: center; margin-bottom: 20px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFB91F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.4 1.6 2.9-.1 1 2.7 2.3 1.8-.9 2.8.9 2.8-2.3 1.8-1 2.7-2.9-.1L12 21l-2.4-1.6-2.9.1-1-2.7-2.3-1.8.9-2.8-.9-2.8 2.3-1.8 1-2.7 2.9.1z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></span><h3 style="font-size: 22px; margin: 0 0 8px">Verified workers</h3><p style="margin: 0; color: #AEB9CC; font-size: 16px">Workers confirm their identity before they can apply. Clients see a verified badge on every checked profile.</p></div>
+<div style="flex: 1 1 260px; background: #F4F6FA; border-radius: 40px; padding: 40px"><span style="width: 52px; height: 52px; border-radius: 16px; background: #FFEEC2; display: flex; align-items: center; justify-content: center; margin-bottom: 20px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9E6200" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M17 4v16M7 4l10 16"/><path d="M4 9.5h16M4 14.5h16"/></svg></span><h3 style="font-size: 22px; margin: 0 0 8px">Paid in naira</h3><p style="margin: 0; color: #3E4B66; font-size: 16px">Pay and withdraw in naira to a Nigerian bank account. Every amount is recorded on your wallet.</p></div>
+</div>
+</section>
+
+<section style="padding: 0 40px 96px">
+<div style="position: relative; overflow: hidden; max-width: 1200px; margin: 0 auto; background: #0F1626; border-radius: 48px; padding: 64px 56px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px">
+<div class="hexbg" style="position: absolute; inset: 0"></div>
+<div style="position: absolute; right: -100px; top: -140px; width: 520px; height: 520px; background: radial-gradient(circle, rgba(245,160,0,0.4), rgba(245,160,0,0) 66%)"></div>
+<div style="position: relative; flex: 1 1 380px"><h2 style="font-family: Poppins, Inter, sans-serif; font-size: 40px; line-height: 1.15; letter-spacing: -0.5px; margin: 0 0 12px; color: #FFFFFF">Ready to get started?</h2><p style="margin: 0 0 28px; font-size: 18px; color: #AEB9CC">Create one free account. Add a client profile, a worker profile, or both.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px"><a href="Auth.dc.html" style="background: #F5A000; color: #0F1626; font-weight: 600; padding: 15px 32px; border-radius: 9999px">Create free account</a><a href="Jobs.dc.html" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #FFFFFF; font-weight: 600; padding: 15px 32px; border-radius: 9999px">Browse jobs</a></div></div>
+<img data-slot="IMG-STEP-03" src="../../../brand/images/steps/get-paid.svg" alt="" style="position: relative; width: 300px; max-width: 100%; height: auto; display: block">
+</div>
+</section>
+
+<dc-import name="SiteFooter" hint-size="100%,360px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4560}}'>
+class Component extends DCLogic {
+renderVals() {
+return {
+cats: [
+{ slot: 'IMG-CAT-01', img: '../../../brand/images/categories/design.svg', name: 'Design' },
+{ slot: 'IMG-CAT-02', img: '../../../brand/images/categories/web.svg', name: 'Web and software' },
+{ slot: 'IMG-CAT-03', img: '../../../brand/images/categories/writing.svg', name: 'Writing' },
+{ slot: 'IMG-CAT-04', img: '../../../brand/images/categories/marketing.svg', name: 'Marketing' },
+{ slot: 'IMG-CAT-05', img: '../../../brand/images/categories/video.svg', name: 'Video and audio' },
+{ slot: 'IMG-CAT-06', img: '../../../brand/images/categories/data.svg', name: 'Data and analytics' },
+{ slot: 'IMG-CAT-07', img: '../../../brand/images/categories/admin.svg', name: 'Admin support' },
+{ slot: 'IMG-CAT-08', img: '../../../brand/images/categories/tutoring.svg', name: 'Training and tutoring' }
+],
+steps: [
+{ slot: 'IMG-STEP-01', img: '../../../brand/images/steps/post-a-job.svg', n: 'Step 1', title: 'Post a job or find one', text: 'Clients describe the work and the budget. Workers browse open jobs and send a proposal or application.' },
+{ slot: 'IMG-STEP-02', img: '../../../brand/images/steps/fund.svg', n: 'Step 2', title: 'Agree and fund the contract', text: 'The client accepts a proposal and funds the contract. The payment is held while the work is done.' },
+{ slot: 'IMG-STEP-03', img: '../../../brand/images/steps/get-paid.svg', n: 'Step 3', title: 'Approve and get paid', text: 'The worker delivers. When the client approves, the payment is released and can be withdrawn to a bank.' }
+],
+jobs: [
+{ category: 'Design', posted: '2 days ago', title: 'Brand identity for a new fintech startup', summary: 'Logo, colour palette and a short brand guide for a Lagos-based startup.', budget: '₦150,000 to ₦250,000', mode: 'Priced proposals', slot: 'IMG-AVT-01', avatar: '../../../brand/images/avatars/avatar-01.svg', client: 'Sample Fintech Ltd' },
+{ category: 'Web and software', posted: '3 days ago', title: 'Build a landing page and booking form', summary: 'A fast, mobile-first site for a small clinic with an online booking form.', budget: '₦300,000 to ₦450,000', mode: 'Priced proposals', slot: 'IMG-AVT-03', avatar: '../../../brand/images/avatars/avatar-03.svg', client: 'Sample Care Clinic' },
+{ category: 'Writing', posted: '5 days ago', title: 'Part-time content writer for a travel blog', summary: 'Four articles a month. Answer three short questions and share two writing samples.', budget: 'Agreed after you apply', mode: 'Application', slot: 'IMG-AVT-06', avatar: '../../../brand/images/avatars/avatar-06.svg', client: 'Sample Travel Co' }
+],
+people: [
+{ slot: 'IMG-AVT-04', img: '../../../brand/images/avatars/avatar-04.svg', name: 'Amaka O.', role: 'Product designer' },
+{ slot: 'IMG-AVT-02', img: '../../../brand/images/avatars/avatar-02.svg', name: 'Tunde A.', role: 'Full-stack developer' },
+{ slot: 'IMG-AVT-05', img: '../../../brand/images/avatars/avatar-05.svg', name: 'Ife B.', role: 'Content writer' },
+{ slot: 'IMG-AVT-07', img: '../../../brand/images/avatars/avatar-07.svg', name: 'Kunle S.', role: 'Video editor' }
+]
+};
+}
+}
+</script>
+</body>
+</html>

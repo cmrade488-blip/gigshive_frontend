@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How it works</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+summary{cursor:pointer}
+summary::-webkit-details-marker{display:none}
+.hexbg{background-image:url(../../../brand/images/patterns/hex-pattern.svg);background-size:104px 120px;opacity:0.07}
+</style>
+</helmet>
+<div style="width: 100%; background: #FFFFFF; font-family: Inter, system-ui, sans-serif; color: #0F1626; line-height: 1.5">
+
+<section style="position: relative; overflow: hidden; background: #0F1626; border-radius: 0 0 56px 56px; padding-bottom: 96px">
+<div class="hexbg" style="position: absolute; inset: 0"></div>
+<div style="position: absolute; right: -140px; top: -220px; width: 700px; height: 700px; background: radial-gradient(circle, rgba(245,160,0,0.4), rgba(245,160,0,0) 66%)"></div>
+<div style="position: relative">
+<dc-import name="SiteHeader" active="how" hint-size="100%,92px"></dc-import>
+<div style="max-width: 820px; margin: 0 auto; padding: 72px 40px 0; text-align: center">
+<h1 style="font-family: Poppins, Inter, sans-serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -1.5px; color: #FFFFFF; margin: 0 0 20px">How <span style="color: #FFB91F">GigsHive</span> works</h1>
+<p style="margin: 0; font-size: 19px; color: #AEB9CC">One account for everything. Hire people when you need help, and take on work when you want to earn. Payments are held until the work is approved.</p>
+</div>
+</div>
+</section>
+
+<section style="padding: 96px 40px 40px">
+<div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 32px">
+
+<div style="background: #FFF8E6; border-radius: 40px; padding: 44px">
+<span style="font-size: 13px; font-weight: 600; background: #FFEEC2; color: #6E4400; padding: 6px 14px; border-radius: 9999px">For clients</span>
+<h2 style="font-family: Poppins, Inter, sans-serif; font-size: 30px; letter-spacing: -0.5px; margin: 18px 0 28px">Hire with confidence</h2>
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 24px">
+<sc-for list="{{clientSteps}}" as="s" hint-placeholder-count="4">
+<li style="display: flex; gap: 16px"><span style="width: 38px; height: 38px; border-radius: 9999px; background: #F5A000; color: #0F1626; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: 0 0 auto">{{s.n}}</span><div><b style="font-size: 18px">{{s.title}}</b><div style="color: #3E4B66; font-size: 16px">{{s.text}}</div></div></li>
+</sc-for>
+</ol>
+<img data-slot="IMG-STEP-01" src="../../../brand/images/steps/post-a-job.svg" alt="" style="width: 260px; max-width: 100%; height: auto; display: block; margin: 28px 0 8px">
+<a href="Auth.dc.html" style="display: inline-block; margin-top: 12px; background: #F5A000; color: #0F1626; font-weight: 600; padding: 15px 30px; border-radius: 9999px">Post a job</a>
+</div>
+
+<div style="background: #F4F6FA; border-radius: 40px; padding: 44px">
+<span style="font-size: 13px; font-weight: 600; background: #E8ECF3; color: #2A3650; padding: 6px 14px; border-radius: 9999px">For workers</span>
+<h2 style="font-family: Poppins, Inter, sans-serif; font-size: 30px; letter-spacing: -0.5px; margin: 18px 0 28px">Do good work and get paid</h2>
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 24px">
+<sc-for list="{{workerSteps}}" as="s" hint-placeholder-count="4">
+<li style="display: flex; gap: 16px"><span style="width: 38px; height: 38px; border-radius: 9999px; background: #0F1626; color: #FFB91F; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: 0 0 auto">{{s.n}}</span><div><b style="font-size: 18px">{{s.title}}</b><div style="color: #3E4B66; font-size: 16px">{{s.text}}</div></div></li>
+</sc-for>
+</ol>
+<img data-slot="IMG-STEP-03" src="../../../brand/images/steps/get-paid.svg" alt="" style="width: 260px; max-width: 100%; height: auto; display: block; margin: 28px 0 8px">
+<a href="Auth.dc.html" style="display: inline-block; margin-top: 12px; background: #0F1626; color: #FFFFFF; font-weight: 600; padding: 15px 30px; border-radius: 9999px">Create a worker profile</a>
+</div>
+</div>
+</section>
+
+<section style="padding: 40px 40px 88px">
+<div style="position: relative; overflow: hidden; max-width: 1200px; margin: 0 auto; background: #0F1626; color: #FFFFFF; border-radius: 48px; padding: 64px 56px">
+<div class="hexbg" style="position: absolute; inset: 0"></div>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; margin-bottom: 40px">
+<div style="flex: 1 1 420px"><h2 style="font-family: Poppins, Inter, sans-serif; font-size: 36px; letter-spacing: -0.5px; margin: 0 0 12px">How your payment is protected</h2>
+<p style="margin: 0; color: #AEB9CC; font-size: 18px">The money moves in clear steps, and every step is recorded on your wallet.</p></div>
+<img data-slot="IMG-STEP-02" src="../../../brand/images/steps/fund.svg" alt="" style="width: 220px; max-width: 100%; height: auto; display: block">
+</div>
+<div style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px">
+<div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 28px"><b style="color: #FFB91F; font-size: 14px">1. Funded</b><p style="margin: 10px 0 0; color: #D0D7E3; font-size: 15px">The client pays into the contract. The worker sees that the contract is funded before starting.</p></div>
+<div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 28px"><b style="color: #FFB91F; font-size: 14px">2. Held</b><p style="margin: 10px 0 0; color: #D0D7E3; font-size: 15px">The payment stays held while the work is done and delivered for review.</p></div>
+<div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 28px"><b style="color: #FFB91F; font-size: 14px">3. Released</b><p style="margin: 10px 0 0; color: #D0D7E3; font-size: 15px">When the client approves, or the review window ends, the payment is released to the worker.</p></div>
+<div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 28px"><b style="color: #FFB91F; font-size: 14px">4. Withdrawn</b><p style="margin: 10px 0 0; color: #D0D7E3; font-size: 15px">The worker withdraws to a Nigerian bank account. Fees are shown on the contract before you pay.</p></div>
+</div>
+</div>
+</section>
+
+<section style="padding: 0 40px 96px">
+<div style="max-width: 820px; margin: 0 auto">
+<h2 style="font-family: Poppins, Inter, sans-serif; font-size: 36px; letter-spacing: -0.5px; margin: 0 0 28px; text-align: center">Questions people ask</h2>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<sc-for list="{{faqs}}" as="f" hint-placeholder-count="5">
+<details style="border-radius: 20px; padding: 0 26px; background: #F4F6FA">
+<summary style="padding: 22px 0; font-weight: 600; font-size: 18px; list-style: none">{{f.q}}</summary>
+<p style="margin: 0; padding: 0 0 22px; color: #3E4B66; font-size: 16px">{{f.a}}</p>
+</details>
+</sc-for>
+</div>
+</div>
+</section>
+
+<dc-import name="SiteFooter" hint-size="100%,360px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2940}}'>
+class Component extends DCLogic {
+renderVals() {
+return {
+clientSteps: [
+{ n: 1, title: 'Post your job', text: 'Describe the work, set a budget, and choose whether workers send a priced proposal or an application.' },
+{ n: 2, title: 'Review proposals', text: 'Compare proposals, answers to your questions and profiles. Choose the person you want.' },
+{ n: 3, title: 'Fund the contract', text: 'Accept a proposal and fund the contract. The payment is held, not paid out yet.' },
+{ n: 4, title: 'Approve the work', text: 'Review the delivery, ask for revisions if needed, then approve to release payment.' }
+],
+workerSteps: [
+{ n: 1, title: 'Create your profile', text: 'Add your skills, portfolio and verify your identity. You use the same login as a client.' },
+{ n: 2, title: 'Find work', text: 'Browse open jobs and send a proposal, or apply with answers to the client’s questions.' },
+{ n: 3, title: 'Start when it is funded', text: 'When a client accepts and funds the contract, you can start with confidence.' },
+{ n: 4, title: 'Deliver and withdraw', text: 'Submit your work. Once approved, the payment is released and you can withdraw to your bank.' }
+],
+faqs: [
+{ q: 'Do I need separate accounts to hire and to work?', a: 'No. You have one account and one login. You can add a client profile, a worker profile, or both, and switch between them.' },
+{ q: 'What does it cost?', a: 'Creating an account is free. Any service fees are shown on the contract before the client pays, so there are no surprises.' },
+{ q: 'What if I am not happy with the delivery?', a: 'You can ask for revisions within the limit set on the contract. The payment stays held until you approve or the review window ends.' },
+{ q: 'Why do workers need to be verified?', a: 'Verification helps clients trust who they are hiring. Workers confirm their identity before they can apply for jobs.' },
+{ q: 'How do I get my money out?', a: 'Add a Nigerian bank account to your wallet and request a withdrawal. Larger withdrawals may be reviewed by our team first.' }
+]
+};
+}
+}
+</script>
+</body>
+</html>

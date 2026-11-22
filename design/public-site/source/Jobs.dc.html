@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Find work</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+.hexbg{background-image:url(../../../brand/images/patterns/hex-pattern.svg);background-size:104px 120px;opacity:0.07}
+.lift{transition:transform .2s ease, box-shadow .2s ease}
+.lift:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(15,22,38,0.14) !important}
+</style>
+</helmet>
+<div style="width: 100%; background: #F4F6FA; font-family: Inter, system-ui, sans-serif; color: #0F1626; line-height: 1.5">
+
+<section style="position: relative; overflow: hidden; background: #0F1626; border-radius: 0 0 48px 48px; padding-bottom: 120px">
+<div class="hexbg" style="position: absolute; inset: 0"></div>
+<div style="position: absolute; right: -140px; top: -220px; width: 640px; height: 640px; background: radial-gradient(circle, rgba(245,160,0,0.38), rgba(245,160,0,0) 66%)"></div>
+<div style="position: relative">
+<dc-import name="SiteHeader" active="jobs" hint-size="100%,92px"></dc-import>
+<div style="max-width: 1200px; margin: 0 auto; padding: 56px 40px 0">
+<h1 style="font-family: Poppins, Inter, sans-serif; font-weight: 700; font-size: 46px; letter-spacing: -1px; color: #FFFFFF; margin: 0 0 8px">Find work</h1>
+<p style="margin: 0 0 28px; color: #AEB9CC; font-size: 18px">Open jobs from clients across Nigeria. Send a proposal or apply with a few answers.</p>
+<form action="Jobs.dc.html" style="display: flex; flex-wrap: wrap; gap: 8px; background: #FFFFFF; border-radius: 9999px; padding: 8px 8px 8px 28px; max-width: 720px; align-items: center; box-shadow: 0 20px 50px rgba(0,0,0,0.35)">
+<label for="jq" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Search jobs</label>
+<input id="jq" type="search" placeholder="Search by title or skill" style="flex: 1 1 240px; min-width: 0; border: 0; outline: 0; font: inherit; font-size: 16px; padding: 12px 0; color: #0F1626; background: transparent">
+<a href="Jobs.dc.html" style="background: #F5A000; color: #0F1626; font-weight: 600; padding: 15px 32px; border-radius: 9999px; text-align: center">Search</a>
+</form>
+</div>
+</div>
+</section>
+
+<section style="padding: 0 40px 96px; margin-top: -64px; position: relative">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+
+<aside aria-label="Filters" style="flex: 0 0 280px; max-width: 100%; background: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 26px; box-shadow: 0 12px 32px rgba(15,22,38,0.12)">
+<div style="display: flex; justify-content: space-between; align-items: center"><b style="font-size: 18px">Filters</b><a href="Jobs.dc.html" style="font-size: 14px; color: #1D4ED8; font-weight: 500">Clear all</a></div>
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+<legend style="font-weight: 600; font-size: 14px; padding: 0; margin-bottom: 10px">Category</legend>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #F5A000"> Design</label>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="checkbox" checked style="width: 18px; height: 18px; accent-color: #F5A000"> Web and software</label>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #F5A000"> Writing</label>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #F5A000"> Marketing</label>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #F5A000"> Video and audio</label>
+</fieldset>
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+<legend style="font-weight: 600; font-size: 14px; padding: 0; margin-bottom: 10px">How to apply</legend>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="radio" name="mode" checked style="width: 18px; height: 18px; accent-color: #F5A000"> All jobs</label>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="radio" name="mode" style="width: 18px; height: 18px; accent-color: #F5A000"> Priced proposals</label>
+<label style="display: flex; gap: 10px; align-items: center; font-size: 15px"><input type="radio" name="mode" style="width: 18px; height: 18px; accent-color: #F5A000"> Applications</label>
+</fieldset>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<b style="font-size: 14px">Budget (₦)</b>
+<div style="display: flex; gap: 8px; align-items: center">
+<label for="bmin" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Minimum budget</label>
+<input id="bmin" type="text" inputmode="numeric" placeholder="Min" style="width: 100%; min-width: 0; box-sizing: border-box; font: inherit; font-size: 15px; padding: 11px 14px; border: 1px solid #D0D7E3; border-radius: 12px; background: #F4F6FA">
+<span aria-hidden="true">–</span>
+<label for="bmax" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Maximum budget</label>
+<input id="bmax" type="text" inputmode="numeric" placeholder="Max" style="width: 100%; min-width: 0; box-sizing: border-box; font: inherit; font-size: 15px; padding: 11px 14px; border: 1px solid #D0D7E3; border-radius: 12px; background: #F4F6FA">
+</div>
+</div>
+<a href="Jobs.dc.html" style="background: #0F1626; color: #FFFFFF; font-weight: 600; padding: 14px 20px; border-radius: 9999px; text-align: center">Apply filters</a>
+</aside>
+
+<div style="flex: 1 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding-top: 72px">
+<span style="color: #3E4B66; font-size: 15px">Showing sample results</span>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 14px">
+<label for="sort" style="color: #3E4B66">Sort by</label>
+<select id="sort" style="font: inherit; font-size: 14px; padding: 9px 14px; border: 1px solid #D0D7E3; border-radius: 9999px; background: #FFFFFF"><option>Newest</option><option>Budget: high to low</option><option>Budget: low to high</option></select>
+</div>
+</div>
+
+<sc-for list="{{jobs}}" as="job" hint-placeholder-count="5">
+<a class="lift" href="Job.dc.html" style="display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: 28px; background: #FFFFFF; box-shadow: 0 4px 12px rgba(15,22,38,0.06)">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: center">
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center"><span style="font-size: 12px; font-weight: 600; background: #E8ECF3; color: #2A3650; padding: 5px 12px; border-radius: 9999px">{{job.category}}</span><span style="font-size: 12px; font-weight: 600; background: #FFEEC2; color: #6E4400; padding: 5px 12px; border-radius: 9999px">{{job.mode}}</span></div>
+<span style="font-size: 13px; color: #5A6985">{{job.posted}}</span>
+</div>
+<b style="font-size: 21px; line-height: 1.3">{{job.title}}</b>
+<span style="font-size: 15px; color: #3E4B66">{{job.summary}}</span>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid #E8ECF3">
+<div style="display: flex; align-items: center; gap: 10px"><img data-slot="{{job.slot}}" src="{{job.avatar}}" alt="" style="width: 32px; height: 32px; border-radius: 9999px; display: block"><span style="font-size: 14px; color: #3E4B66">{{job.client}}</span></div>
+<div style="display: flex; align-items: center; gap: 16px"><span style="font-size: 14px; color: #5A6985">{{job.proposals}}</span><b style="font-size: 17px">{{job.budget}}</b></div>
+</div>
+</a>
+</sc-for>
+
+<nav aria-label="Pagination" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding-top: 20px">
+<a href="Jobs.dc.html" style="min-width: 44px; min-height: 44px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border-radius: 9999px; background: #0F1626; color: #FFFFFF; font-weight: 600" aria-current="page">1</a>
+<a href="Jobs.dc.html" style="min-width: 44px; min-height: 44px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border-radius: 9999px; background: #FFFFFF">2</a>
+<a href="Jobs.dc.html" style="min-width: 44px; min-height: 44px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border-radius: 9999px; background: #FFFFFF">3</a>
+<a href="Jobs.dc.html" style="min-height: 44px; box-sizing: border-box; padding: 0 20px; display: flex; align-items: center; border-radius: 9999px; background: #FFFFFF; font-weight: 500">Next</a>
+</nav>
+</div>
+</div>
+</section>
+
+<dc-import name="SiteFooter" hint-size="100%,360px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2260}}'>
+class Component extends DCLogic {
+renderVals() {
+return {
+jobs: [
+{ category: 'Web and software', mode: 'Priced proposals', posted: '3 days ago', title: 'Build a landing page and booking form', summary: 'A fast, mobile-first site for a small clinic with an online booking form and clear opening hours.', budget: '₦300,000 to ₦450,000', proposals: '4 proposals', slot: 'IMG-AVT-03', avatar: '../../../brand/images/avatars/avatar-03.svg', client: 'Sample Care Clinic' },
+{ category: 'Web and software', mode: 'Application', posted: '4 days ago', title: 'Junior front-end developer for a 3-month project', summary: 'Join a small team building a marketplace. Answer two questions and share a portfolio link.', budget: 'Agreed after you apply', proposals: '9 applications', slot: 'IMG-AVT-08', avatar: '../../../brand/images/avatars/avatar-08.svg', client: 'Sample Market Ltd' },
+{ category: 'Web and software', mode: 'Priced proposals', posted: '6 days ago', title: 'Fix payment checkout bugs in an online shop', summary: 'Three known bugs in a React storefront. Clear steps to reproduce are provided.', budget: '₦120,000 to ₦180,000', proposals: '2 proposals', slot: 'IMG-AVT-01', avatar: '../../../brand/images/avatars/avatar-01.svg', client: 'Sample Shop' },
+{ category: 'Web and software', mode: 'Priced proposals', posted: '1 week ago', title: 'Convert a Figma design to a responsive website', summary: 'Five pages. The design is ready and approved. Accessibility and speed matter.', budget: '₦400,000 to ₦600,000', proposals: '7 proposals', slot: 'IMG-AVT-06', avatar: '../../../brand/images/avatars/avatar-06.svg', client: 'Sample Studio' },
+{ category: 'Web and software', mode: 'Application', posted: '1 week ago', title: 'WordPress support for a growing school', summary: 'Ongoing help with updates, small changes and a new events page.', budget: 'Agreed after you apply', proposals: '5 applications', slot: 'IMG-AVT-02', avatar: '../../../brand/images/avatars/avatar-02.svg', client: 'Sample Academy' }
+]
+};
+}
+}
+</script>
+</body>
+</html>

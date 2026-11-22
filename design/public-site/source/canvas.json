@@ -1,0 +1,508 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-15T07:10:00Z"
+  },
+  "title": "GigsHive Public Site Design",
+  "launch": {
+    "view": "canvas"
+  },
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 4760,
+      "title": "Home",
+      "expand": "fill"
+    },
+    "Jobs.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 2260,
+      "title": "Find work",
+      "expand": "fill"
+    },
+    "Job.dc.html": {
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 1690,
+      "title": "Job details",
+      "expand": "fill"
+    },
+    "Profile.dc.html": {
+      "x": 4560,
+      "y": 0,
+      "w": 1440,
+      "h": 1670,
+      "title": "Worker profile",
+      "expand": "fill"
+    },
+    "HowItWorks.dc.html": {
+      "x": 0,
+      "y": 4880,
+      "w": 1440,
+      "h": 2940,
+      "title": "How it works",
+      "expand": "fill"
+    },
+    "Auth.dc.html": {
+      "x": 1520,
+      "y": 4880,
+      "w": 1440,
+      "h": 900,
+      "title": "Sign in and join",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "MobileHome.dc.html": {
+      "x": 3040,
+      "y": 4880,
+      "w": 390,
+      "h": 3500,
+      "title": "Home on a phone"
+    },
+    "ImageMap.dc.html": {
+      "x": 3510,
+      "y": 4880,
+      "w": 1440,
+      "h": 4640,
+      "title": "Image placement map",
+      "expand": "fill"
+    },
+    "SiteHeader.dc.html": {
+      "x": 0,
+      "y": 23630,
+      "w": 1440,
+      "h": 92,
+      "title": "Component: floating header",
+      "expand": "fill"
+    },
+    "SiteFooter.dc.html": {
+      "x": 1520,
+      "y": 23630,
+      "w": 1440,
+      "h": 360,
+      "title": "Component: site footer",
+      "expand": "fill"
+    },
+    "Dashboard.dc.html": {
+      "x": 0,
+      "y": 9640,
+      "w": 1440,
+      "h": 1200,
+      "title": "Dashboard: client",
+      "expand": "fill"
+    },
+    "PostJob.dc.html": {
+      "x": 1520,
+      "y": 9640,
+      "w": 1440,
+      "h": 1360,
+      "title": "Post a job",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Proposals.dc.html": {
+      "x": 3040,
+      "y": 9640,
+      "w": 1440,
+      "h": 920,
+      "title": "Review proposals",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Apply.dc.html": {
+      "x": 4560,
+      "y": 9640,
+      "w": 1440,
+      "h": 1810,
+      "title": "Send a proposal (worker)",
+      "expand": "fill"
+    },
+    "Contract.dc.html": {
+      "x": 0,
+      "y": 11570,
+      "w": 1440,
+      "h": 950,
+      "title": "Contract",
+      "expand": "fill"
+    },
+    "Wallet.dc.html": {
+      "x": 1520,
+      "y": 11570,
+      "w": 1440,
+      "h": 1360,
+      "title": "Wallet",
+      "expand": "fill"
+    },
+    "AppSidebar.dc.html": {
+      "x": 3040,
+      "y": 23630,
+      "w": 264,
+      "h": 900,
+      "title": "Component: app sidebar"
+    },
+    "AppTopbar.dc.html": {
+      "x": 3380,
+      "y": 23630,
+      "w": 1100,
+      "h": 64,
+      "title": "Component: app top bar",
+      "expand": "fill"
+    },
+    "OnboardWorker.dc.html": {
+      "x": 3040,
+      "y": 11570,
+      "w": 1440,
+      "h": 960,
+      "title": "Onboarding: worker (profile, ID check)",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "OnboardClient.dc.html": {
+      "x": 4560,
+      "y": 11570,
+      "w": 1440,
+      "h": 960,
+      "title": "Onboarding: client",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "DashboardWorker.dc.html": {
+      "x": 0,
+      "y": 13050,
+      "w": 1440,
+      "h": 1410,
+      "title": "Dashboard: worker",
+      "expand": "fill"
+    },
+    "AdminDashboard.dc.html": {
+      "x": 1520,
+      "y": 13050,
+      "w": 1440,
+      "h": 1200,
+      "title": "Dashboard: admin (staff app)",
+      "expand": "fill"
+    },
+    "AdminSidebar.dc.html": {
+      "x": 4560,
+      "y": 23630,
+      "w": 264,
+      "h": 900,
+      "title": "Component: admin sidebar"
+    },
+    "NotFound.dc.html": {
+      "x": 0,
+      "y": 14580,
+      "w": 1440,
+      "h": 1000,
+      "title": "System: 404 page not found",
+      "expand": "fill"
+    },
+    "ServerError.dc.html": {
+      "x": 1520,
+      "y": 14580,
+      "w": 1440,
+      "h": 1060,
+      "title": "System: 500 something went wrong",
+      "expand": "fill"
+    },
+    "Maintenance.dc.html": {
+      "x": 3040,
+      "y": 14580,
+      "w": 1440,
+      "h": 980,
+      "title": "System: 503 maintenance",
+      "expand": "fill"
+    },
+    "AccessDenied.dc.html": {
+      "x": 4560,
+      "y": 14580,
+      "w": 1440,
+      "h": 1060,
+      "title": "System: 403 access denied",
+      "expand": "fill"
+    },
+    "ErrorStates.dc.html": {
+      "x": 0,
+      "y": 15760,
+      "w": 1440,
+      "h": 1600,
+      "title": "System: error states and copy rules",
+      "expand": "fill"
+    },
+    "PageInventory.dc.html": {
+      "x": 6500,
+      "y": 0,
+      "w": 1440,
+      "h": 2250,
+      "title": "Page inventory (what to build)",
+      "expand": "fill"
+    },
+    "Safety.dc.html": {
+      "x": 0,
+      "y": 17480,
+      "w": 1440,
+      "h": 2270,
+      "title": "Safety",
+      "expand": "fill",
+      "is_interactive": false
+    },
+    "Fees.dc.html": {
+      "x": 1520,
+      "y": 17480,
+      "w": 1440,
+      "h": 1930,
+      "title": "Fees and payment",
+      "expand": "fill",
+      "is_interactive": false
+    },
+    "Help.dc.html": {
+      "x": 3040,
+      "y": 17480,
+      "w": 1440,
+      "h": 1960,
+      "title": "Help centre (interactive)",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Contact.dc.html": {
+      "x": 4560,
+      "y": 17480,
+      "w": 1440,
+      "h": 1450,
+      "title": "Contact",
+      "expand": "fill",
+      "is_interactive": false
+    },
+    "Legal.dc.html": {
+      "x": 0,
+      "y": 19870,
+      "w": 1440,
+      "h": 1950,
+      "title": "Terms and Privacy (interactive)",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "About.dc.html": {
+      "x": 1520,
+      "y": 19870,
+      "w": 1440,
+      "h": 1890,
+      "title": "About",
+      "expand": "fill",
+      "is_interactive": false
+    },
+    "Recover.dc.html": {
+      "x": 3040,
+      "y": 19870,
+      "w": 1440,
+      "h": 900,
+      "title": "Password recovery (interactive)",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Workers.dc.html": {
+      "x": 4560,
+      "y": 19870,
+      "w": 1440,
+      "h": 1530,
+      "title": "Browse workers",
+      "expand": "fill"
+    },
+    "PaymentReturn.dc.html": {
+      "x": 0,
+      "y": 21520,
+      "w": 1440,
+      "h": 900,
+      "title": "Payment return (interactive)",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Settings.dc.html": {
+      "x": 1520,
+      "y": 21520,
+      "w": 1440,
+      "h": 920,
+      "title": "Account settings",
+      "expand": "fill"
+    },
+    "MyProposals.dc.html": {
+      "x": 3040,
+      "y": 21520,
+      "w": 1440,
+      "h": 970,
+      "title": "My proposals (worker)",
+      "expand": "fill"
+    },
+    "Contracts.dc.html": {
+      "x": 4560,
+      "y": 21520,
+      "w": 1440,
+      "h": 900,
+      "title": "Contracts list",
+      "expand": "fill"
+    },
+    "AdminLogin.dc.html": {
+      "x": 0,
+      "y": 22610,
+      "w": 1440,
+      "h": 900,
+      "title": "Admin: staff sign in (interactive)",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "AdminVerifications.dc.html": {
+      "x": 1520,
+      "y": 22610,
+      "w": 1440,
+      "h": 900,
+      "title": "Admin: verifications review (interactive)",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "AdminPayouts.dc.html": {
+      "x": 3040,
+      "y": 22610,
+      "w": 1440,
+      "h": 900,
+      "title": "Admin: payouts (interactive)",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "AdminSettings.dc.html": {
+      "x": 4560,
+      "y": 22610,
+      "w": 1440,
+      "h": 900,
+      "title": "Admin: config, categories, audit, staff (interactive)",
+      "expand": "fill",
+      "is_interactive": true
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Jobs.dc.html",
+    "Job.dc.html",
+    "Profile.dc.html",
+    "HowItWorks.dc.html",
+    "Auth.dc.html",
+    "MobileHome.dc.html",
+    "ImageMap.dc.html",
+    "Dashboard.dc.html",
+    "PostJob.dc.html",
+    "Proposals.dc.html",
+    "Apply.dc.html",
+    "Contract.dc.html",
+    "Wallet.dc.html",
+    "OnboardWorker.dc.html",
+    "OnboardClient.dc.html",
+    "DashboardWorker.dc.html",
+    "AdminDashboard.dc.html",
+    "NotFound.dc.html",
+    "ServerError.dc.html",
+    "Maintenance.dc.html",
+    "AccessDenied.dc.html",
+    "ErrorStates.dc.html",
+    "PageInventory.dc.html",
+    "Safety.dc.html",
+    "Fees.dc.html",
+    "Help.dc.html",
+    "Contact.dc.html",
+    "Legal.dc.html",
+    "About.dc.html",
+    "Recover.dc.html",
+    "Workers.dc.html",
+    "PaymentReturn.dc.html",
+    "Settings.dc.html",
+    "MyProposals.dc.html",
+    "Contracts.dc.html",
+    "AdminLogin.dc.html",
+    "AdminVerifications.dc.html",
+    "AdminPayouts.dc.html",
+    "AdminSettings.dc.html",
+    "SiteHeader.dc.html",
+    "SiteFooter.dc.html",
+    "AppSidebar.dc.html",
+    "AppTopbar.dc.html",
+    "AdminSidebar.dc.html"
+  ],
+  "notes": {
+    "title": {
+      "x": 0,
+      "y": -300,
+      "text": "GigsHive: public site and signed-in app screens",
+      "kind": "title1",
+      "maxW": 5900
+    },
+    "sample": {
+      "x": 6080,
+      "y": 0,
+      "w": 340,
+      "text": "All jobs, names and numbers on these pages are sample content. The real data comes from the API (see Data and State Design). Header and footer are shared components at the bottom: change them once and every page follows.",
+      "fill": "orange",
+      "size": "s"
+    },
+    "tokens": {
+      "x": 6080,
+      "y": 300,
+      "w": 340,
+      "text": "Colours, fonts and the logo come from brand/ in the repo: honey #F5A000, ink #0F1626, Inter for text, Poppins for the wordmark.",
+      "fill": "blue",
+      "size": "s"
+    },
+    "navnote": {
+      "x": 6080,
+      "y": 600,
+      "w": 340,
+      "text": "Floating navbar: in the app it is sticky at the top with a 20 px gap, a pill shape and a soft blur. On phones it keeps the logo and Join free, and moves the links into a menu.",
+      "fill": "green",
+      "size": "s"
+    },
+    "imgnote": {
+      "x": 6080,
+      "y": 900,
+      "w": 340,
+      "text": "Images: see the Image placement map board. Every image in the pages has a data-slot ID that matches the map and the files in brand/images.",
+      "fill": "purple",
+      "size": "s"
+    },
+    "featured": {
+      "x": 6080,
+      "y": 1200,
+      "w": 340,
+      "text": "Home section \"Meet workers\" needs a public list of workers. The backend does not offer that yet, so treat it as optional until it is added.",
+      "fill": "red",
+      "size": "s"
+    },
+    "app": {
+      "x": 6080,
+      "y": 9640,
+      "w": 340,
+      "text": "Signed-in screens. Flow: Sign in or Create account (3 steps, same height), then Onboarding (worker: profile and ID check; client: no ID check), then the dashboard for that role. Three dashboards: client, worker, and the staff admin app. Sample data only.",
+      "fill": "green",
+      "size": "s"
+    },
+    "roles": {
+      "x": 6080,
+      "y": 9940,
+      "w": 340,
+      "text": "Naming: the UI says Client (anyone who hires, person or company) and Worker (anyone who does the work). These match the API. Marketing copy can still say creators or artisans.",
+      "fill": "blue",
+      "size": "s"
+    },
+    "inv": {
+      "x": 6080,
+      "y": 1500,
+      "w": 340,
+      "text": "Page inventory board (to the right): every page to build, with Designed or To design. System pages (404, 403, 500, 503) are in the row of dark pages near the bottom. In production no server message, code or stack trace is ever shown to users.",
+      "fill": "orange",
+      "size": "s"
+    }
+  },
+  "designSystems": []
+}

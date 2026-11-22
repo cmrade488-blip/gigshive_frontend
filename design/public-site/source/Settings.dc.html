@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Account settings</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+.lift{transition:transform .15s,box-shadow .15s}
+.lift:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(15,22,38,0.12)}
+input:focus,textarea:focus,select:focus{outline:3px solid #FFB91F;outline-offset:1px}
+</style>
+</helmet>
+<div style="width:100%;min-height:100vh;display:flex;background:#0F1626;font-family:Inter,system-ui,sans-serif;color:#0F1626;line-height:1.5">
+<div style="width:264px;flex:none"><dc-import name="AppSidebar" role="client" active="dashboard" hint-size="264px,100%"></dc-import></div>
+<main style="flex:1;min-width:0;background:#F4F6FA;border-radius:40px 0 0 40px;padding:32px 40px 64px;box-sizing:border-box">
+<dc-import name="AppTopbar" title="Account settings" subtitle="Your sign in details and profiles." hint-size="100%,64px"></dc-import>
+<div style="margin-top:28px">
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start"><div style="flex:2 1 560px;display:flex;flex-direction:column;gap:24px">
+<section style="background:#FFFFFF;border-radius:28px;box-shadow:0 2px 12px rgba(15,22,38,0.06);padding:28px"><h2 style="font-family:Poppins,Inter,sans-serif;font-weight:700;font-size:20px;letter-spacing:-0.3px;margin:0">Sign in details</h2><div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:18px 0;border-top:1px solid #E8ECF3"><div style="flex:1 1 240px"><div style="font-size:14px;color:#5A6985">Email</div><div style="font-weight:600;font-size:17px">amaka@example.com <span style="display:inline-block;font-size:12px;font-weight:600;padding:4px 12px;border-radius:9999px;background:#DCFCE7;color:#166534">Verified</span></div></div><button type="button" style="display:inline-block;background:#FFFFFF;color:#0F1626;font-weight:600;font-size:15px;padding:11px 22px;border-radius:9999px;border:1.5px solid #AEB9CC;cursor:pointer;min-height:44px;box-sizing:border-box;font-family:inherit">Change email</button></div><div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:18px 0;border-top:1px solid #E8ECF3"><div style="flex:1 1 240px"><div style="font-size:14px;color:#5A6985">Phone</div><div style="font-weight:600;font-size:17px">+234 801 234 5678 <span style="display:inline-block;font-size:12px;font-weight:600;padding:4px 12px;border-radius:9999px;background:#E8ECF3;color:#27324B">Not verified</span></div></div><button type="button" style="display:inline-block;background:#FFFFFF;color:#0F1626;font-weight:600;font-size:15px;padding:11px 22px;border-radius:9999px;border:1.5px solid #AEB9CC;cursor:pointer;min-height:44px;box-sizing:border-box;font-family:inherit">Change phone</button></div><div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:18px 0;border-top:1px solid #E8ECF3"><div style="flex:1 1 240px"><div style="font-size:14px;color:#5A6985">Password</div><div style="font-weight:600;font-size:17px">•••••••••• </div></div><button type="button" style="display:inline-block;background:#FFFFFF;color:#0F1626;font-weight:600;font-size:15px;padding:11px 22px;border-radius:9999px;border:1.5px solid #AEB9CC;cursor:pointer;min-height:44px;box-sizing:border-box;font-family:inherit">Change password</button></div></section>
+<section style="background:#FFFFFF;border-radius:28px;box-shadow:0 2px 12px rgba(15,22,38,0.06);padding:28px"><h2 style="font-family:Poppins,Inter,sans-serif;font-weight:700;font-size:20px;letter-spacing:-0.3px;margin:0">Change password</h2><div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:16px"><div style="flex:1 1 240px"><label for="st-cur" style="display:block;font-weight:600;font-size:14px;margin-bottom:6px">Current password</label><input id="st-cur" type="password" placeholder="" value="" style="width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:13px 16px;border:1.5px solid #AEB9CC;border-radius:16px;background:#FFFFFF;color:#0F1626;min-height:48px"></div><div style="flex:1 1 240px"><label for="st-new" style="display:block;font-weight:600;font-size:14px;margin-bottom:6px">New password</label><input id="st-new" type="password" placeholder="" value="" style="width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:13px 16px;border:1.5px solid #AEB9CC;border-radius:16px;background:#FFFFFF;color:#0F1626;min-height:48px"><div style="font-size:13px;color:#5A6985;margin-top:4px">Use at least 8 characters.</div></div></div><div style="margin-top:20px"><button type="button" style="display:inline-block;background:#F5A000;color:#0F1626;font-weight:600;font-size:15px;padding:12px 22px;border-radius:9999px;border:0;cursor:pointer;min-height:44px;box-sizing:border-box;font-family:inherit">Save password</button></div></section></div>
+<aside style="flex:1 1 300px;display:flex;flex-direction:column;gap:20px"><section style="background:#FFFFFF;border-radius:28px;box-shadow:0 2px 12px rgba(15,22,38,0.06);padding:28px"><h2 style="font-family:Poppins,Inter,sans-serif;font-weight:700;font-size:20px;letter-spacing:-0.3px;margin:0;font-size:18px">Your profiles</h2><div style="margin-top:14px;display:flex;flex-direction:column;gap:12px"><div style="display:flex;gap:12px;align-items:center"><img src="../../../brand/images/avatars/avatar-04.svg" alt="" data-slot="IMG-AVT-04" style="width:44px;height:44px;border-radius:9999px;display:block;flex:none"><div style="flex:1"><div style="font-weight:600">Client profile</div></div><span style="display:inline-block;font-size:12px;font-weight:600;padding:4px 12px;border-radius:9999px;background:#DCFCE7;color:#166534">Active</span></div><div style="display:flex;gap:12px;align-items:center"><img src="../../../brand/images/avatars/avatar-04.svg" alt="" data-slot="IMG-AVT-04" style="width:44px;height:44px;border-radius:9999px;display:block;flex:none"><div style="flex:1"><div style="font-weight:600">Worker profile</div></div><span style="display:inline-block;font-size:12px;font-weight:600;padding:4px 12px;border-radius:9999px;background:#FEF3C7;color:#92400E">ID in review</span></div></div><a href="OnboardWorker.dc.html" style="display:inline-block;background:#FFFFFF;color:#0F1626;font-weight:600;font-size:15px;padding:11px 22px;border-radius:9999px;border:1.5px solid #AEB9CC;cursor:pointer;min-height:44px;box-sizing:border-box;font-family:inherit;margin-top:16px;display:block;text-align:center">Add or edit a profile</a></section>
+<section style="background:#FFF8E6;border-radius:28px;padding:24px;font-size:14px;color:#27324B"><b>Keep your account safe.</b><br>We will never ask for your password or a code.</section></aside></div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview": {"width": 1440, "height": 920}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

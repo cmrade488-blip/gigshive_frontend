@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin verifications</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+.lift{transition:transform .15s,box-shadow .15s}
+.lift:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(15,22,38,0.12)}
+input:focus,textarea:focus,select:focus{outline:3px solid #FFB91F;outline-offset:1px}
+</style>
+</helmet>
+<div style="width:100%;min-height:100vh;display:flex;background:#0B1120;font-family:Inter,system-ui,sans-serif;color:#0F1626;line-height:1.5">
+<div style="width:264px;flex:none"><dc-import name="AdminSidebar" active="verifications" hint-size="264px,100%"></dc-import></div>
+<main style="flex:1;min-width:0;background:#F4F6FA;border-radius:40px 0 0 40px;padding:32px 40px 64px;box-sizing:border-box">
+<dc-import name="AppTopbar" title="Verifications" subtitle="Review identity checks one at a time." hint-size="100%,64px"></dc-import>
+<div style="margin-top:28px">
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start"><section style="flex:1 1 340px;max-width:420px;background:#FFFFFF;border-radius:28px;box-shadow:0 2px 12px rgba(15,22,38,0.06);padding:28px;padding:20px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><h2 style="font-family:Poppins,Inter,sans-serif;font-weight:700;font-size:20px;letter-spacing:-0.3px;margin:0;font-size:18px">Queue (14)</h2><span style="font-size:13px;color:#5A6985">Oldest first</span></div><a href="AdminVerifications.dc.html" style="display:flex;gap:12px;align-items:center;padding:14px;border-radius:18px;border:2px solid #F5A000;background:#FFF8E6"><img src="../../../brand/images/avatars/avatar-01.svg" alt="" data-slot="IMG-AVT-01" style="width:40px;height:40px;border-radius:9999px;display:block;flex:none"><div style="flex:1"><div style="font-weight:600">Chinedu Eze</div><div style="font-size:13px;color:#5A6985">BVN + ID · Today</div></div><span style="display:inline-block;font-size:12px;font-weight:600;padding:4px 12px;border-radius:9999px;background:#DBEAFE;color:#1E40AF">In review</span></a><a href="AdminVerifications.dc.html" style="display:flex;gap:12px;align-items:center;padding:14px;border-radius:18px;border:1px solid #E8ECF3;background:#FFFFFF"><img src="../../../brand/images/avatars/avatar-02.svg" alt="" data-slot="IMG-AVT-02" style="width:40px;height:40px;border-radius:9999px;display:block;flex:none"><div style="flex:1"><div style="font-weight:600">Ife Adebayo</div><div style="font-size:13px;color:#5A6985">NIN + ID · Yesterday</div></div><span style="display:inline-block;font-size:12px;font-weight:600;padding:4px 12px;border-radius:9999px;background:#E8ECF3;color:#27324B">Pending</span></a><a href="AdminVerifications.dc.html" style="display:flex;gap:12px;align-items:center;padding:14px;border-radius:18px;border:1px solid #E8ECF3;background:#FFFFFF"><img src="../../../brand/images/avatars/avatar-05.svg" alt="" data-slot="IMG-AVT-05" style="width:40px;height:40px;border-radius:9999px;display:block;flex:none"><div style="flex:1"><div style="font-weight:600">Tolu Bakare</div><div style="font-size:13px;color:#5A6985">BVN + ID · 2 days ago</div></div><span style="display:inline-block;font-size:12px;font-weight:600;padding:4px 12px;border-radius:9999px;background:#E8ECF3;color:#27324B">Pending</span></a><a href="AdminVerifications.dc.html" style="display:flex;gap:12px;align-items:center;padding:14px;border-radius:18px;border:1px solid #E8ECF3;background:#FFFFFF"><img src="../../../brand/images/avatars/avatar-07.svg" alt="" data-slot="IMG-AVT-07" style="width:40px;height:40px;border-radius:9999px;display:block;flex:none"><div style="flex:1"><div style="font-weight:600">Sade Okon</div><div style="font-size:13px;color:#5A6985">NIN + ID · 2 days ago</div></div><span style="display:inline-block;font-size:12px;font-weight:600;padding:4px 12px;border-radius:9999px;background:#E8ECF3;color:#27324B">Pending</span></a><a href="AdminVerifications.dc.html" style="display:flex;gap:12px;align-items:center;padding:14px;border-radius:18px;border:1px solid #E8ECF3;background:#FFFFFF"><img src="../../../brand/images/avatars/avatar-03.svg" alt="" data-slot="IMG-AVT-03" style="width:40px;height:40px;border-radius:9999px;display:block;flex:none"><div style="flex:1"><div style="font-weight:600">Ngozi Eze</div><div style="font-size:13px;color:#5A6985">BVN + ID · 3 days ago</div></div><span style="display:inline-block;font-size:12px;font-weight:600;padding:4px 12px;border-radius:9999px;background:#E8ECF3;color:#27324B">Pending</span></a></section><div style="flex:2 1 560px"><section style="background:#FFFFFF;border-radius:28px;box-shadow:0 2px 12px rgba(15,22,38,0.06);padding:28px"><div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><img src="../../../brand/images/avatars/avatar-01.svg" alt="" data-slot="IMG-AVT-01" style="width:64px;height:64px;border-radius:9999px;display:block;flex:none"><div style="flex:1 1 200px"><h2 style="font-family:Poppins,Inter,sans-serif;font-weight:700;font-size:20px;letter-spacing:-0.3px;margin:0">Chinedu Eze</h2><div style="color:#3E4B66">Worker profile · Brand designer · joined 9 Nov</div></div><span style="display:inline-block;font-size:12px;font-weight:600;padding:4px 12px;border-radius:9999px;background:#DBEAFE;color:#1E40AF">In review</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:20px"><div style="flex:1 1 220px;background:#F4F6FA;border-radius:18px;padding:16px"><div style="font-size:13px;color:#5A6985">Identifier (masked)</div><div style="font-weight:700;font-size:18px">BVN ····4821</div></div><div style="flex:1 1 220px;background:#F4F6FA;border-radius:18px;padding:16px"><div style="font-size:13px;color:#5A6985">Submitted</div><div style="font-weight:700;font-size:18px">Today, 09:12</div></div></div>
+<div style="margin-top:16px"><div style="height:220px;border-radius:20px;background:repeating-linear-gradient(45deg,#E8ECF3,#E8ECF3 12px,#F4F6FA 12px,#F4F6FA 24px);display:flex;align-items:center;justify-content:center;color:#3E4B66;font-size:14px;text-align:center;padding:16px">Government ID photo<br>Opens through a short-lived secure link</div></div>
+<ul style="list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:15px"><li>☐ Name on the ID matches the profile name</li><li>☐ The photo is clear and the full ID is visible</li><li>☐ The ID has not expired</li></ul>
+<sc-if value="{{reject}}" hint-placeholder-val="{{false}}"><div style="margin-top:16px;background:#FEF2F2;border-radius:20px;padding:18px"><label for="rj" style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;color:#7F1D1D">Reason for the worker (required)</label><textarea id="rj" rows="3" placeholder="For example: the photo was blurry. Please upload a clear photo of the full ID." style="width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:13px 16px;border:1.5px solid #AEB9CC;border-radius:16px;background:#FFFFFF;color:#0F1626;min-height:48px;resize:vertical"></textarea><div style="font-size:13px;color:#7F1D1D;margin-top:6px">The worker will see this reason.</div></div></sc-if>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px"><button type="button" style="display:inline-block;background:#F5A000;color:#0F1626;font-weight:600;font-size:15px;padding:12px 22px;border-radius:9999px;border:0;cursor:pointer;min-height:44px;box-sizing:border-box;font-family:inherit">Approve</button><button type="button" onClick="{{toggle}}" style="display:inline-block;background:#FFFFFF;color:#0F1626;font-weight:600;font-size:15px;padding:11px 22px;border-radius:9999px;border:1.5px solid #AEB9CC;cursor:pointer;min-height:44px;box-sizing:border-box;font-family:inherit;border-color:#DC2626;color:#B91C1C">{{rejectLabel}}</button></div><p style="font-size:13px;color:#5A6985;margin:14px 0 0">Every approve and reject is written to the audit log with your name.</p></section></div></div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview": {"width": 1440, "height": 1150}}'>
+class Component extends DCLogic {
+state = { reject: false };
+renderVals() { return { reject: this.state.reject, rejectLabel: this.state.reject ? 'Cancel rejection' : 'Reject', toggle: () => this.setState({ reject: !this.state.reject }) }; }
+}
+</script>
+</body>
+</html>

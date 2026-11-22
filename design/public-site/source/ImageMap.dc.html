@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Image placement map</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; box-sizing: border-box; background: #F4F6FA; font-family: Inter, system-ui, sans-serif; color: #0F1626; line-height: 1.5; padding: 56px 40px 72px">
+<div style="max-width: 1240px; margin: 0 auto">
+<h1 style="font-family: Poppins, Inter, sans-serif; font-size: 40px; letter-spacing: -0.8px; margin: 0 0 8px">Image placement map</h1>
+<p style="margin: 0 0 12px; font-size: 18px; color: #3E4B66; max-width: 780px">Every image on the public site, where it goes, its size, and its file in the repo. Each image in the pages carries a <b>data-slot</b> attribute with the ID below, so a developer can search the source for it.</p>
+<div style="background: #FFF8E6; border: 1px solid #FFDF8A; border-radius: 20px; padding: 20px 24px; margin: 20px 0 32px; font-size: 15px; color: #432900; max-width: 900px">
+<b>Illustration or photo?</b> The files below are original SVG illustrations in the brand style, free to use. If you later want real photography on the hero, avatars or portfolio, swap the file at the same slot and keep the ID. The last column gives search terms for free photo sites (Unsplash or Pexels; check each licence, and use people who gave written permission).
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: grid; grid-template-columns: 140px 130px minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, 1.2fr); gap: 20px; padding: 0 20px; font-size: 12px; font-weight: 600; color: #5A6985; text-transform: uppercase; letter-spacing: 0.5px"><span>Preview</span><span>Slot</span><span>File and size</span><span>Where it is used</span><span>Photo alternative (search)</span></div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="12">
+<div style="display: grid; grid-template-columns: 140px 130px minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, 1.2fr); gap: 20px; align-items: center; background: #FFFFFF; border-radius: 20px; padding: 16px 20px; font-size: 14px; color: #2A3650">
+<div style="background: {{r.bg}}; border-radius: 14px; padding: 8px; display: flex; align-items: center; justify-content: center; height: 100px; box-sizing: border-box"><img src="{{r.img}}" alt="" style="max-width: 100%; max-height: 84px; display: block; border-radius: {{r.radius}}"></div>
+<b style="font-family: ui-monospace, Menlo, monospace; font-size: 13px; color: #0F1626">{{r.slot}}</b>
+<div><div style="font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #0F1626; word-break: break-all">{{r.file}}</div><div style="color: #5A6985; margin-top: 2px">{{r.size}}</div></div>
+<div>{{r.use}}</div>
+<div style="color: #3E4B66">{{r.photo}}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4640}}'>
+class Component extends DCLogic {
+renderVals() {
+const P = 'brand/images/';
+const L = '#E8ECF3', D = '#0F1626';
+return {
+rows: [
+{ img: '../../../brand/images/illustrations/hero-collage.svg', bg: D, radius: '0', slot: 'IMG-HERO-01', file: P + 'illustrations/hero-collage.svg', size: '640 x 560, shown up to 580 px wide', use: 'Home hero (right side, on the dark band). Also the left panel of the sign-in and join card, and the phone home hero.', photo: 'Nigerian freelancers working on laptops; designer at a desk; team in a co-working space' },
+{ img: '../../../brand/images/categories/design.svg', bg: L, radius: '8px', slot: 'IMG-CAT-01', file: P + 'categories/design.svg', size: '320 x 200', use: 'Home, Browse by category, tile 1. Phone home category grid.', photo: 'graphic designer sketching; colour swatches on a desk' },
+{ img: '../../../brand/images/categories/web.svg', bg: L, radius: '8px', slot: 'IMG-CAT-02', file: P + 'categories/web.svg', size: '320 x 200', use: 'Home category tile 2. Phone category grid.', photo: 'developer coding on a laptop; code on a screen' },
+{ img: '../../../brand/images/categories/writing.svg', bg: L, radius: '8px', slot: 'IMG-CAT-03', file: P + 'categories/writing.svg', size: '320 x 200', use: 'Home category tile 3. Phone category grid.', photo: 'writer with notebook; typing an article' },
+{ img: '../../../brand/images/categories/marketing.svg', bg: L, radius: '8px', slot: 'IMG-CAT-04', file: P + 'categories/marketing.svg', size: '320 x 200', use: 'Home category tile 4. Phone category grid.', photo: 'social media marketing on a phone; campaign planning board' },
+{ img: '../../../brand/images/categories/video.svg', bg: L, radius: '8px', slot: 'IMG-CAT-05', file: P + 'categories/video.svg', size: '320 x 200', use: 'Home category tile 5. Phone category grid.', photo: 'video editor timeline; camera on tripod' },
+{ img: '../../../brand/images/categories/data.svg', bg: L, radius: '8px', slot: 'IMG-CAT-06', file: P + 'categories/data.svg', size: '320 x 200', use: 'Home category tile 6. Phone category grid.', photo: 'analyst reviewing charts on a monitor' },
+{ img: '../../../brand/images/categories/admin.svg', bg: L, radius: '8px', slot: 'IMG-CAT-07', file: P + 'categories/admin.svg', size: '320 x 200', use: 'Home category tile 7. Phone category grid.', photo: 'virtual assistant with headset and laptop' },
+{ img: '../../../brand/images/categories/tutoring.svg', bg: L, radius: '8px', slot: 'IMG-CAT-08', file: P + 'categories/tutoring.svg', size: '320 x 200', use: 'Home category tile 8. Phone category grid.', photo: 'tutor teaching online; student with textbook' },
+{ img: '../../../brand/images/steps/post-a-job.svg', bg: '#FFF8E6', radius: '0', slot: 'IMG-STEP-01', file: P + 'steps/post-a-job.svg', size: '360 x 240, shown up to 300 px wide', use: 'Home, How it works, step 1 card. How it works page, client column. Phone home step 1.', photo: 'Keep as illustration. Photos do not suit process steps.' },
+{ img: '../../../brand/images/steps/fund.svg', bg: '#FFF8E6', radius: '0', slot: 'IMG-STEP-02', file: P + 'steps/fund.svg', size: '360 x 240, shown 220 to 300 px wide', use: 'Home step 2 card and the amber "Payment held" card. How it works, payment protection band. Phone step 2.', photo: 'Keep as illustration.' },
+{ img: '../../../brand/images/steps/get-paid.svg', bg: '#FFF8E6', radius: '0', slot: 'IMG-STEP-03', file: P + 'steps/get-paid.svg', size: '360 x 240, shown 260 to 300 px wide', use: 'Home step 3 card and the dark call-to-action band. How it works, worker column. Phone step 3.', photo: 'Keep as illustration.' },
+{ img: '../../../brand/images/avatars/avatar-01.svg', bg: L, radius: '9999px', slot: 'IMG-AVT-01', file: P + 'avatars/avatar-01.svg', size: '160 x 160, round, shown 30 to 36 px', use: 'Client avatar on job cards (Home, Find work, phone). Used as a placeholder when a client has no photo.', photo: 'Not recommended: use the person’s own uploaded photo. Keep these as defaults.' },
+{ img: '../../../brand/images/avatars/avatar-02.svg', bg: L, radius: '9999px', slot: 'IMG-AVT-02', file: P + 'avatars/avatar-02.svg', size: '160 x 160, round', use: 'Worker card on Home ("Meet workers"); job card avatar on Find work.', photo: 'Same as above.' },
+{ img: '../../../brand/images/avatars/avatar-03.svg', bg: L, radius: '9999px', slot: 'IMG-AVT-03', file: P + 'avatars/avatar-03.svg', size: '160 x 160, round, shown up to 56 px', use: 'Client card on Job details; job card avatar on Home and Find work.', photo: 'Same as above.' },
+{ img: '../../../brand/images/avatars/avatar-04.svg', bg: L, radius: '9999px', slot: 'IMG-AVT-04', file: P + 'avatars/avatar-04.svg', size: '160 x 160, round, shown up to 112 px', use: 'Worker profile header (large). Worker card on Home.', photo: 'Same as above.' },
+{ img: '../../../brand/images/avatars/avatar-05.svg', bg: L, radius: '9999px', slot: 'IMG-AVT-05', file: P + 'avatars/avatar-05.svg', size: '160 x 160, round, shown 88 px', use: 'Worker card on Home.', photo: 'Same as above.' },
+{ img: '../../../brand/images/avatars/avatar-06.svg', bg: L, radius: '9999px', slot: 'IMG-AVT-06', file: P + 'avatars/avatar-06.svg', size: '160 x 160, round', use: 'Job card avatar (Home, Find work, phone).', photo: 'Same as above.' },
+{ img: '../../../brand/images/avatars/avatar-07.svg', bg: L, radius: '9999px', slot: 'IMG-AVT-07', file: P + 'avatars/avatar-07.svg', size: '160 x 160, round, shown 88 px', use: 'Worker card on Home.', photo: 'Same as above.' },
+{ img: '../../../brand/images/avatars/avatar-08.svg', bg: L, radius: '9999px', slot: 'IMG-AVT-08', file: P + 'avatars/avatar-08.svg', size: '160 x 160, round', use: 'Job card avatar on Find work.', photo: 'Same as above.' },
+{ img: '../../../brand/images/portfolio/mobile-app.svg', bg: L, radius: '8px', slot: 'IMG-PF-01', file: P + 'portfolio/mobile-app.svg', size: '480 x 320', use: 'Worker profile, Portfolio grid, sample 1. In the product these are the worker’s own uploads; this is the empty-sample look.', photo: 'Use the worker’s own uploads only.' },
+{ img: '../../../brand/images/portfolio/dashboard.svg', bg: L, radius: '8px', slot: 'IMG-PF-02', file: P + 'portfolio/dashboard.svg', size: '480 x 320', use: 'Worker profile, Portfolio sample 2.', photo: 'Same as above.' },
+{ img: '../../../brand/images/portfolio/website.svg', bg: L, radius: '8px', slot: 'IMG-PF-03', file: P + 'portfolio/website.svg', size: '480 x 320', use: 'Worker profile, Portfolio sample 3.', photo: 'Same as above.' },
+{ img: '../../../brand/images/portfolio/branding.svg', bg: L, radius: '8px', slot: 'IMG-PF-04', file: P + 'portfolio/branding.svg', size: '480 x 320', use: 'Worker profile, Portfolio sample 4.', photo: 'Same as above.' },
+{ img: '../../../brand/images/portfolio/packaging.svg', bg: L, radius: '8px', slot: 'IMG-PF-05', file: P + 'portfolio/packaging.svg', size: '480 x 320', use: 'Worker profile, Portfolio sample 5.', photo: 'Same as above.' },
+{ img: '../../../brand/images/portfolio/poster.svg', bg: L, radius: '8px', slot: 'IMG-PF-06', file: P + 'portfolio/poster.svg', size: '480 x 320', use: 'Worker profile, Portfolio sample 6.', photo: 'Same as above.' },
+{ img: '../../../brand/images/empty/no-results.svg', bg: L, radius: '0', slot: 'IMG-EMPTY-01', file: P + 'empty/no-results.svg', size: '360 x 240', use: 'Find work when a search or filter returns no jobs (not drawn on the page yet; use above the "Clear all filters" link).', photo: 'Keep as illustration.' },
+{ img: '../../../brand/images/empty/nothing-yet.svg', bg: L, radius: '0', slot: 'IMG-EMPTY-02', file: P + 'empty/nothing-yet.svg', size: '360 x 240', use: 'Any empty list: no proposals yet, no jobs posted, no contracts (signed-in screens).', photo: 'Keep as illustration.' },
+{ img: '../../../brand/images/patterns/hex-pattern.svg', bg: D, radius: '0', slot: 'PAT-HEX-01', file: P + 'patterns/hex-pattern.svg', size: '104 x 120 tile, 7 percent opacity', use: 'Background texture on every dark band: hero bands, call-to-action band, footer, sign-in page. Repeat it with background-size 104px 120px.', photo: 'Keep as pattern.' }
+]
+};
+}
+}
+</script>
+</body>
+</html>
