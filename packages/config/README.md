@@ -34,14 +34,18 @@ Available presets:
 
 ```js
 // apps/web/eslint.config.js
+import { appBoundaries } from "@gigshive/config/eslint/boundaries";
 import nextjs from "@gigshive/config/eslint/nextjs";
-export default [...nextjs];
+export default [...nextjs, ...appBoundaries("web")];
 ```
 
 | Path | Use for |
 |---|---|
 | `@gigshive/config/eslint/base` | Non-React packages |
+| `@gigshive/config/eslint/boundaries` | `appBoundaries("web" \| "admin")` and `packageBoundaries` |
 | `@gigshive/config/eslint/nextjs` | apps/web, apps/admin |
 | `@gigshive/config/eslint/react-library` | packages/ui |
 
-Boundary / architecture rules are added in FE-010.
+Boundary rules mirror `AGENTS.md` section 4. The repository import graph is also checked
+by `packages/shared/src/architecture.test.ts` so a violation fails `pnpm run test` even
+if an editor bypasses ESLint.
