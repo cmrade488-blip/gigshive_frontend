@@ -1,0 +1,76 @@
+"use client";
+
+import Image from "next/image";
+
+import { homeCopy as copy } from "../copy/home";
+import { useHomeWorkers } from "../state/use-home-workers";
+
+function VerifiedIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m5 12.5 4.5 4.5L19 7.5" />
+    </svg>
+  );
+}
+
+/** Sample profiles. Cards are not links until the public worker profile route exists. */
+export function HomeWorkers() {
+  const { data, isPending, isError } = useHomeWorkers();
+
+  return (
+    <section aria-labelledby="home-workers-title" className="px-5 pb-16 sm:px-10 sm:pb-[72px]">
+      <div className="mx-auto max-w-[1200px]">
+        <h2
+          id="home-workers-title"
+          className="font-display text-[26px] font-bold tracking-[-0.5px] sm:text-[40px]"
+        >
+          {copy.workersTitle}
+        </h2>
+        <p className="mt-2 text-base text-ink-600 sm:mb-9">{copy.workersSubtitle}</p>
+
+        {isPending ? (
+          <p role="status" className="mt-6 text-base text-ink-600">
+            {copy.workersLoading}
+          </p>
+        ) : null}
+        {isError ? (
+          <p role="alert" className="mt-6 rounded-2xl bg-gh-danger-bg p-4 text-base text-gh-danger">
+            {copy.workersError}
+          </p>
+        ) : null}
+        {!isPending && !isError && !data?.length ? (
+          <p role="status" className="mt-6 text-base text-ink-600">
+            {copy.workersEmpty}
+          </p>
+        ) : null}
+
+        <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+          {data?.map((worker) => (
+            <li
+              key={worker.id}
+              className="flex flex-col items-center rounded-[20px] border border-gh-border bg-white px-6 py-8 text-center shadow-[0_4px_12px_rgba(15,22,38,0.06)] sm:rounded-[28px]"
+            >
+              <Image src={worker.avatar} width={88} height={88} alt="" className="rounded-full" />
+              <b className="mt-2 text-[18px] font-semibold">{worker.name}</b>
+              <span className="text-sm text-ink-600">{worker.role}</span>
+              <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-success-100 px-2.5 py-1 text-xs font-semibold text-success-700">
+                <VerifiedIcon />
+                {copy.workersVerified}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
