@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3000",
-    "build": "next build",
+    "dev": "node ../../scripts/copy-brand-assets.mjs web && next dev --port 3000",
+    "build": "node ../../scripts/copy-brand-assets.mjs web && next build",
     "start": "next start --port 3000",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"

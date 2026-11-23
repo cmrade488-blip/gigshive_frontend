@@ -137,7 +137,7 @@ The designs for these pages are done (see [docs/DESIGN.md](../DESIGN.md)) but th
 
 | ID | Task | Module | Owner | Depends on | Size | Status |
 |---|---|---|---|---|---|---|
-| FE-075 | Public site shell: floating pill navbar, footer, dark hero band with hex texture | site | FE1 | FE-006 | M | proposed |
+| FE-075 | Public site shell: floating pill navbar, footer, dark hero band with hex texture | site | FE1 | FE-006 | M | review |
 | FE-076 | Home page, desktop and phone | site | FE1 | FE-075 | L | proposed |
 | FE-077 | How it works page | site | FE1 | FE-075 | S | proposed |
 | FE-078 | Info pages: Safety, Fees (values from the API), Help and FAQ, Contact, About, Terms and Privacy (legal text placeholder) | site | FE1 | FE-075 | M | proposed |
