@@ -47,7 +47,7 @@ export function HowItWorksScreen() {
                 <span className="rounded-full bg-honey-100 px-3.5 py-1.5 text-[13px] font-semibold text-honey-800">
                   {copy.clientPill}
                 </span>
-                <h2 className="mt-[18px] mb-7 font-display text-[30px] tracking-[-0.5px]">
+                <h2 className="mt-[18px] mb-7 font-display font-bold text-[30px] tracking-[-0.5px]">
                   {copy.clientHeading}
                 </h2>
                 <StepList steps={copy.clientSteps} badgeClass="bg-honey-500 text-ink-900" />
@@ -71,7 +71,7 @@ export function HowItWorksScreen() {
                 <span className="rounded-full bg-ink-100 px-3.5 py-1.5 text-[13px] font-semibold text-ink-700">
                   {copy.workerPill}
                 </span>
-                <h2 className="mt-[18px] mb-7 font-display text-[30px] tracking-[-0.5px]">
+                <h2 className="mt-[18px] mb-7 font-display font-bold text-[30px] tracking-[-0.5px]">
                   {copy.workerHeading}
                 </h2>
                 <StepList steps={copy.workerSteps} badgeClass="bg-ink-900 text-honey-400" />
@@ -101,7 +101,7 @@ export function HowItWorksScreen() {
               />
               <div className="relative mb-10 flex flex-wrap items-center gap-8">
                 <div className="flex-[1_1_420px]">
-                  <h2 className="mb-3 font-display text-[36px] tracking-[-0.5px]">
+                  <h2 className="mb-3 font-display font-bold text-[36px] tracking-[-0.5px]">
                     {copy.protectionHeading}
                   </h2>
                   <p className="text-lg text-ink-300">{copy.protectionIntro}</p>
@@ -133,7 +133,7 @@ export function HowItWorksScreen() {
 
           <section className="px-6 pb-24 sm:px-10">
             <div className="mx-auto max-w-[820px]">
-              <h2 className="mb-7 text-center font-display text-[36px] tracking-[-0.5px]">
+              <h2 className="mb-7 text-center font-display font-bold text-[36px] tracking-[-0.5px]">
                 {copy.faqHeading}
               </h2>
               <div className="flex flex-col gap-3">

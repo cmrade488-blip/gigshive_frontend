@@ -132,16 +132,16 @@ Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are p
 | FE-071 | Slice Q: Request for Quote reusing job and proposal screens | jobs | FE1 | FE-064 | M | todo |
 | FE-072 | Slice R: Skills pickers and matching display | catalog | FE1 | FE-064 | M | todo |
 
-## Public site (proposed, not in MVP Plan v1.1)
-The designs for these pages are done (see [docs/DESIGN.md](../DESIGN.md)) but the MVP Plan has no tasks for them. They need product owner confirmation and an update to the MVP Plan in gigshive_doc before work starts.
+## Public site (owner-approved; not yet in MVP Plan v1.1)
+The designs for these pages are done (see [docs/DESIGN.md](../DESIGN.md)). The product owner has confirmed FE-075 to FE-080 and the front-end-only `site` feature. The MVP Plan in gigshive_doc still needs updating, and the `site` feature exception needs an ADR.
 
 | ID | Task | Module | Owner | Depends on | Size | Status |
 |---|---|---|---|---|---|---|
-| FE-075 | Public site shell: floating pill navbar, footer, dark hero band with hex texture | site | FE1 | FE-006 | M | review |
-| FE-076 | Home page, desktop and phone | site | FE1 | FE-075 | L | proposed |
-| FE-077 | How it works page | site | FE1 | FE-075 | S | review |
-| FE-078 | Info pages: Safety, Fees (values from the API), Help and FAQ, Contact, About, Terms and Privacy (legal text placeholder) | site | FE1 | FE-075 | M | proposed |
-| FE-079 | System pages: not found, access denied, error with reference, maintenance (503); production error rule | site, shared | FE1 | FE-009, FE-075 | S | proposed |
-| FE-080 | Launch metadata: fonts via next/font (Inter, Poppins), favicon and manifest from packages/brand, social card, robots.txt, sitemap.xml, per-page titles and descriptions | web | FE1 | FE-002, FE-075 | S | proposed |
+| FE-075 | Public site shell: floating pill navbar, footer, dark hero band with hex texture | site | FE1 | FE-006 | M | done |
+| FE-076 | Home page, desktop and phone | site | FE1 | FE-075 | L | todo |
+| FE-077 | How it works page | site | FE1 | FE-075 | S | done |
+| FE-078 | Info pages: Safety, Fees (values from the API), Help and FAQ, Contact, About, Terms and Privacy (legal text placeholder) | site | FE1 | FE-075 | M | todo |
+| FE-079 | System pages: not found, access denied, error with reference, maintenance (503); production error rule | site, shared | FE1 | FE-009, FE-075 | S | todo |
+| FE-080 | Launch metadata: fonts via next/font (Inter, Poppins), favicon and manifest from packages/brand, social card, robots.txt, sitemap.xml, per-page titles and descriptions | web | FE1 | FE-002, FE-075 | S | todo |
 
 `GH-nnn` ids refer to backend tasks in the backend plan; a dependency on one means the endpoint must exist on staging (or be mocked behind the generated types).
