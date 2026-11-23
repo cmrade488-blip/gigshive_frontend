@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { MoneyDisplay } from "@gigshive/ui";
-import { siteRoutes } from "@/features/site";
+import { siteRoutes } from "@gigshive/shared/routes";
 
 import type { JobDetail } from "../api/jobs";
 import { jobDetailCopy } from "../copy/job-detail";
