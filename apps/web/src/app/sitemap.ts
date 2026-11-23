@@ -4,9 +4,10 @@ import { siteRoutes } from "@/features/site";
 import { getSiteUrl } from "@/lib/site-url";
 
 // Only routes that exist today. The preview error pages and routes owned by
-// later tasks (jobs, workers, dashboards) are deliberately excluded.
+// later tasks (job details, workers, dashboards) are deliberately excluded.
 const launchRoutes = [
   siteRoutes.home,
+  siteRoutes.jobs,
   siteRoutes.howItWorks,
   siteRoutes.safety,
   siteRoutes.fees,
