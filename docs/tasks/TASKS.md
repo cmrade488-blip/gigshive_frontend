@@ -139,7 +139,7 @@ The designs for these pages are done (see [docs/DESIGN.md](../DESIGN.md)) but th
 |---|---|---|---|---|---|---|
 | FE-075 | Public site shell: floating pill navbar, footer, dark hero band with hex texture | site | FE1 | FE-006 | M | review |
 | FE-076 | Home page, desktop and phone | site | FE1 | FE-075 | L | proposed |
-| FE-077 | How it works page | site | FE1 | FE-075 | S | proposed |
+| FE-077 | How it works page | site | FE1 | FE-075 | S | review |
 | FE-078 | Info pages: Safety, Fees (values from the API), Help and FAQ, Contact, About, Terms and Privacy (legal text placeholder) | site | FE1 | FE-075 | M | proposed |
 | FE-079 | System pages: not found, access denied, error with reference, maintenance (503); production error rule | site, shared | FE1 | FE-009, FE-075 | S | proposed |
 | FE-080 | Launch metadata: fonts via next/font (Inter, Poppins), favicon and manifest from packages/brand, social card, robots.txt, sitemap.xml, per-page titles and descriptions | web | FE1 | FE-002, FE-075 | S | proposed |
