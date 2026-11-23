@@ -3,6 +3,7 @@ export const siteRoutes = {
   /** Reserved for the dashboard task; the design links "Switch profile" here. */
   dashboard: "/dashboard",
   jobs: "/jobs",
+  workers: "/workers",
   howItWorks: "/how-it-works",
   login: "/login",
   register: "/register",
