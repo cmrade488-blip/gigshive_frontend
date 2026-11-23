@@ -125,6 +125,8 @@ describe("violationFor", () => {
       violationFor("apps/web/src/features/jobs/api/use-jobs.ts", "@gigshive/api-client"),
     ).toBeNull();
     expect(violationFor("apps/web/src/lib/providers.tsx", "@gigshive/api-client")).toBeNull();
+    // Shared test infrastructure is keyed to the generated contract too.
+    expect(violationFor("packages/testing/src/fixtures.ts", "@gigshive/api-client")).toBeNull();
   });
 
   it("keeps web and admin code separate", () => {
