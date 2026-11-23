@@ -1,6 +1,7 @@
 "use client";
 
 import { jobsCopy } from "../copy/jobs";
+import { jobsRoutes } from "../routes";
 import type { JobSort, JobsFilterValues } from "../state/jobs-filters";
 import { useJobs } from "../state/use-jobs";
 import { JobsCard } from "./JobsCard";
@@ -93,7 +94,7 @@ export function JobsResults({ filters, onSortChange }: JobsResultsProps) {
       <ul className="mt-5 grid gap-4 sm:gap-5">
         {jobs.map((job) => (
           <li key={job.id}>
-            <JobsCard job={job} />
+            <JobsCard job={job} href={jobsRoutes.detail(job.id)} />
           </li>
         ))}
       </ul>
