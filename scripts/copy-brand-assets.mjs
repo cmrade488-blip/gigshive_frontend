@@ -9,7 +9,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 // Folders inside packages/brand to publish. Add more here when a screen needs them.
-const ASSET_DIRS = ["logo", "favicon", "social", "images/patterns", "images/steps"];
+const ASSET_DIRS = ["logo", "favicon", "social", "images/patterns", "images/steps", "images/empty"];
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const app = process.argv[2];

@@ -33,3 +33,12 @@ index.ts      public surface
 - The Fees page renders amounts from `api/fees.ts`. Those kobo values are placeholders behind a typed mock: no public fee endpoint exists yet, and the client never calculates a fee or a worker amount.
 - The Contact form submits through `api/contact.ts`. Its destination is undecided; the company still needs to supply the support email.
 - Legal copy is placeholder text supplied by the design, pending wording from the company and its legal adviser.
+
+## System pages (FE-079)
+
+- `/not-found` is wired through `apps/web/src/app/not-found.tsx`, so unmatched routes return a real HTTP 404. `/access-denied`, `/server-error` and `/maintenance` are dedicated preview routes; the design has no dedicated URL for 403, 500 or 503.
+- `error.tsx` renders the 500 screen inside the site shell; `global-error.tsx` replaces the root layout, so it renders without site chrome with its own `html`/`body` and CSS import. Neither renders the server message, a URL or a stack trace in production. `error.message` appears only in a collapsed `<details>` when `NODE_ENV === "development"`.
+- The support reference (`GH-XXXXXX`) is generated after mount in `ServerErrorScreen` so server rendering and hydration agree. It is a display token derived from `@gigshive/shared/id`, not a server-issued error ID.
+- Maintenance mode is the build-time `GIGSHIVE_MAINTENANCE_MODE=true` flag checked in the root layout. Because statically generated pages bake it in, toggling needs a rebuild, and a layout-rendered maintenance screen still returns HTTP 200. Serving a true 503 needs a host or middleware decision — raise it with the owner; do not invent infrastructure here.
+- "Switch profile" links to the reserved `/dashboard` route from the design; the dashboard task owns that URL. The shared status-to-copy mapping (401/403/404/409/422/429/5xx/offline) remains FE-009's responsibility; this feature owns only the full-page states.
+- The empty-state illustrations come from `packages/brand/images/empty/` and are published by `scripts/copy-brand-assets.mjs`; they are not copied by hand into `public/`.

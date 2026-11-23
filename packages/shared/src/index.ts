@@ -11,7 +11,7 @@ export {
 
 export { DISPLAY_TIMEZONE, type FormatDateOptions, formatDate, formatRelative } from "./date";
 
-export { createId } from "./id";
+export { createId, createSupportReference } from "./id";
 
 export {
   type IdempotencySession,
