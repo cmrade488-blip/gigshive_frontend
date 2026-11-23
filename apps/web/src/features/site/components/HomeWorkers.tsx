@@ -1,9 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { workersRoutes } from "@/features/profiles";
 
 import { homeCopy as copy } from "../copy/home";
 import { useHomeWorkers } from "../state/use-home-workers";
+
+const focusRing =
+  "focus-visible:ring-2 focus-visible:ring-gh-focus-ring focus-visible:ring-offset-2 focus-visible:outline-none";
+const cardClass =
+  "flex h-full flex-col items-center rounded-[20px] border border-gh-border bg-white px-6 py-8 text-center shadow-[0_4px_12px_rgba(15,22,38,0.06)] transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(15,22,38,0.12)] sm:rounded-[28px]";
 
 function VerifiedIcon() {
   return (
@@ -23,7 +30,7 @@ function VerifiedIcon() {
   );
 }
 
-/** Sample profiles. Cards are not links until the public worker profile route exists. */
+/** Sample profiles. Cards link to the public worker profile (FE-024). */
 export function HomeWorkers() {
   const { data, isPending, isError } = useHomeWorkers();
 
@@ -56,17 +63,16 @@ export function HomeWorkers() {
 
         <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
           {data?.map((worker) => (
-            <li
-              key={worker.id}
-              className="flex flex-col items-center rounded-[20px] border border-gh-border bg-white px-6 py-8 text-center shadow-[0_4px_12px_rgba(15,22,38,0.06)] sm:rounded-[28px]"
-            >
-              <Image src={worker.avatar} width={88} height={88} alt="" className="rounded-full" />
-              <b className="mt-2 text-[18px] font-semibold">{worker.name}</b>
-              <span className="text-sm text-ink-600">{worker.role}</span>
-              <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-success-100 px-2.5 py-1 text-xs font-semibold text-success-700">
-                <VerifiedIcon />
-                {copy.workersVerified}
-              </span>
+            <li key={worker.id}>
+              <Link href={workersRoutes.detail(worker.id)} className={`${cardClass} ${focusRing}`}>
+                <Image src={worker.avatar} width={88} height={88} alt="" className="rounded-full" />
+                <b className="mt-2 text-[18px] font-semibold">{worker.name}</b>
+                <span className="text-sm text-ink-600">{worker.role}</span>
+                <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-success-100 px-2.5 py-1 text-xs font-semibold text-success-700">
+                  <VerifiedIcon />
+                  {copy.workersVerified}
+                </span>
+              </Link>
             </li>
           ))}
         </ul>
