@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
+
 import { SitePage, siteCopy } from "@/features/site";
+
+export const metadata: Metadata = {
+  title: siteCopy.homeMetaTitle,
+  description: siteCopy.homeMetaDescription,
+};
 
 export default function HomePage() {
   return (

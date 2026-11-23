@@ -42,3 +42,11 @@ index.ts      public surface
 - Maintenance mode is the build-time `GIGSHIVE_MAINTENANCE_MODE=true` flag checked in the root layout. Because statically generated pages bake it in, toggling needs a rebuild, and a layout-rendered maintenance screen still returns HTTP 200. Serving a true 503 needs a host or middleware decision — raise it with the owner; do not invent infrastructure here.
 - "Switch profile" links to the reserved `/dashboard` route from the design; the dashboard task owns that URL. The shared status-to-copy mapping (401/403/404/409/422/429/5xx/offline) remains FE-009's responsibility; this feature owns only the full-page states.
 - The empty-state illustrations come from `packages/brand/images/empty/` and are published by `scripts/copy-brand-assets.mjs`; they are not copied by hand into `public/`.
+
+## Launch metadata (FE-080)
+
+- Inter and Poppins load through `next/font/google` in the root layout and expose `--font-inter` / `--font-poppins`. `apps/web/src/app/globals.css` maps those onto the brand's `--gh-font-sans` / `--gh-font-display` variables with system-font fallbacks so `global-error.tsx` still renders legibly without the layout's font classes.
+- Icons, the web manifest, the social card, `robots.txt` and `sitemap.xml` reference files already in `packages/brand` (`favicon/`, `social/`); `scripts/copy-brand-assets.mjs` publishes them. No images are generated or copied by hand.
+- `getSiteUrl()` in `apps/web/src/lib/site-url.ts` reads the existing `PUBLIC_SITE_URL`. Production must set it; the localhost fallback exists only so local builds work. Invalid values and values with credentials are rejected without being logged.
+- `robots.txt` excludes the three error-state preview routes. `sitemap.xml` lists only pages that exist today; routes owned by later tasks are added when they ship.
+- The site copy owns the shared description and the home page title/description. Every existing page already sets its own title and description.

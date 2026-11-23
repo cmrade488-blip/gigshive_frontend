@@ -142,6 +142,6 @@ The designs for these pages are done (see [docs/DESIGN.md](../DESIGN.md)). The p
 | FE-077 | How it works page | site | FE1 | FE-075 | S | done |
 | FE-078 | Info pages: Safety, Fees (values from the API), Help and FAQ, Contact, About, Terms and Privacy (legal text placeholder) | site | FE1 | FE-075 | M | done |
 | FE-079 | System pages: not found, access denied, error with reference, maintenance (503); production error rule | site, shared | FE1 | FE-009, FE-075 | S | done |
-| FE-080 | Launch metadata: fonts via next/font (Inter, Poppins), favicon and manifest from packages/brand, social card, robots.txt, sitemap.xml, per-page titles and descriptions | web | FE1 | FE-002, FE-075 | S | todo |
+| FE-080 | Launch metadata: fonts via next/font (Inter, Poppins), favicon and manifest from packages/brand, social card, robots.txt, sitemap.xml, per-page titles and descriptions | web | FE1 | FE-002, FE-075 | S | done |
 
 `GH-nnn` ids refer to backend tasks in the backend plan; a dependency on one means the endpoint must exist on staging (or be mocked behind the generated types).

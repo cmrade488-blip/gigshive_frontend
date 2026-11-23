@@ -76,7 +76,7 @@ export default tseslint.config(
   // Allow default exports where frameworks require them
   {
     files: [
-      "**/app/**/{page,layout,loading,error,global-error,not-found,template,default,route}.{ts,tsx}",
+      "**/app/**/{page,layout,loading,error,global-error,not-found,template,default,route,manifest,robots,sitemap}.{ts,tsx}",
       "**/app/**/opengraph-image.{ts,tsx}",
       "**/app/**/icon.{ts,tsx}",
       "**/*.config.{js,mjs,cjs,ts}",
