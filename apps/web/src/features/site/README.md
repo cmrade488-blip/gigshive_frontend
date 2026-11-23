@@ -15,11 +15,11 @@ This folder is a front-end-only feature (no matching backend module), so it is a
 ## Layout
 
 ```
-api/          only the Fees and platform-config reads, if any
-components/   public shell pieces: floating navbar, footer, hero band, hex texture
+api/          typed mocks for the fee example and contact submit until endpoints exist
+components/   public shell pieces plus shared info-page UI (CTA, FAQ list, forms)
 screens/      one screen per page
-schemas/      contact form schema
-state/        none expected
+schemas/      contact form values and local validation
+state/        query/mutation hooks wrapping the typed mocks
 copy/         page text (legal text is placeholder until the company supplies it)
 __tests__/
 index.ts      public surface
@@ -30,3 +30,6 @@ index.ts      public surface
 - Never import another feature's internals; use its `index.ts` or a shared package.
 - Public pages are server rendered. No restricted data. Each page sets its own title and description.
 - Production error rule: never show server messages, codes, URLs or stack traces (see docs/DESIGN.md).
+- The Fees page renders amounts from `api/fees.ts`. Those kobo values are placeholders behind a typed mock: no public fee endpoint exists yet, and the client never calculates a fee or a worker amount.
+- The Contact form submits through `api/contact.ts`. Its destination is undecided; the company still needs to supply the support email.
+- Legal copy is placeholder text supplied by the design, pending wording from the company and its legal adviser.

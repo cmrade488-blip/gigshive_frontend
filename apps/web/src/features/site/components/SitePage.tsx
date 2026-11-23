@@ -10,7 +10,7 @@ export interface SitePageProps extends HeroBandProps {
 }
 
 /** Standard public page: skip link, hero band with header, main content, footer. */
-export function SitePage({ title, subtitle, children, content }: SitePageProps) {
+export function SitePage({ eyebrow, title, subtitle, children, content }: SitePageProps) {
   return (
     <div className="min-h-screen bg-white font-sans text-ink-900">
       <a
@@ -19,7 +19,7 @@ export function SitePage({ title, subtitle, children, content }: SitePageProps) 
       >
         {siteCopy.skipToContent}
       </a>
-      <HeroBand title={title} subtitle={subtitle}>
+      <HeroBand eyebrow={eyebrow} title={title} subtitle={subtitle}>
         {children}
       </HeroBand>
       <main id="main-content">{content}</main>
