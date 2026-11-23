@@ -1,7 +1,7 @@
 import * as React from "react";
 import { formatMoney } from "@gigshive/shared/money";
 
-import { cn } from "@/lib/tw-merge";
+import { cn } from "../lib/tw-merge";
 
 export interface MoneyDisplayProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Integer amount in kobo (1 naira = 100 kobo). */

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { cn } from "@/lib/tw-merge";
+import { cn } from "../lib/tw-merge";
 
 export interface ModalProps {
   open: boolean;

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { formatMoney, parseMoney, type Kobo } from "@gigshive/shared/money";
-import { cn } from "@/lib/tw-merge";
+import { cn } from "../lib/tw-merge";
 
 export interface MoneyInputProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,

@@ -5,7 +5,12 @@ import brandPreset from "@gigshive/brand/tokens/tailwind.preset";
 // match the app's copy of the type, so cast it here.
 const config: Config = {
   presets: [brandPreset as unknown as Partial<Config>],
-  content: ["./src/app/**/*.{ts,tsx}", "./src/features/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./src/app/**/*.{ts,tsx}",
+    "./src/features/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+    "../../packages/ui/src/**/*.{ts,tsx}",
+  ],
 };
 
 export default config;

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cn } from "@/lib/tw-merge";
+import { cn } from "../lib/tw-merge";
 
 type ButtonVariant = "primary" | "secondary" | "outline" | "ghost" | "danger";
 type ButtonSize = "sm" | "md" | "lg";
