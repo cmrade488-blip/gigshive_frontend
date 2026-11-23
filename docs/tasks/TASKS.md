@@ -54,7 +54,7 @@ Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are p
 | ID | Task | Module | Owner | Depends on | Size | Status |
 |---|---|---|---|---|---|---|
 | FE-029 | Discovery: filters, keyword search, URL state, cursor list, server rendering | jobs | FE1 | FE-021 | L | done |
-| FE-030 | Job detail with public and owner variants | jobs | FE1 | FE-029 | M | todo |
+| FE-030 | Job detail with public and owner variants | jobs | FE1 | FE-029 | M | done |
 | FE-031 | Job composer: wizard, drafts, naira budget, publish, application mode, screening questions | jobs | FE1 | FE-023, FE-007 | L | todo |
 | FE-032 | My jobs, close and cancel, removal reason display | jobs | FE1 | FE-031 | M | todo |
 | FE-033 | Console: job moderation with recorded removal reason | admin-ops | FE2 | FE-028 | S | todo |
