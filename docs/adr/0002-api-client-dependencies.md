@@ -18,8 +18,9 @@ Add to `packages/api-client` as devDependencies:
 - `openapi-typescript` — generate `src/generated/schema.ts` from `spec/openapi.yaml`; the output is committed and never edited by hand. `pnpm run generate:check` regenerates into a temporary file and fails if it differs from the committed output.
 - `vitest` — unit tests for the fetch wrapper (envelope unwrapping, error mapping, request id, idempotency header, retry hints and network failures).
 - The existing workspace tools `@gigshive/config`, `eslint` and `typescript`, matching `packages/shared`.
+- `msw` in `packages/testing` for the FE-005 mock layer. MSW is already part of the test stack approved in ADR 0001; this records the concrete dependency and keeps the mock endpoints on the generated contract.
 
-The spec copy is a mirror of gigshive_doc. When the backend contract changes, refresh the copy in a dedicated commit and regenerate types in the same change.
+The spec copy is a mirror of gigshive_doc. When the backend contract changes, refresh the copy in a dedicated commit and regenerate types in the same change. Shared packages may import `@gigshive/api-client` for those types; only app code outside `src/features/<name>/api` and `src/lib` remains barred (enforced by the architecture test).
 
 ## Consequences
 

@@ -13,7 +13,7 @@ Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are p
 | FE-002 | Next.js skeletons for web and admin: layouts, environment config, providers | shared | FE1 | FE-001 | M | done |
 | FE-003 | CI pipeline: install, lint, types, tests, build, audit, secret scan, bundle budgets | infra | FE2 | FE-001 | M | in progress (repository checks, secret scan, PR checks live; build, test, audit and budget stages pending) |
 | FE-004 | API client package: OpenAPI type generation, drift check, fetch wrapper | api-client | FE2 | FE-002 | L | done |
-| FE-005 | Mock layer: MSW handlers from the spec; typed fixture factories | testing | FE2 | FE-004 | M | todo |
+| FE-005 | Mock layer: MSW handlers from the spec; typed fixture factories | testing | FE2 | FE-004 | M | done |
 | FE-006 | Design tokens, Tailwind preset, base components (use packages/brand; replaces the placeholder set, FOI-05) | ui | FE1 | FE-002 | L | done (tokens, Tailwind wiring, Button, Input, Textarea, Card, Badge, Modal in packages/ui; fonts and favicon not wired yet, see FE-080) |
 | FE-007 | Shared utilities: money, dates (Africa/Lagos), ids, idempotency key, status-map framework | shared | FE1 | FE-001 | M | done |
 | FE-008 | Session proxy layer: server-held session, token attach, CSRF, logout (FOI-01) | session | FE2 | FE-004 | L | todo |

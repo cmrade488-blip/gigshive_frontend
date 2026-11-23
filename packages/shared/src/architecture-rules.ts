@@ -120,6 +120,8 @@ function isAppRouteFile(filePath: string): boolean {
 
 function isApiAllowedFile(filePath: string): boolean {
   return (
+    // Shared packages (notably @gigshive/testing) build on the generated types.
+    filePath.startsWith("packages/") ||
     /^apps\/[^/]+\/src\/features\/[^/]+\/api\//.test(filePath) ||
     /^apps\/[^/]+\/src\/lib\//.test(filePath)
   );
