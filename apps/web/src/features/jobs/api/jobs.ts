@@ -30,6 +30,31 @@ export interface JobsPage {
   total: number;
 }
 
+export interface ScreeningQuestion {
+  id: string;
+  text: string;
+  required: boolean;
+}
+
+export type JobStatus =
+  "DRAFT" | "OPEN" | "IN_PROGRESS" | "CLOSED" | "CANCELLED" | "EXPIRED" | "REMOVED";
+
+/** Public job fields plus the read-only detail sections shown on the detail page. */
+export interface JobDetail extends Job {
+  description: readonly string[];
+  deliverables: readonly string[];
+  skills: readonly string[];
+  questions: readonly ScreeningQuestion[];
+  location: string;
+  openUntil: string;
+  deliveryDays: number;
+  status: JobStatus;
+  removalReason: string | null;
+  clientLocation: string;
+  clientEmailVerified: boolean;
+  clientMemberSince: string;
+}
+
 /**
  * Typed samples for the sample results shown in the design. No public jobs
  * endpoint exists yet (FE-004/FE-005 are outstanding), so this mock is the only
@@ -167,5 +192,224 @@ export async function getJobsPage({ filters, cursor }: GetJobsPageInput): Promis
     items,
     nextCursor: nextOffset < matches.length ? String(nextOffset) : null,
     total: matches.length,
+  };
+}
+
+type JobDetailExtras = Omit<JobDetail, keyof Job | "status" | "removalReason">;
+
+/**
+ * Detail sections for every sample id, so each card from the list has a page.
+ * These are typed samples behind a local mock, not a guessed API response.
+ */
+const jobDetailExtras: Readonly<Record<string, JobDetailExtras>> = {
+  "sample-clinic-site": {
+    description: [
+      "We run a small clinic and need a clear, fast website that works well on phones. Patients should be able to see our services and opening hours, and book an appointment through a short form.",
+      "Our logo and colours are ready. We will supply the text and photos. We would like the first version live within three weeks of starting.",
+    ],
+    deliverables: [
+      "A home page, services page and contact page",
+      "A booking form that sends requests to our email",
+      "Mobile-first design that loads quickly",
+      "Handover with simple instructions for edits",
+    ],
+    skills: ["HTML and CSS", "Responsive design", "Forms", "Accessibility"],
+    questions: [
+      { id: "q1", text: "Share a link to a similar website you have built.", required: true },
+      {
+        id: "q2",
+        text: "How would you make the booking form simple for older patients?",
+        required: true,
+      },
+      { id: "q3", text: "Is there anything you would change in our brief?", required: false },
+    ],
+    location: "Lagos, Nigeria",
+    openUntil: "15 December",
+    deliveryDays: 21,
+    clientLocation: "Lagos, Nigeria",
+    clientEmailVerified: true,
+    clientMemberSince: "2026",
+  },
+  "sample-junior-dev": {
+    description: [
+      "We are building a small marketplace and need a junior developer to help ship the first version. You will work alongside one senior engineer and pick up ui tasks with clear reviews.",
+      "The role runs for three months with room to extend. We care more about careful work and good questions than years of experience.",
+    ],
+    deliverables: [
+      "Build and review two screens each week",
+      "Fix small bugs with tests",
+      "Join a short daily check-in",
+    ],
+    skills: ["React", "TypeScript", "Git"],
+    questions: [
+      { id: "q1", text: "Share a project you contributed to and what you owned.", required: true },
+      { id: "q2", text: "How do you approach a bug you cannot reproduce?", required: true },
+      { id: "q3", text: "What would you like to learn in this role?", required: false },
+    ],
+    location: "Remote, Nigeria",
+    openUntil: "20 December",
+    deliveryDays: 90,
+    clientLocation: "Lagos, Nigeria",
+    clientEmailVerified: true,
+    clientMemberSince: "2025",
+  },
+  "sample-checkout-bugs": {
+    description: [
+      "Our React storefront has three known checkout bugs. Customers can sometimes see the wrong total, and the pay button can be pressed twice.",
+      "We have written reproduction steps and a staging account. You will fix the bugs, add regression tests and explain each change.",
+    ],
+    deliverables: [
+      "Fix the three reported bugs",
+      "Add a regression test for each fix",
+      "A short note explaining the root cause",
+    ],
+    skills: ["React", "Debugging", "Payment flows", "Testing"],
+    questions: [
+      { id: "q1", text: "Describe a payment bug you fixed before.", required: true },
+      { id: "q2", text: "How do you test a checkout flow?", required: true },
+    ],
+    location: "Remote, Nigeria",
+    openUntil: "10 December",
+    deliveryDays: 14,
+    clientLocation: "Abuja, Nigeria",
+    clientEmailVerified: true,
+    clientMemberSince: "2024",
+  },
+  "sample-figma-site": {
+    description: [
+      "The design is finished and approved. We need it built as five fast, accessible pages that look right on every screen size.",
+      "Images and copy are supplied. We will review in stages and keep feedback in one place.",
+    ],
+    deliverables: [
+      "Five responsive pages",
+      "Keyboard and screen-reader friendly navigation",
+      "A short handover document",
+    ],
+    skills: ["Figma", "HTML and CSS", "Accessibility", "Performance"],
+    questions: [
+      { id: "q1", text: "Link a site you built from a design file.", required: true },
+      { id: "q2", text: "How do you test a site at 360 px?", required: true },
+      { id: "q3", text: "Any questions about the brief?", required: false },
+    ],
+    location: "Remote, Nigeria",
+    openUntil: "18 December",
+    deliveryDays: 21,
+    clientLocation: "Port Harcourt, Nigeria",
+    clientEmailVerified: true,
+    clientMemberSince: "2025",
+  },
+  "sample-wordpress-school": {
+    description: [
+      "A growing school needs help keeping its WordPress site current. Work includes updates, small content changes and a new events page.",
+      "This is ongoing work with a simple monthly check-in. You will have a named contact for approvals.",
+    ],
+    deliverables: [
+      "Keep plugins and themes updated",
+      "Publish the new events page",
+      "Handle small content requests each week",
+    ],
+    skills: ["WordPress", "PHP", "Content updates"],
+    questions: [
+      { id: "q1", text: "How do you update a site without breaking it?", required: true },
+      { id: "q2", text: "Share an example of a page you built in WordPress.", required: false },
+    ],
+    location: "Remote, Nigeria",
+    openUntil: "22 December",
+    deliveryDays: 30,
+    clientLocation: "Ibadan, Nigeria",
+    clientEmailVerified: true,
+    clientMemberSince: "2023",
+  },
+  "sample-brand-identity": {
+    description: [
+      "A new fintech startup needs a brand identity that feels calm and trustworthy. The founders have a clear audience and a short brief ready.",
+      "We would like a small set of files the team can use straight away, plus a one-page guide.",
+    ],
+    deliverables: [
+      "A primary logo and a compact mark",
+      "Colour and type guidance",
+      "Source files and a short brand guide",
+    ],
+    skills: ["Logo design", "Brand guides", "Vector artwork"],
+    questions: [
+      { id: "q1", text: "Share two brand identities you designed.", required: true },
+      { id: "q2", text: "How do you make a logo work at small sizes?", required: true },
+    ],
+    location: "Lagos, Nigeria",
+    openUntil: "12 December",
+    deliveryDays: 14,
+    clientLocation: "Lagos, Nigeria",
+    clientEmailVerified: true,
+    clientMemberSince: "2026",
+  },
+  "sample-travel-writer": {
+    description: [
+      "A travel blog needs four articles a month about places and practical trip planning. The editor supplies a topic list and a short style guide.",
+      "This is an application. We will ask a few questions and review two writing samples before agreeing a price.",
+    ],
+    deliverables: [
+      "Four articles of 1,000 to 1,500 words each month",
+      "One round of edits per article",
+      "Short source notes with each draft",
+    ],
+    skills: ["Writing", "Editing", "Research", "SEO"],
+    questions: [
+      { id: "q1", text: "Share two travel articles you wrote.", required: true },
+      { id: "q2", text: "How would you structure a practical city guide?", required: true },
+      {
+        id: "q3",
+        text: "Which regions do you know well enough to write about?",
+        required: false,
+      },
+    ],
+    location: "Remote, Nigeria",
+    openUntil: "28 December",
+    deliveryDays: 30,
+    clientLocation: "Lagos, Nigeria",
+    clientEmailVerified: true,
+    clientMemberSince: "2025",
+  },
+  "sample-promotional-video": {
+    description: [
+      "We have two minutes of raw footage and need a clean promotional video with captions for a product launch.",
+      "A rough cut is available so you can see the story we want. Music and brand assets will be supplied.",
+    ],
+    deliverables: [
+      "A 60 to 90 second edited video",
+      "Captions and a final colour pass",
+      "Two export sizes for social and web",
+    ],
+    skills: ["Video editing", "Captions", "Motion graphics"],
+    questions: [
+      { id: "q1", text: "Link a short video you edited.", required: true },
+      { id: "q2", text: "How do you approach captions for social video?", required: true },
+    ],
+    location: "Remote, Nigeria",
+    openUntil: "16 December",
+    deliveryDays: 10,
+    clientLocation: "Enugu, Nigeria",
+    clientEmailVerified: true,
+    clientMemberSince: "2026",
+  },
+};
+
+/** Sample ids used to pre-render detail pages. */
+export function getJobIds(): readonly string[] {
+  return sampleJobs.map((job) => job.id);
+}
+
+/** Returns the typed sample detail for an id, or null when it does not exist. */
+export function getJobById(id: string): JobDetail | null {
+  const job = sampleJobs.find((candidate) => candidate.id === id);
+  const extras = jobDetailExtras[id];
+  if (job === undefined || extras === undefined) {
+    return null;
+  }
+
+  return {
+    ...job,
+    ...extras,
+    status: "OPEN",
+    removalReason: null,
   };
 }

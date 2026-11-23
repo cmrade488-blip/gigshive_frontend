@@ -56,7 +56,7 @@ function CardContent({ job }: { job: Job }) {
 
 export interface JobsCardProps {
   job: Job;
-  /** Omitted until the detail route exists; then cards become links. */
+  /** Detail URL; omitted only for the non-link preview card. */
   href?: string;
 }
 
