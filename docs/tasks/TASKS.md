@@ -40,7 +40,7 @@ Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are p
 | FE-021 | Category tree picker and filter chips | catalog | FE1 | FE-004 | S | todo |
 | FE-022 | Profile wizard with per-type attribute forms and Zod schemas | profiles | FE1 | FE-021 | L | todo |
 | FE-023 | Submit for review, completeness checklist, status banners, rejection resubmit | profiles | FE1 | FE-022 | M | todo |
-| FE-024 | Public worker browse and detail pages (server rendered, public fields only) | profiles | FE1 | FE-021 | M | todo |
+| FE-024 | Public worker browse and detail pages (server rendered, public fields only) | profiles | FE1 | FE-021 | M | done |
 | FE-025 | Console: profile review queue and detail (approve, reject, suspend, reinstate) | admin-ops | FE2 | FE-018 | M | todo |
 
 ## Slice C: Verification
