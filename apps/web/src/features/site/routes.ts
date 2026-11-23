@@ -6,4 +6,9 @@ export const siteRoutes = {
   register: "/register",
   terms: "/terms",
   privacy: "/privacy",
+  safety: "/safety",
+  fees: "/fees",
+  help: "/help",
+  contact: "/contact",
+  about: "/about",
 } as const;

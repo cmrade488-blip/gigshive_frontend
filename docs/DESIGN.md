@@ -115,7 +115,7 @@ In production users never see a server message, error code, URL or stack trace. 
 
 ## Known gaps and placeholders
 
-- The public pages (Home, How it works, Safety, Fees, Help, Contact, About, Terms and Privacy) are P0 in the design but have **no task in MVP Plan v1.1**. They are proposed as FE-075 to FE-080 in `docs/tasks/TASKS.md`, under a proposed `site` feature folder. The product owner confirms them and the MVP Plan in gigshive_doc is updated.
+- The public pages (Home, How it works, Safety, Fees, Help, Contact, About, Terms and Privacy) are P0 in the design but have **no task in MVP Plan v1.1**. The product owner has confirmed FE-075 to FE-080 in `docs/tasks/TASKS.md` and the `site` feature folder; the MVP Plan in gigshive_doc still needs updating, and the `site` exception needs an ADR.
 - Not designed (P1): notifications, messages, disputes, reviews.
 - Needed for launch with no design: robots.txt, sitemap.xml, page titles and descriptions, a cookie or privacy notice if analytics is used (FE-080).
 - Placeholders: the social card tagline, the support email, legal text (from the company), fee numbers on the Fees page (must come from the API), and "Meet workers" on Home (needs a public workers list in the API).

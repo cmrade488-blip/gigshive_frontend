@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cn } from "@/lib/tw-merge";
+import { cn } from "../lib/tw-merge";
 
 export type StatusTone = "neutral" | "info" | "success" | "warning" | "danger";
 
