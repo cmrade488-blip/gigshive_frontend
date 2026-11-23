@@ -25,3 +25,11 @@ export function createId(): string {
   const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
   return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
 }
+
+/**
+ * Short reference a user can quote to support when a server error occurs.
+ * Derived from createId(); it is a display token, not a server-side error ID.
+ */
+export function createSupportReference(prefix = "GH-"): string {
+  return `${prefix}${createId().replace(/-/g, "").slice(0, 6).toUpperCase()}`;
+}

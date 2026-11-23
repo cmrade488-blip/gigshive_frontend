@@ -1,5 +1,7 @@
 export const siteRoutes = {
   home: "/",
+  /** Reserved for the dashboard task; the design links "Switch profile" here. */
+  dashboard: "/dashboard",
   jobs: "/jobs",
   howItWorks: "/how-it-works",
   login: "/login",
@@ -11,4 +13,7 @@ export const siteRoutes = {
   help: "/help",
   contact: "/contact",
   about: "/about",
+  accessDenied: "/access-denied",
+  serverError: "/server-error",
+  maintenance: "/maintenance",
 } as const;
