@@ -29,7 +29,7 @@ Conventional Commits, imperative, lower-case summary, 72 characters or fewer:
 Refs: FE-013
 ```
 
-Scope is a feature module or package: `web admin auth profiles verification media catalog jobs proposals contracts payments wallet admin-ops api-client ui config testing docs ci deps repo`.
+Scope is a feature module or package: `web admin auth profiles verification media catalog jobs proposals contracts payments wallet admin-ops api-client ui config testing site design docs ci deps repo`.
 
 Examples: `feat(auth): add register screen`, `fix(payments): ignore forged query string on return page`, `ci: add gitleaks scan`.
 

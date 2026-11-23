@@ -48,6 +48,8 @@ jobs:
             ci
             deps
             repo
+            site
+            design
           requireScope: false
           subjectPattern: ^(?![A-Z]).+$
           subjectPatternError: The summary must start with a lower-case imperative verb, for example "add register screen".
