@@ -8,6 +8,7 @@ import reactHooksPlugin from "eslint-plugin-react-hooks";
  */
 export default [
   ...base,
+  { ignores: ["next-env.d.ts", ".next/**"] },
   {
     files: ["**/*.{ts,tsx}"],
     plugins: {
