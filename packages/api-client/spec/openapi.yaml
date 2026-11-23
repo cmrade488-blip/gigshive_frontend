@@ -1,0 +1,1877 @@
+openapi: 3.1.0
+info:
+  title: GigsHive API
+  version: "0.1.0-placeholder"
+  description: |
+    PLACEHOLDER OpenAPI document for the frontend (FOI-03 planning default).
+    Shapes follow the Frontend Data and State Design v1.1 and the endpoint
+    catalogue (Blueprint 7.2, Data Design Appendix C requests R1-R14).
+    The backend's generated document replaces this file; CI fails on drift
+    between this spec and packages/api-client/src/generated/schema.ts.
+servers:
+  - url: /api/v1
+tags:
+  - name: auth
+  - name: session
+  - name: catalog
+  - name: jobs
+  - name: proposals
+  - name: contracts
+  - name: wallet
+  - name: media
+  - name: verification
+  - name: admin
+
+paths:
+  /auth/register:
+    post:
+      tags: [auth]
+      summary: Register a client or worker account (sends an email OTP)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string, format: password, minLength: 8 }
+                phone: { type: [string, "null"], description: "E.164" }
+      responses:
+        "201":
+          description: Registered; verification pending
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      email: { type: string }
+                      verification_required: { type: boolean, const: true }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+
+  /auth/verify-email:
+    post:
+      tags: [auth]
+      summary: Confirm the email OTP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, otp]
+              properties:
+                email: { type: string, format: email }
+                otp: { type: string, minLength: 6, maxLength: 6 }
+      responses:
+        "200":
+          description: Verified; session opened
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SessionStartEnvelope" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+        "429": { $ref: "#/components/responses/TooManyRequests" }
+
+  /auth/login:
+    post:
+      tags: [auth]
+      summary: Sign in with email and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string, format: password }
+      responses:
+        "200":
+          description: Signed in (server holds the token; browser gets an opaque cookie)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SessionStartEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+        "429": { $ref: "#/components/responses/TooManyRequests" }
+
+  /auth/logout:
+    post:
+      tags: [auth]
+      summary: Clear the session
+      responses:
+        "204": { description: Cleared }
+
+  /auth/forgot-password:
+    post:
+      tags: [auth]
+      summary: Request a password reset link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email: { type: string, format: email }
+      responses:
+        "202":
+          description: Accepted (never reveals whether the account exists)
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: object
+                    required: [sent]
+                    properties:
+                      sent: { type: boolean, const: true }
+        "429": { $ref: "#/components/responses/TooManyRequests" }
+
+  /auth/reset-password:
+    post:
+      tags: [auth]
+      summary: Complete a password reset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, password]
+              properties:
+                token: { type: string }
+                password: { type: string, format: password, minLength: 8 }
+      responses:
+        "204": { description: Password updated; other sessions revoked }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+        "429": { $ref: "#/components/responses/TooManyRequests" }
+
+  /auth/change-password:
+    post:
+      tags: [auth]
+      summary: Change the password of the signed-in user
+      description: |
+        Requires a session. Other tokens are revoked. A wrong current password
+        is reported as 422 with a `current_password` detail (not 401) so the
+        form can show a field error without ending the session.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [current_password, password]
+              properties:
+                current_password: { type: string }
+                password: { type: string, format: password, minLength: 8 }
+      responses:
+        "204": { description: Password changed; other sessions revoked }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+        "429": { $ref: "#/components/responses/TooManyRequests" }
+
+  /auth/resend-otp:
+    post:
+      tags: [auth]
+      summary: Send or resend an OTP by channel
+      description: |
+        `EMAIL` with `email` is the unauthenticated registration case;
+        authenticated callers omit `email`. `PHONE` with `phone` starts
+        verification of a number that is not on the account yet (the number is
+        held as pending until /auth/verify-phone confirms it). Accepted as
+        request R12 in Data Design Appendix C.2.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [channel]
+              properties:
+                channel: { type: string, enum: [EMAIL, PHONE] }
+                email: { type: string, format: email }
+                phone: { type: [string, "null"], description: "E.164" }
+      responses:
+        "202":
+          description: Code sent; retry_after is the cooldown for the resend button
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: object
+                    required: [retry_after]
+                    properties:
+                      retry_after: { type: integer, description: Seconds until the next resend. }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+        "429": { $ref: "#/components/responses/TooManyRequests" }
+
+  /auth/verify-phone:
+    post:
+      tags: [auth]
+      summary: Confirm the pending phone number with its OTP
+      description: Requires a session. Returns the updated session user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [otp]
+              properties:
+                otp: { type: string, minLength: 6, maxLength: 6 }
+      responses:
+        "200":
+          description: Phone verified
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SessionEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+        "429": { $ref: "#/components/responses/TooManyRequests" }
+
+  /admin/auth/login:
+    post:
+      tags: [auth, admin]
+      summary: "Staff step one: email and password (OTP follows)"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string, format: password }
+      responses:
+        "200":
+          description: OTP required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      otp_required: { type: boolean, const: true }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "429": { $ref: "#/components/responses/TooManyRequests" }
+
+  /admin/auth/verify-otp:
+    post:
+      tags: [auth, admin]
+      summary: "Staff step two: confirm the OTP"
+      description: |
+        The pending challenge from step one is correlated by the backend
+        (mechanism open, FOI-03); the request body carries the code only.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [otp]
+              properties:
+                otp: { type: string, minLength: 6, maxLength: 6 }
+      responses:
+        "200":
+          description: Staff session open
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SessionStartEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+        "429": { $ref: "#/components/responses/TooManyRequests" }
+
+  /me:
+    get:
+      tags: [session]
+      summary: "Session bootstrap: user, profiles, abilities, permissions"
+      responses:
+        "200":
+          description: Current session
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SessionEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /categories:
+    get:
+      tags: [catalog]
+      summary: Full category tree (at most two levels)
+      responses:
+        "200":
+          description: Categories
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/Category" }
+
+  /workers:
+    get:
+      tags: [catalog]
+      summary: Public worker browse (cursor paginated, ACTIVE profiles only)
+      parameters:
+        - $ref: "#/components/parameters/cursor"
+        - $ref: "#/components/parameters/perPage"
+        - { name: q, in: query, schema: { type: string } }
+        - { name: category, in: query, schema: { type: string } }
+      responses:
+        "200":
+          description: Worker page
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ProfileCollectionEnvelope" }
+
+  /workers/{id}:
+    get:
+      tags: [catalog]
+      summary: Public worker profile (public fields only)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: Worker
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Profile" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /profiles/{id}/verifications:
+    get:
+      tags: [verification]
+      summary: Own verification list (status and last four only)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: Verifications
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/KycVerification" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      tags: [verification]
+      summary: Submit KYC (identifier is write-only and never returned)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [verification_type, identifier]
+              properties:
+                verification_type: { type: string, enum: [NIN, BVN, CAC, ID_DOCUMENT] }
+                identifier:
+                  { type: string, writeOnly: true, description: "Write-only; never read back" }
+                documents:
+                  type: array
+                  items: { type: string }
+                  maxItems: 5
+      responses:
+        "201":
+          description: Submitted for review
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/KycVerification" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+
+  /jobs:
+    get:
+      tags: [jobs]
+      summary: Job discovery (public) or the caller's own jobs with mine=true
+      parameters:
+        - $ref: "#/components/parameters/cursor"
+        - $ref: "#/components/parameters/perPage"
+        - { name: q, in: query, schema: { type: string } }
+        - { name: category, in: query, schema: { type: string } }
+        - { name: work_mode, in: query, schema: { type: string, enum: [REMOTE, ONSITE, HYBRID] } }
+        - {
+            name: mine,
+            in: query,
+            schema: { type: boolean },
+            description: "Owner projection (request R1)",
+          }
+      responses:
+        "200":
+          description: Job page
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/JobCollectionEnvelope" }
+    post:
+      tags: [jobs]
+      summary: Create a draft job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/JobWrite" }
+      responses:
+        "201":
+          description: Draft created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Job" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+
+  /jobs/{id}:
+    get:
+      tags: [jobs]
+      summary: Job detail (public for OPEN jobs; owner projection for the owner)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: Job
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Job" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    patch:
+      tags: [jobs]
+      summary: Edit a draft or open job (screening questions lock after the first proposal)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/JobWrite" }
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Job" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+
+  /jobs/{id}/publish:
+    post:
+      tags: [jobs]
+      summary: Publish a draft
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: Published
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Job" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /jobs/{id}/close:
+    post:
+      tags: [jobs]
+      summary: Close a job to new proposals
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: Closed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Job" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /jobs/{id}/cancel:
+    post:
+      tags: [jobs]
+      summary: Cancel a job (reason is shown to the owner)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                reason: { type: string, maxLength: 500 }
+      responses:
+        "200":
+          description: Cancelled
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Job" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /jobs/{id}/proposals:
+    get:
+      tags: [proposals]
+      summary: Client review list with answers and files (owner only)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+        - $ref: "#/components/parameters/cursor"
+        - $ref: "#/components/parameters/perPage"
+      responses:
+        "200":
+          description: Proposals for the job
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ProposalCollectionEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      tags: [proposals]
+      summary: Submit a proposal or job application (one per job)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ProposalWrite" }
+      responses:
+        "201":
+          description: Submitted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Proposal" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409":
+          description: DUPLICATE_PROPOSAL or ineligible state
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ErrorBody" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+
+  /proposals/mine:
+    get:
+      tags: [proposals]
+      summary: The caller's own proposals (request R2)
+      parameters:
+        - $ref: "#/components/parameters/cursor"
+        - $ref: "#/components/parameters/perPage"
+      responses:
+        "200":
+          description: Own proposals
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ProposalCollectionEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /proposals/{id}:
+    patch:
+      tags: [proposals]
+      summary: Edit a proposal while SUBMITTED
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ProposalWrite" }
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Proposal" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+
+  /proposals/{id}/withdraw:
+    post:
+      tags: [proposals]
+      summary: Withdraw a proposal while SUBMITTED
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: Withdrawn
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Proposal" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /proposals/{id}/reject:
+    post:
+      tags: [proposals]
+      summary: Client rejects a proposal
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason: { type: [string, "null"], maxLength: 500 }
+      responses:
+        "200":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Proposal" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /proposals/{id}/accept:
+    post:
+      tags: [proposals]
+      summary: Accept a proposal and create a contract (completes in Slice H)
+      description: |
+        For an application-mode proposal with no amount, agreed_amount_kobo is
+        required and validated against the job's limits (OI-15, request R7).
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                agreed_amount_kobo:
+                  type: integer
+                  description: "Required when the proposal has no amount (application mode)"
+      responses:
+        "201":
+          description: Contract created (PENDING_FUNDING)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Contract" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+
+  /proposals/{id}/attachments:
+    post:
+      tags: [proposals]
+      summary: Attach application files after the proposal is saved (private, up to 5)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [files]
+              properties:
+                files:
+                  type: array
+                  items: { type: string, format: binary }
+                  maxItems: 5
+      responses:
+        "201":
+          description: Attached
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/Media" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+
+  /contracts:
+    get:
+      tags: [contracts]
+      summary: Contracts for the caller's profiles (party projection)
+      parameters:
+        - $ref: "#/components/parameters/cursor"
+        - $ref: "#/components/parameters/perPage"
+        - { name: status, in: query, schema: { type: string } }
+      responses:
+        "200":
+          description: Contract page
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ContractCollectionEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /contracts/{id}:
+    get:
+      tags: [contracts]
+      summary: Contract workspace (polled during funding)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: Contract
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Contract" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /contracts/{id}/fund:
+    post:
+      tags: [contracts]
+      summary: Start hosted-page funding (requires Idempotency-Key)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+        - $ref: "#/components/parameters/idempotencyKey"
+      responses:
+        "200":
+          description: Redirect details; the contract becomes ACTIVE only after the API confirms payment
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    required: [payment_id, authorization_url]
+                    properties:
+                      payment_id: { type: string }
+                      authorization_url:
+                        type: string
+                        format: uri
+                        description: "Hosted payment page; allow-listed host only, never persisted"
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /contracts/{id}/deliverables:
+    post:
+      tags: [contracts]
+      summary: Submit a deliverable (private files; allowed only when ACTIVE)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [message]
+              properties:
+                message: { type: string }
+                files:
+                  type: array
+                  items: { type: string, format: binary }
+      responses:
+        "201":
+          description: Deliverable submitted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Deliverable" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /contracts/{id}/approve:
+    post:
+      tags: [contracts]
+      summary: Approve the deliverable and release escrow
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: Approved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Contract" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /contracts/{id}/request-revision:
+    post:
+      tags: [contracts]
+      summary: Request a revision within the revision limit
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [note]
+              properties:
+                note: { type: string }
+      responses:
+        "200":
+          description: Revision requested
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Contract" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /contracts/{id}/cancel:
+    post:
+      tags: [contracts]
+      summary: Cancel with configurable consequence copy (OI-03)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                reason: { type: string, maxLength: 500 }
+      responses:
+        "200":
+          description: Cancelled
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Contract" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /wallet:
+    get:
+      tags: [wallet]
+      summary: Wallet balance and status (as returned; never recomputed)
+      responses:
+        "200":
+          description: Wallet
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Wallet" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /wallet/transactions:
+    get:
+      tags: [wallet]
+      summary: Statement (cursor paginated)
+      parameters:
+        - $ref: "#/components/parameters/cursor"
+        - $ref: "#/components/parameters/perPage"
+      responses:
+        "200":
+          description: Transactions
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TransactionCollectionEnvelope" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /banks:
+    get:
+      tags: [wallet]
+      summary: Bank list for the payout form (request R6)
+      responses:
+        "200":
+          description: Banks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code: { type: string }
+                        name: { type: string }
+
+  /bank-accounts:
+    get:
+      tags: [wallet]
+      summary: Saved accounts (masked last four only)
+      responses:
+        "200":
+          description: Accounts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/BankAccount" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+    post:
+      tags: [wallet]
+      summary: Save an account after name resolution (account number is write-only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [bank_code, account_number]
+              properties:
+                bank_code: { type: string }
+                account_number: { type: string, minLength: 10, maxLength: 10, writeOnly: true }
+                is_default: { type: boolean }
+      responses:
+        "201":
+          description: Saved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/BankAccount" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+
+  /bank-accounts/resolve:
+    post:
+      tags: [wallet]
+      summary: Resolve the account name before saving (request R6)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [bank_code, account_number]
+              properties:
+                bank_code: { type: string }
+                account_number: { type: string, minLength: 10, maxLength: 10, writeOnly: true }
+      responses:
+        "200":
+          description: Resolved name to confirm
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      account_name: { type: string }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+
+  /bank-accounts/{id}:
+    delete:
+      tags: [wallet]
+      summary: Delete a saved account
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "204": { description: Deleted }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /payouts:
+    get:
+      tags: [wallet]
+      summary: Payout history
+      parameters:
+        - $ref: "#/components/parameters/cursor"
+        - $ref: "#/components/parameters/perPage"
+      responses:
+        "200":
+          description: Payout page
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PayoutCollectionEnvelope" }
+    post:
+      tags: [wallet]
+      summary: Request a payout (requires Idempotency-Key; reserves funds)
+      parameters:
+        - $ref: "#/components/parameters/idempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount, bank_account_id]
+              properties:
+                amount: { $ref: "#/components/schemas/Money" }
+                bank_account_id: { type: string }
+      responses:
+        "201":
+          description: Requested
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Payout" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+
+  /media:
+    post:
+      tags: [media]
+      summary: Upload a file (multipart; visibility set by collection)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file, collection]
+              properties:
+                file: { type: string, format: binary }
+                collection:
+                  type: string
+                  enum:
+                    [
+                      AVATAR,
+                      COVER,
+                      PORTFOLIO,
+                      KYC_DOCUMENT,
+                      JOB_ATTACHMENT,
+                      APPLICATION_ATTACHMENT,
+                      DELIVERABLE,
+                      DISPUTE_EVIDENCE,
+                      MESSAGE_ATTACHMENT,
+                    ]
+      responses:
+        "201":
+          description: Uploaded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: "#/components/schemas/Media" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+
+  /media/{id}/signed-url:
+    get:
+      tags: [media]
+      summary: Short-lived signed URL for a private file (request R9)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: Signed URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      url: { type: string, format: uri }
+                      expires_at: { type: string, format: date-time }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /admin/profiles:
+    get:
+      tags: [admin]
+      summary: Profile review queue (permission profiles.review)
+      parameters:
+        - { name: page, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: status, in: query, schema: { type: string } }
+      responses:
+        "200":
+          description: Queue page (page-number pagination)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminPageEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /admin/profiles/{id}/approve:
+    post:
+      tags: [admin]
+      summary: Approve a profile
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Approved }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /admin/profiles/{id}/reject:
+    post:
+      tags: [admin]
+      summary: Reject a profile with a recorded reason
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                reason: { type: string, maxLength: 500 }
+      responses:
+        "200": { description: Rejected }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /admin/verifications:
+    get:
+      tags: [admin]
+      summary: KYC review queue (permission verifications.review; masked data)
+      parameters:
+        - { name: page, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: status, in: query, schema: { type: string } }
+      responses:
+        "200":
+          description: Queue page
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminPageEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /admin/jobs:
+    get:
+      tags: [admin]
+      summary: Job moderation queue (permission jobs.moderate)
+      parameters:
+        - { name: page, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: status, in: query, schema: { type: string } }
+      responses:
+        "200":
+          description: Queue page
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminPageEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /admin/jobs/{id}/remove:
+    post:
+      tags: [admin]
+      summary: Remove a job with a recorded reason
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                reason: { type: string, maxLength: 500 }
+      responses:
+        "200": { description: Removed }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /admin/contracts:
+    get:
+      tags: [admin]
+      summary: Operational contract read model (permission finance.view)
+      parameters:
+        - { name: page, in: query, schema: { type: integer, minimum: 1 } }
+      responses:
+        "200":
+          description: Page
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminPageEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /admin/payments:
+    get:
+      tags: [admin]
+      summary: Payments read model (permission finance.view)
+      parameters:
+        - { name: page, in: query, schema: { type: integer, minimum: 1 } }
+      responses:
+        "200":
+          description: Page
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminPageEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /admin/payouts:
+    get:
+      tags: [admin]
+      summary: Payout read model (permission finance.view)
+      parameters:
+        - { name: page, in: query, schema: { type: integer, minimum: 1 } }
+      responses:
+        "200":
+          description: Page
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminPageEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /admin/payouts/{id}/approve:
+    post:
+      tags: [admin]
+      summary: Approve a payout above the automatic threshold (OI-06)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Approved }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /admin/config:
+    get:
+      tags: [admin]
+      summary: Platform configuration (permission config.manage)
+      responses:
+        "200":
+          description: Configuration items
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminPageEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    patch:
+      tags: [admin]
+      summary: Update a configuration value (previous value shown in the audit viewer)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [key, value]
+              properties:
+                key: { type: string }
+                value: { type: string }
+      responses:
+        "200": { description: Updated }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "422": { $ref: "#/components/responses/ValidationFailed" }
+
+  /admin/audit-logs:
+    get:
+      tags: [admin]
+      summary: Audit viewer (permission audit.view)
+      parameters:
+        - { name: page, in: query, schema: { type: integer, minimum: 1 } }
+        - { name: action, in: query, schema: { type: string } }
+        - { name: actor, in: query, schema: { type: string } }
+      responses:
+        "200":
+          description: Page
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminPageEnvelope" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+components:
+  parameters:
+    cursor:
+      name: cursor
+      in: query
+      schema: { type: string }
+      description: Opaque cursor from meta.next_cursor; never parsed or constructed.
+    perPage:
+      name: per_page
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+    idempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema: { type: string, format: uuid }
+      description: |
+        Generated when the confirming dialog opens; reused on retry; rotated
+        when the body changes; discarded on success (Blueprint 7.6).
+
+  responses:
+    Unauthorized:
+      description: UNAUTHENTICATED - clear the session and return to login once
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorBody" }
+    Forbidden:
+      description: FORBIDDEN or PROFILE_NOT_ACTIVE
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorBody" }
+    NotFound:
+      description: NOT_FOUND (also returned for resources not visible to the caller)
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorBody" }
+    Conflict:
+      description: INVALID_STATE_TRANSITION, DUPLICATE_PROPOSAL or idempotency mismatch
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorBody" }
+    ValidationFailed:
+      description: VALIDATION_FAILED - details maps field names to messages
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorBody" }
+    TooManyRequests:
+      description: |
+        TOO_MANY_REQUESTS - the UI shows a cooldown message and honours the
+        Retry-After header (seconds) before allowing another attempt.
+      headers:
+        Retry-After:
+          description: Seconds to wait before retrying.
+          schema: { type: integer }
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorBody" }
+
+  schemas:
+    Money:
+      type: object
+      required: [amount_kobo, currency]
+      properties:
+        amount_kobo: { type: integer, description: "Integer kobo; never a float" }
+        currency: { type: string, enum: [NGN] }
+
+    ErrorBody:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message, request_id]
+          properties:
+            code: { type: string, description: "Stable contract code; UI branches on it" }
+            message: { type: string, description: "Fallback only; UI maps codes to copy" }
+            details:
+              type: object
+              additionalProperties: { type: array, items: { type: string } }
+            request_id: { type: string }
+
+    CursorMeta:
+      type: object
+      required: [next_cursor, per_page]
+      properties:
+        next_cursor: { type: [string, "null"] }
+        per_page: { type: integer }
+
+    PageMeta:
+      type: object
+      required: [current_page, per_page, total]
+      properties:
+        current_page: { type: integer }
+        per_page: { type: integer }
+        total: { type: integer }
+
+    ProfileSummary:
+      type: object
+      required: [id, profile_type, display_name, status]
+      properties:
+        id: { type: string }
+        profile_type: { type: string, enum: [CLIENT, WORKER] }
+        worker_type: { type: [string, "null"], enum: [CREATOR, ARTISAN, null] }
+        display_name: { type: string, maxLength: 120 }
+        status: { type: string, enum: [PENDING, SUBMITTED, ACTIVE, REJECTED, SUSPENDED] }
+        status_reason: { type: [string, "null"], maxLength: 500 }
+        suspended_until: { type: [string, "null"], format: date-time }
+        headline: { type: [string, "null"], maxLength: 160 }
+        rating_average: { type: [number, "null"] }
+        rating_count: { type: integer }
+
+    SessionUser:
+      type: object
+      required: [id, email, account_type, status, profiles, abilities]
+      properties:
+        id: { type: string }
+        email: { type: string, format: email }
+        phone: { type: [string, "null"] }
+        email_verified_at: { type: [string, "null"], format: date-time }
+        phone_verified_at: { type: [string, "null"], format: date-time }
+        account_type: { type: string, enum: [USER, STAFF] }
+        status: { type: string, enum: [ACTIVE, SUSPENDED, DELETED] }
+        profiles:
+          type: array
+          items: { $ref: "#/components/schemas/ProfileSummary" }
+        abilities:
+          type: array
+          items: { type: string }
+          description: "Token abilities such as client, worker, staff (FOI-03)"
+        permissions:
+          type: array
+          items: { type: string }
+          description: "Staff permissions such as profiles.review; console navigation"
+
+    SessionEnvelope:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/SessionUser" }
+
+    SessionStartEnvelope:
+      type: object
+      required: [data, token]
+      description: |
+        Login, email verification and staff OTP confirmation. The token is the
+        Sanctum bearer token (FOI-01): only the Next.js route handlers call
+        these endpoints, they store the token in an HttpOnly cookie and return
+        the session data to the browser without it.
+      properties:
+        data: { $ref: "#/components/schemas/SessionUser" }
+        token: { type: string, description: "Bearer token; never sent to the browser." }
+
+    Category:
+      type: object
+      required: [id, slug, name, category_type, is_active]
+      properties:
+        id: { type: string }
+        slug: { type: string, maxLength: 120 }
+        name: { type: string, maxLength: 100 }
+        parent_id: { type: [string, "null"] }
+        category_type: { type: string, enum: [DIGITAL, PHYSICAL] }
+        description: { type: [string, "null"], maxLength: 500 }
+        sort_order: { type: integer }
+        is_active: { type: boolean }
+
+    Media:
+      type: object
+      required: [id, collection, visibility, original_name, mime_type, size_bytes]
+      properties:
+        id: { type: string }
+        collection:
+          type: string
+          enum:
+            [
+              AVATAR,
+              COVER,
+              PORTFOLIO,
+              KYC_DOCUMENT,
+              JOB_ATTACHMENT,
+              APPLICATION_ATTACHMENT,
+              DELIVERABLE,
+              DISPUTE_EVIDENCE,
+              MESSAGE_ATTACHMENT,
+            ]
+        visibility: { type: string, enum: [PUBLIC, PRIVATE] }
+        original_name: { type: string, maxLength: 255 }
+        mime_type: { type: string, maxLength: 100 }
+        size_bytes: { type: integer }
+        url:
+          {
+            type: [string, "null"],
+            description: "Public files only; private files use signed URLs",
+          }
+
+    Profile:
+      type: object
+      required: [id, profile_type, display_name, country, state, status, categories]
+      properties:
+        id: { type: string }
+        profile_type: { type: string, enum: [CLIENT, WORKER] }
+        worker_type: { type: [string, "null"], enum: [CREATOR, ARTISAN, null] }
+        display_name: { type: string, maxLength: 120 }
+        headline: { type: [string, "null"], maxLength: 160 }
+        bio: { type: [string, "null"] }
+        country: { type: string, maxLength: 2 }
+        state: { type: [string, "null"], maxLength: 80 }
+        city: { type: [string, "null"], maxLength: 80 }
+        address:
+          type: [string, "null"]
+          maxLength: 255
+          description: Owner projection only; never in public types.
+        attributes:
+          {
+            type: object,
+            additionalProperties: true,
+            description: "Versioned JSON; attributes_version selects the schema",
+          }
+        attributes_version: { type: integer }
+        categories:
+          type: array
+          items:
+            allOf:
+              - $ref: "#/components/schemas/Category"
+              - type: object
+                properties:
+                  is_primary: { type: boolean }
+        status: { type: string, enum: [PENDING, SUBMITTED, ACTIVE, REJECTED, SUSPENDED] }
+        status_reason: { type: [string, "null"], maxLength: 500 }
+        suspended_until: { type: [string, "null"], format: date-time }
+        submitted_at: { type: [string, "null"], format: date-time }
+        activated_at: { type: [string, "null"], format: date-time }
+        rating_average: { type: [number, "null"] }
+        rating_count: { type: integer }
+        avatar: { oneOf: [{ $ref: "#/components/schemas/Media" }, { type: "null" }] }
+        cover: { oneOf: [{ $ref: "#/components/schemas/Media" }, { type: "null" }] }
+
+    KycVerification:
+      type: object
+      required: [id, verification_type, status]
+      properties:
+        id: { type: string }
+        verification_type: { type: string, enum: [NIN, BVN, CAC, ID_DOCUMENT] }
+        method:
+          {
+            type: string,
+            enum: [PROVIDER, MANUAL],
+            description: "Staff projection; owners see progress only",
+          }
+        status: { type: string, enum: [PENDING, IN_REVIEW, VERIFIED, REJECTED, EXPIRED] }
+        identifier_last4:
+          type: [string, "null"]
+          maxLength: 4
+          description: Display only; the identifier itself is write-only.
+        rejection_reason: { type: [string, "null"], maxLength: 500 }
+        submitted_at: { type: [string, "null"], format: date-time }
+        verified_at: { type: [string, "null"], format: date-time }
+        expires_at: { type: [string, "null"], format: date-time }
+
+    ScreeningQuestion:
+      type: object
+      required: [id, text, required]
+      properties:
+        id: { type: string }
+        text: { type: string }
+        required: { type: boolean }
+
+    JobWrite:
+      type: object
+      required: [title, description, category_id, work_mode, budget_type, application_mode]
+      properties:
+        title: { type: string, maxLength: 160 }
+        description: { type: string }
+        category_id: { type: string }
+        work_mode: { type: string, enum: [REMOTE, ONSITE, HYBRID] }
+        location_state: { type: [string, "null"], maxLength: 80 }
+        location_city: { type: [string, "null"], maxLength: 80 }
+        budget_type: { type: string, enum: [FIXED, RANGE] }
+        budget_min: { $ref: "#/components/schemas/Money" }
+        budget_max: { oneOf: [{ $ref: "#/components/schemas/Money" }, { type: "null" }] }
+        desired_completion_date: { type: [string, "null"], format: date }
+        application_mode:
+          type: string
+          enum: [PRICED_BID, APPLICATION]
+          description: Chosen before publishing; read-only afterwards (BR-16).
+        screening_questions:
+          type: [array, "null"]
+          maxItems: 5
+          items:
+            type: object
+            required: [text, required]
+            properties:
+              id: { type: string }
+              text: { type: string }
+              required: { type: boolean }
+
+    Job:
+      type: object
+      required:
+        [
+          id,
+          client,
+          category,
+          post_type,
+          title,
+          description,
+          work_mode,
+          budget_type,
+          application_mode,
+          status,
+          proposals_count,
+        ]
+      properties:
+        id: { type: string }
+        client: { $ref: "#/components/schemas/ProfileSummary" }
+        category: { $ref: "#/components/schemas/Category" }
+        post_type: { type: string, enum: [JOB, RFQ], description: "RFQ is P1" }
+        title: { type: string, maxLength: 160 }
+        description: { type: string }
+        work_mode: { type: string, enum: [REMOTE, ONSITE, HYBRID] }
+        location_state: { type: [string, "null"], maxLength: 80 }
+        location_city: { type: [string, "null"], maxLength: 80 }
+        budget_type: { type: string, enum: [FIXED, RANGE] }
+        budget_min: { oneOf: [{ $ref: "#/components/schemas/Money" }, { type: "null" }] }
+        budget_max: { oneOf: [{ $ref: "#/components/schemas/Money" }, { type: "null" }] }
+        desired_completion_date: { type: [string, "null"], format: date }
+        application_mode: { type: string, enum: [PRICED_BID, APPLICATION] }
+        screening_questions:
+          { type: [array, "null"], items: { $ref: "#/components/schemas/ScreeningQuestion" } }
+        status:
+          { type: string, enum: [DRAFT, OPEN, IN_PROGRESS, CLOSED, CANCELLED, EXPIRED, REMOVED] }
+        removal_reason: { type: [string, "null"], maxLength: 500 }
+        proposals_count: { type: integer }
+        published_at: { type: [string, "null"], format: date-time }
+        expires_at: { type: [string, "null"], format: date-time }
+        closed_at: { type: [string, "null"], format: date-time }
+
+    ProposalWrite:
+      type: object
+      required: [cover_letter]
+      properties:
+        cover_letter: { type: string }
+        amount:
+          oneOf: [{ $ref: "#/components/schemas/Money" }, { type: "null" }]
+          description: "Required on PRICED_BID jobs; null for an unpriced application (BR-16)"
+        estimated_days: { type: [integer, "null"] }
+        available_from: { type: [string, "null"], format: date }
+        screening_answers:
+          type: [array, "null"]
+          items:
+            type: object
+            required: [question_id, answer]
+            properties:
+              question_id: { type: string }
+              answer: { type: string, maxLength: 2000 }
+        portfolio_media_ids:
+          type: array
+          maxItems: 5
+          items: { type: string }
+
+    Proposal:
+      type: object
+      required: [id, job_post_id, worker, cover_letter, status]
+      properties:
+        id: { type: string }
+        job_post_id: { type: string }
+        job_title: { type: [string, "null"] }
+        worker: { $ref: "#/components/schemas/ProfileSummary" }
+        cover_letter: { type: string }
+        amount: { oneOf: [{ $ref: "#/components/schemas/Money" }, { type: "null" }] }
+        estimated_days: { type: [integer, "null"] }
+        available_from: { type: [string, "null"], format: date }
+        screening_answers:
+          type: [array, "null"]
+          items:
+            type: object
+            properties:
+              question_id: { type: string }
+              answer: { type: string }
+        portfolio_media_ids: { type: array, items: { type: string } }
+        attachments: { type: array, items: { $ref: "#/components/schemas/Media" } }
+        status: { type: string, enum: [SUBMITTED, ACCEPTED, REJECTED, WITHDRAWN, EXPIRED] }
+        submitted_at: { type: [string, "null"], format: date-time }
+        decided_at: { type: [string, "null"], format: date-time }
+        withdrawn_at: { type: [string, "null"], format: date-time }
+
+    Contract:
+      type: object
+      required:
+        [
+          id,
+          job_post_id,
+          proposal_id,
+          client,
+          worker,
+          title,
+          agreed_amount,
+          client_fee,
+          worker_fee,
+          total_charge,
+          status,
+          revision_limit,
+          revisions_used,
+        ]
+      properties:
+        id: { type: string }
+        job_post_id: { type: string }
+        proposal_id: { type: string }
+        client: { $ref: "#/components/schemas/ProfileSummary" }
+        worker: { $ref: "#/components/schemas/ProfileSummary" }
+        title: { type: string, maxLength: 160 }
+        scope_summary: { type: [string, "null"] }
+        agreed_amount: { $ref: "#/components/schemas/Money" }
+        client_fee: { $ref: "#/components/schemas/Money" }
+        worker_fee:
+          allOf: [{ $ref: "#/components/schemas/Money" }]
+          description: Shown to the worker only.
+        total_charge: { $ref: "#/components/schemas/Money" }
+        status:
+          {
+            type: string,
+            enum: [PENDING_FUNDING, ACTIVE, DELIVERED, COMPLETED, CANCELLED, DISPUTED],
+          }
+        revision_limit: { type: integer }
+        revisions_used: { type: integer }
+        due_at: { type: [string, "null"], format: date-time }
+        funded_at: { type: [string, "null"], format: date-time }
+        delivered_at: { type: [string, "null"], format: date-time }
+        completed_at: { type: [string, "null"], format: date-time }
+        cancelled_at: { type: [string, "null"], format: date-time }
+        review_deadline_at:
+          type: [string, "null"]
+          format: date-time
+          description: Set on delivery; drives auto-release (BR-23).
+        cancelled_by: { oneOf: [{ $ref: "#/components/schemas/ProfileSummary" }, { type: "null" }] }
+        cancellation_reason: { type: [string, "null"], maxLength: 500 }
+
+    Deliverable:
+      type: object
+      required: [id, contract_id, sequence, message, status, files]
+      properties:
+        id: { type: string }
+        contract_id: { type: string }
+        sequence: { type: integer }
+        message: { type: string }
+        status: { type: string, enum: [SUBMITTED, ACCEPTED, REVISION_REQUESTED] }
+        revision_note: { type: [string, "null"] }
+        files: { type: array, items: { $ref: "#/components/schemas/Media" } }
+        submitted_at: { type: [string, "null"], format: date-time }
+        responded_at: { type: [string, "null"], format: date-time }
+
+    Wallet:
+      type: object
+      required: [balance, status]
+      properties:
+        balance: { $ref: "#/components/schemas/Money" }
+        status: { type: string, enum: [ACTIVE, FROZEN] }
+
+    Transaction:
+      type: object
+      required: [id, entry_type, direction, amount, balance_after, description, created_at]
+      properties:
+        id: { type: string }
+        entry_type:
+          type: string
+          enum:
+            [
+              ESCROW_RELEASE,
+              PLATFORM_FEE,
+              PAYOUT,
+              PAYOUT_REVERSAL,
+              ADJUSTMENT,
+              SUBSCRIPTION_REVENUE,
+            ]
+        direction: { type: string, enum: [CREDIT, DEBIT] }
+        amount: { $ref: "#/components/schemas/Money" }
+        balance_after: { $ref: "#/components/schemas/Money" }
+        description: { type: string, maxLength: 255 }
+        created_at: { type: string, format: date-time }
+        contract_id: { type: [string, "null"] }
+
+    BankAccount:
+      type: object
+      required: [id, bank_code, bank_name, account_name, account_number_last4, is_default]
+      properties:
+        id: { type: string }
+        bank_code: { type: string, maxLength: 20 }
+        bank_name: { type: string, maxLength: 100 }
+        account_name: { type: string, maxLength: 150 }
+        account_number_last4:
+          type: string
+          maxLength: 4
+          description: Only masked digits are ever returned.
+        is_default: { type: boolean }
+
+    Payout:
+      type: object
+      required:
+        [id, amount, fee, net_amount, status, bank_name, account_last4, account_name, requested_at]
+      properties:
+        id: { type: string }
+        amount: { $ref: "#/components/schemas/Money" }
+        fee: { $ref: "#/components/schemas/Money" }
+        net_amount: { $ref: "#/components/schemas/Money" }
+        status: { type: string, enum: [REQUESTED, PROCESSING, PAID, FAILED, REVERSED, CANCELLED] }
+        bank_name: { type: string }
+        account_last4: { type: string, maxLength: 4 }
+        account_name: { type: string }
+        failure_reason: { type: [string, "null"], maxLength: 255 }
+        requested_at: { type: string, format: date-time }
+        processed_at: { type: [string, "null"], format: date-time }
+        approved_at: { type: [string, "null"], format: date-time }
+
+    AdminPageEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: array
+          items:
+            {
+              type: object,
+              additionalProperties: true,
+              description: "Staff projection; only compiled in the console",
+            }
+        meta: { $ref: "#/components/schemas/PageMeta" }
+
+    ProfileCollectionEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: "#/components/schemas/Profile" } }
+        meta: { $ref: "#/components/schemas/CursorMeta" }
+
+    JobCollectionEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: "#/components/schemas/Job" } }
+        meta: { $ref: "#/components/schemas/CursorMeta" }
+
+    ProposalCollectionEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: "#/components/schemas/Proposal" } }
+        meta: { $ref: "#/components/schemas/CursorMeta" }
+
+    ContractCollectionEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: "#/components/schemas/Contract" } }
+        meta: { $ref: "#/components/schemas/CursorMeta" }
+
+    TransactionCollectionEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: "#/components/schemas/Transaction" } }
+        meta: { $ref: "#/components/schemas/CursorMeta" }
+
+    PayoutCollectionEnvelope:
+      type: object
+      required: [data, meta]
+      properties:
+        data: { type: array, items: { $ref: "#/components/schemas/Payout" } }
+        meta: { $ref: "#/components/schemas/CursorMeta" }
