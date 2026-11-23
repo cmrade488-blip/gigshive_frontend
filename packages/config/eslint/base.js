@@ -7,7 +7,7 @@ import globals from "globals";
 /**
  * Shared base ESLint flat config for the monorepo.
  * Apps and packages extend this (or the nextjs / react-library variants).
- * Boundary rules (feature isolation) land in FE-010.
+ * Import boundaries are enforced by ./boundaries.js in apps and packages.
  */
 export default tseslint.config(
   {
