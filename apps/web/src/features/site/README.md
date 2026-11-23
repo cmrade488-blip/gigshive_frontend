@@ -15,7 +15,7 @@ This folder is a front-end-only feature (no matching backend module), so it is a
 ## Layout
 
 ```
-api/          typed mocks for the fee example and contact submit until endpoints exist
+api/          typed mocks for the fee example, contact submit and home samples until endpoints exist
 components/   public shell pieces plus shared info-page UI (CTA, FAQ list, forms)
 screens/      one screen per page
 schemas/      contact form values and local validation
@@ -42,6 +42,14 @@ index.ts      public surface
 - Maintenance mode is the build-time `GIGSHIVE_MAINTENANCE_MODE=true` flag checked in the root layout. Because statically generated pages bake it in, toggling needs a rebuild, and a layout-rendered maintenance screen still returns HTTP 200. Serving a true 503 needs a host or middleware decision — raise it with the owner; do not invent infrastructure here.
 - "Switch profile" links to the reserved `/dashboard` route from the design; the dashboard task owns that URL. The shared status-to-copy mapping (401/403/404/409/422/429/5xx/offline) remains FE-009's responsibility; this feature owns only the full-page states.
 - The empty-state illustrations come from `packages/brand/images/empty/` and are published by `scripts/copy-brand-assets.mjs`; they are not copied by hand into `public/`.
+
+## Home page (FE-076)
+
+- `HomeScreen` composes a home-only dark hero, the category grid, the how-it-works teaser, sample jobs, sample workers, the trust band and the closing CTA. It uses `SiteHeader` and `SiteFooter` but not `SitePage`, because the design's hero is wider and two-column.
+- `copy/home.ts` owns all home text and the static category/step content, taken from `design/public-site/source/Main.dc.html` (desktop wording; `MobileHome.dc.html` informs only the responsive layout).
+- `api/home.ts` supplies typed sample jobs and workers. `docs/DESIGN.md` records that "Meet workers" needs a public workers list in the API; until those endpoints exist these are labelled samples in the UI and loaded through React Query hooks in `state/`. No endpoint is invented and no amounts are computed: sample budgets are integer kobo and are only formatted for display. Sample cards are not links because `/jobs/[id]` and `/workers/[id]` do not exist yet.
+- Category links, the search form and the CTAs point at the reserved `/jobs` and `/register` routes, matching the existing header. Those routes are owned by later tasks.
+- The new category, avatar and illustration folders are published by `scripts/copy-brand-assets.mjs`; no brand file is copied by hand into `public/`.
 
 ## Launch metadata (FE-080)
 

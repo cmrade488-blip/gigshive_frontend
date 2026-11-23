@@ -14,7 +14,6 @@ export const siteCopy = {
   footerTagline:
     "Hire skilled people and get paid for good work. Payments are held until the work is approved.",
   copyright: "© GigsHive. All rights reserved.",
-  homePlaceholder: "This is a placeholder home page. The full design lands with FE-076.",
   siteMetaDescription:
     "Nigerian marketplace connecting clients with verified digital creators and skilled physical artisans.",
   homeMetaTitle: "Hire skilled people. Pay when the work is done.",
