@@ -1,0 +1,41 @@
+{
+  "name": "@gigshive/testing",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "MSW handlers from the OpenAPI endpoint catalogue and typed fixture factories",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./fixtures": {
+      "types": "./src/fixtures.ts",
+      "default": "./src/fixtures.ts"
+    },
+    "./handlers": {
+      "types": "./src/handlers.ts",
+      "default": "./src/handlers.ts"
+    },
+    "./server": {
+      "types": "./src/server.ts",
+      "default": "./src/server.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@gigshive/api-client": "workspace:*",
+    "msw": "^2.15.0"
+  },
+  "devDependencies": {
+    "@gigshive/config": "workspace:*",
+    "eslint": "^9.15.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}
