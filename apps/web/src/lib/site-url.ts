@@ -2,14 +2,27 @@
  * Absolute public site URL used by metadata, robots and sitemap.
  *
  * PUBLIC_SITE_URL is the existing name in .env.example. A localhost fallback
- * keeps local builds working; production must set the variable, otherwise the
- * generated sitemap and social URLs will point at localhost.
+ * keeps local builds working; deploy builds set GIGSHIVE_ENV=production and
+ * must provide a valid PUBLIC_SITE_URL, otherwise generated sitemap, robots
+ * and social-card URLs would point at localhost.
  */
 const LOCAL_FALLBACK = "http://localhost:3000";
 
+function isProductionBuild(): boolean {
+  // next build always sets NODE_ENV=production, even locally, so use the
+  // explicit deploy-time flag instead.
+  return process.env.GIGSHIVE_ENV === "production";
+}
+
 export function getSiteUrl(): string {
   const configured = process.env.PUBLIC_SITE_URL?.trim();
-  if (!configured) return LOCAL_FALLBACK;
+
+  if (!configured) {
+    if (isProductionBuild()) {
+      throw new Error("PUBLIC_SITE_URL must be set when GIGSHIVE_ENV=production");
+    }
+    return LOCAL_FALLBACK;
+  }
 
   try {
     const parsed = new URL(configured);
@@ -23,6 +36,11 @@ export function getSiteUrl(): string {
     return parsed.toString().replace(/\/$/, "");
   } catch {
     // Do not echo the value: it may contain credentials.
+    if (isProductionBuild()) {
+      throw new Error(
+        "PUBLIC_SITE_URL must be a valid http(s) URL without credentials when GIGSHIVE_ENV=production",
+      );
+    }
     console.warn(`PUBLIC_SITE_URL is invalid or unsupported; falling back to ${LOCAL_FALLBACK}`);
     return LOCAL_FALLBACK;
   }
