@@ -1,3 +1,5 @@
+import { posix } from "node:path";
+
 import * as ts from "typescript";
 
 function stripComments(source: string): string {
@@ -227,6 +229,110 @@ export function parseImports(source: string): string[] {
 
   visit(sourceFile);
   return [...specifiers].sort();
+}
+
+function featureForPath(filePath: string): string | null {
+  const match = /^apps\/([^/]+)\/src\/features\/([^/]+)(?:\/|$)/.exec(normaliseFilePath(filePath));
+  if (!match?.[1] || !match[2]) {
+    return null;
+  }
+  return `${match[1]}:${match[2]}`;
+}
+
+function featureForSpecifier(fromPath: string, specifier: string): string | null {
+  const file = normaliseFilePath(fromPath);
+  const app = /^apps\/([^/]+)\//.exec(file)?.[1];
+  if (!app) {
+    return null;
+  }
+
+  if (specifier.startsWith("@/features/")) {
+    const feature = specifier.slice("@/features/".length).split("/")[0];
+    return feature ? `${app}:${feature}` : null;
+  }
+
+  if (specifier.startsWith(".")) {
+    const target = posix.normalize(posix.join(posix.dirname(file), specifier));
+    return featureForPath(target);
+  }
+
+  return null;
+}
+
+/**
+ * Find cycles between feature barrels. Edges are aggregated per app/feature so
+ * a deep import back into another feature's index is caught too (the PR #30
+ * site <-> profiles failure). Returns canonical node cycles, e.g.
+ * ["web:profiles", "web:site"] for profiles -> site -> profiles.
+ */
+export function findFeatureBarrelCycles(sources: Record<string, string>): string[][] {
+  const nodes = new Set<string>();
+  const edges = new Map<string, Set<string>>();
+
+  for (const path of Object.keys(sources).sort()) {
+    const from = featureForPath(path);
+    if (from) {
+      nodes.add(from);
+    }
+  }
+
+  for (const path of Object.keys(sources).sort()) {
+    const from = featureForPath(path);
+    if (!from) {
+      continue;
+    }
+    const targets = edges.get(from) ?? new Set<string>();
+    for (const specifier of parseImports(sources[path] ?? "")) {
+      const to = featureForSpecifier(path, specifier);
+      if (to && to !== from && nodes.has(to)) {
+        targets.add(to);
+      }
+    }
+    edges.set(from, targets);
+  }
+
+  const cycles = new Map<string, string[]>();
+  const visited = new Set<string>();
+  const visiting = new Set<string>();
+  const stack: string[] = [];
+
+  function recordCycle(startIndex: number): void {
+    const cycle = stack.slice(startIndex);
+    const smallest = [...cycle].sort()[0];
+    if (!smallest) {
+      return;
+    }
+    const pivot = cycle.indexOf(smallest);
+    const canonical = [...cycle.slice(pivot), ...cycle.slice(0, pivot)];
+    cycles.set(canonical.join(" -> "), canonical);
+  }
+
+  function visit(node: string): void {
+    visiting.add(node);
+    stack.push(node);
+
+    for (const next of [...(edges.get(node) ?? [])].sort()) {
+      if (visiting.has(next)) {
+        recordCycle(stack.indexOf(next));
+        continue;
+      }
+      if (!visited.has(next)) {
+        visit(next);
+      }
+    }
+
+    stack.pop();
+    visiting.delete(node);
+    visited.add(node);
+  }
+
+  for (const node of [...nodes].sort()) {
+    if (!visited.has(node)) {
+      visit(node);
+    }
+  }
+
+  return [...cycles.values()].sort((a, b) => a.join(" -> ").localeCompare(b.join(" -> ")));
 }
 
 /** Return the boundary rule message for one import, or null when the import is allowed. */
