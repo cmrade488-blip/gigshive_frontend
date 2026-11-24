@@ -20,6 +20,10 @@ export const feesCopy = {
     "The sample amounts could not be loaded. The real amounts are always shown on the contract before payment.",
   exampleEmpty: "No sample amounts are available right now.",
 
+  beforePaymentHeading: "Fees are shown before payment",
+  beforePaymentText:
+    "The exact amount and the fee are shown on the contract before you pay. There are no surprises later.",
+
   postingHeading: "Posting a job",
   postingText:
     "Posting a job and sending proposals does not cost anything. A fee applies when a contract is paid.",
