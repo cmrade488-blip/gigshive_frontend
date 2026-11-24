@@ -81,7 +81,7 @@ Rules:
 1. Work on one task (FE-nnn) at a time. Create a branch from the latest `main`: `<type>/<FE-id>-<short-description>`, for example `feat/FE-013-register-screen`. Types: `feat fix refactor perf test docs chore ci`.
 2. Commit small and often with Conventional Commits, lower-case imperative: `feat(auth): add register screen`. Scope is a feature or package (`auth`, `wallet`, `ui`, `api-client`, `ci`, `docs`, `deps`, `repo`). Add `Refs: FE-013` in the body when useful.
 3. Add or update tests with the code. Money, date and idempotency utilities need full branch coverage; every status map and `availableActions` function needs every status and role combination.
-4. Run `pnpm run check`. Fix everything before pushing.
+4. Run `pnpm run check`. Fix everything before pushing. If the PR changes `apps/`, also run `pnpm run smoke`.
 5. Push the branch and open a pull request with `.github/PULL_REQUEST_TEMPLATE.md` filled in. PR title follows the same Conventional Commit format (it becomes the squash commit). Reference the task ID and business-rule IDs in the description.
 6. If the change alters the client model, routes or a decision, open a matching PR in `gigshive_doc` and link it. Update `docs/tasks/TASKS.md` status in the same PR when a task is finished.
 7. Wait for the GitHub checks and review. Address review comments with new commits (do not force-push over a review in progress).
