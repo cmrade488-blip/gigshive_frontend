@@ -1,3 +1,4 @@
+import { isFeeExampleEnabled } from "../api/fees";
 import { FeeExampleCard } from "../components/FeeExampleCard";
 import { InfoCta } from "../components/InfoCta";
 import { SitePage } from "../components/SitePage";
@@ -14,7 +15,16 @@ export function FeesScreen() {
         <>
           <section className="px-6 pt-24 pb-10 sm:px-10">
             <div className="mx-auto grid max-w-[1200px] items-start gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-              <FeeExampleCard />
+              {isFeeExampleEnabled() ? (
+                <FeeExampleCard />
+              ) : (
+                <div className="rounded-[40px] border border-gh-border bg-white p-8 shadow-sm sm:p-11">
+                  <h2 className="font-display text-[28px] font-bold tracking-[-0.5px]">
+                    {copy.beforePaymentHeading}
+                  </h2>
+                  <p className="mt-3 text-base text-ink-600">{copy.beforePaymentText}</p>
+                </div>
+              )}
               <div className="flex flex-col gap-5">
                 <div className="rounded-[32px] bg-ink-50 p-8">
                   <h2 className="mb-2 text-xl font-bold">{copy.postingHeading}</h2>
