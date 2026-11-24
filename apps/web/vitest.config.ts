@@ -3,8 +3,8 @@ import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
 
 /**
- * A2 adds pure unit tests for the site feature. B1 extends this config with
- * jsdom, Testing Library and axe for component and accessibility tests.
+ * B1 extends A2's pure unit-test setup with jsdom, Testing Library and axe.
+ * All app tests share the React 19 automatic JSX transform.
  */
 export default defineConfig({
   esbuild: {
@@ -16,7 +16,9 @@ export default defineConfig({
     },
   },
   test: {
-    environment: "node",
+    globals: true,
+    environment: "jsdom",
+    setupFiles: ["./src/test/setup.ts"],
     include: ["src/**/*.test.{ts,tsx}"],
   },
 });
