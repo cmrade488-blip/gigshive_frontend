@@ -200,6 +200,7 @@ type JobDetailExtras = Omit<JobDetail, keyof Job | "status" | "removalReason">;
 /**
  * Detail sections for every sample id, so each card from the list has a page.
  * These are typed samples behind a local mock, not a guessed API response.
+ * A4: clientEmailVerified is false here; a real API must supply that claim.
  */
 const jobDetailExtras: Readonly<Record<string, JobDetailExtras>> = {
   "sample-clinic-site": {
@@ -227,7 +228,7 @@ const jobDetailExtras: Readonly<Record<string, JobDetailExtras>> = {
     openUntil: "15 December",
     deliveryDays: 21,
     clientLocation: "Lagos, Nigeria",
-    clientEmailVerified: true,
+    clientEmailVerified: false,
     clientMemberSince: "2026",
   },
   "sample-junior-dev": {
@@ -250,7 +251,7 @@ const jobDetailExtras: Readonly<Record<string, JobDetailExtras>> = {
     openUntil: "20 December",
     deliveryDays: 90,
     clientLocation: "Lagos, Nigeria",
-    clientEmailVerified: true,
+    clientEmailVerified: false,
     clientMemberSince: "2025",
   },
   "sample-checkout-bugs": {
@@ -272,7 +273,7 @@ const jobDetailExtras: Readonly<Record<string, JobDetailExtras>> = {
     openUntil: "10 December",
     deliveryDays: 14,
     clientLocation: "Abuja, Nigeria",
-    clientEmailVerified: true,
+    clientEmailVerified: false,
     clientMemberSince: "2024",
   },
   "sample-figma-site": {
@@ -295,7 +296,7 @@ const jobDetailExtras: Readonly<Record<string, JobDetailExtras>> = {
     openUntil: "18 December",
     deliveryDays: 21,
     clientLocation: "Port Harcourt, Nigeria",
-    clientEmailVerified: true,
+    clientEmailVerified: false,
     clientMemberSince: "2025",
   },
   "sample-wordpress-school": {
@@ -317,7 +318,7 @@ const jobDetailExtras: Readonly<Record<string, JobDetailExtras>> = {
     openUntil: "22 December",
     deliveryDays: 30,
     clientLocation: "Ibadan, Nigeria",
-    clientEmailVerified: true,
+    clientEmailVerified: false,
     clientMemberSince: "2023",
   },
   "sample-brand-identity": {
@@ -339,7 +340,7 @@ const jobDetailExtras: Readonly<Record<string, JobDetailExtras>> = {
     openUntil: "12 December",
     deliveryDays: 14,
     clientLocation: "Lagos, Nigeria",
-    clientEmailVerified: true,
+    clientEmailVerified: false,
     clientMemberSince: "2026",
   },
   "sample-travel-writer": {
@@ -366,7 +367,7 @@ const jobDetailExtras: Readonly<Record<string, JobDetailExtras>> = {
     openUntil: "28 December",
     deliveryDays: 30,
     clientLocation: "Lagos, Nigeria",
-    clientEmailVerified: true,
+    clientEmailVerified: false,
     clientMemberSince: "2025",
   },
   "sample-promotional-video": {
@@ -388,7 +389,7 @@ const jobDetailExtras: Readonly<Record<string, JobDetailExtras>> = {
     openUntil: "16 December",
     deliveryDays: 10,
     clientLocation: "Enugu, Nigeria",
-    clientEmailVerified: true,
+    clientEmailVerified: false,
     clientMemberSince: "2026",
   },
 };

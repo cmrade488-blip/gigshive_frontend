@@ -77,7 +77,6 @@ export const homeCopy = {
   // Sample workers
   workersTitle: "Meet workers on GigsHive",
   workersSubtitle: "Sample profiles. Every worker confirms their identity before applying.",
-  workersVerified: "Verified",
   workersLoading: "Loading sample profiles…",
   workersEmpty: "There are no sample profiles to show right now.",
   workersError: "We could not load the sample profiles. Please try again.",

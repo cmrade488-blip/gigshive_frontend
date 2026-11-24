@@ -105,7 +105,7 @@ async function waitUntilReady(baseUrl, child, output) {
   fail(`next start did not become ready:\n${output()}`);
 }
 
-async function checkRoute(baseUrl, route, expectedStatus) {
+async function checkRoute(baseUrl, route, expectedStatus, requiredText) {
   let status = 0;
   let body = "";
   try {
@@ -124,12 +124,16 @@ async function checkRoute(baseUrl, route, expectedStatus) {
     fail(`${route}: expected HTTP ${expectedStatus}, got HTTP ${status}`);
   }
 
-  // Next streams a 200 with its error boundary when a page throws. The flight
-  // payload carries a real digest then; `$undefined` is the normal successful
-  // value and NEXT_HTTP_ERROR_FALLBACK is the deliberate not-found screen on
-  // the two detail URLs, so neither counts as a thrown page.
+  if (requiredText && !body.includes(requiredText)) {
+    fail(`${route}: expected the gated sample route to render the not-found screen`);
+  }
+
+  // Next streams its error boundary when a page throws. The flight payload
+  // carries a real digest then; `$undefined` is the normal successful value and
+  // NEXT_HTTP_ERROR_FALLBACK is a deliberate not-found screen (including A4's
+  // gated sample routes), so neither counts as a thrown page.
   const realErrorDigest = /E\{\\"digest\\":\\"(?!\$undefined|NEXT_HTTP_ERROR_FALLBACK;)[^"]+\\"/;
-  if (expectedStatus === 200 && realErrorDigest.test(body)) {
+  if (realErrorDigest.test(body)) {
     fail(`${route}: rendered a server error (Next error digest found)`);
   }
 
@@ -149,7 +153,18 @@ async function stopServer(child) {
 }
 
 async function main() {
-  const routes = [...siteRouteValues().filter(pageExists), "/jobs/job_1", "/workers/user_1"];
+  const routes = [
+    ...siteRouteValues().filter(pageExists),
+    "/jobs/sample-clinic-site",
+    "/workers/sample-amaka",
+  ];
+  const sampleDataEnabled = process.env.NEXT_PUBLIC_SHOW_SAMPLE_DATA === "true";
+  // A4: these list routes are sample data until the public APIs exist. With
+  // the default production config they call notFound() and return 404.
+  // The detail routes also call notFound(), but Next streams their not-found
+  // screen with HTTP 200; the digest check below still rejects a real throw.
+  const sampleRoutes = new Set(["/jobs", "/workers"]);
+  const sampleDetailRoutes = new Set(["/jobs/sample-clinic-site", "/workers/sample-amaka"]);
   const port = await freePort();
   const baseUrl = `http://127.0.0.1:${port}`;
   const { child, output } = startServer(port);
@@ -157,7 +172,13 @@ async function main() {
   try {
     await waitUntilReady(baseUrl, child, output);
     for (const route of routes) {
-      await checkRoute(baseUrl, route, 200);
+      const gated = !sampleDataEnabled;
+      const expectedStatus = gated && sampleRoutes.has(route) ? 404 : 200;
+      // Next streams notFound() on detail routes with 200, so assert the
+      // deliberate not-found payload rather than only the status code.
+      const requiredText =
+        gated && sampleDetailRoutes.has(route) ? "NEXT_HTTP_ERROR_FALLBACK;404" : undefined;
+      await checkRoute(baseUrl, route, expectedStatus, requiredText);
     }
     await checkRoute(baseUrl, "/__smoke_unknown__", 404);
     console.log(`smoke: checked ${routes.length} pages plus one 404 route`);
