@@ -1,3 +1,5 @@
+import { isSampleDataEnabled } from "@/lib/flags";
+
 import { CategoryGrid } from "../components/CategoryGrid";
 import { HomeCta } from "../components/HomeCta";
 import { HomeHero } from "../components/HomeHero";
@@ -22,8 +24,12 @@ export function HomeScreen() {
       <main id="main-content">
         <CategoryGrid />
         <HomeSteps />
-        <HomeJobs />
-        <HomeWorkers />
+        {isSampleDataEnabled() ? (
+          <>
+            <HomeJobs />
+            <HomeWorkers />
+          </>
+        ) : null}
         <HomeTrust />
         <HomeCta />
       </main>

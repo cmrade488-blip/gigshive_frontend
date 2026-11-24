@@ -12,25 +12,7 @@ const focusRing =
 const cardClass =
   "flex h-full flex-col items-center rounded-[20px] border border-gh-border bg-white px-6 py-8 text-center shadow-[0_4px_12px_rgba(15,22,38,0.06)] transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(15,22,38,0.12)] sm:rounded-[28px]";
 
-function VerifiedIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m5 12.5 4.5 4.5L19 7.5" />
-    </svg>
-  );
-}
-
-/** Sample profiles. Cards link to the public worker profile (FE-024). */
+/** Sample profiles. No verification badge: that claim must come from real API data. */
 export function HomeWorkers() {
   const { data, isPending, isError } = useHomeWorkers();
 
@@ -68,10 +50,6 @@ export function HomeWorkers() {
                 <Image src={worker.avatar} width={88} height={88} alt="" className="rounded-full" />
                 <b className="mt-2 text-[18px] font-semibold">{worker.name}</b>
                 <span className="text-sm text-ink-600">{worker.role}</span>
-                <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-success-100 px-2.5 py-1 text-xs font-semibold text-success-700">
-                  <VerifiedIcon />
-                  {copy.workersVerified}
-                </span>
               </Link>
             </li>
           ))}

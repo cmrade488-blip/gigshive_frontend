@@ -42,6 +42,8 @@ export interface WorkersPage {
  * Typed samples for the design's Browse workers page. No public workers endpoint
  * exists yet (DESIGN.md records the gap; FE-004/FE-005 are outstanding), so this
  * mock is the only data source. It contains only fields safe for public display.
+ * A4: every verification flag is false because samples are not real people;
+ * badges render only when the API supplies verification data.
  */
 const sampleWorkers: readonly Worker[] = [
   {
@@ -55,7 +57,7 @@ const sampleWorkers: readonly Worker[] = [
     ratingAverage: 4.9,
     ratingCount: 28,
     jobsCount: 28,
-    verified: true,
+    verified: false,
   },
   {
     id: "sample-tunde",
@@ -68,7 +70,7 @@ const sampleWorkers: readonly Worker[] = [
     ratingAverage: 4.8,
     ratingCount: 26,
     jobsCount: 26,
-    verified: true,
+    verified: false,
   },
   {
     id: "sample-ife",
@@ -81,7 +83,7 @@ const sampleWorkers: readonly Worker[] = [
     ratingAverage: 4.9,
     ratingCount: 34,
     jobsCount: 34,
-    verified: true,
+    verified: false,
   },
   {
     id: "sample-kunle",
@@ -94,7 +96,7 @@ const sampleWorkers: readonly Worker[] = [
     ratingAverage: 4.7,
     ratingCount: 15,
     jobsCount: 15,
-    verified: true,
+    verified: false,
   },
   {
     id: "sample-chinedu",
@@ -107,7 +109,7 @@ const sampleWorkers: readonly Worker[] = [
     ratingAverage: 4.9,
     ratingCount: 31,
     jobsCount: 31,
-    verified: true,
+    verified: false,
   },
   {
     id: "sample-ife-adebayo",
@@ -120,7 +122,7 @@ const sampleWorkers: readonly Worker[] = [
     ratingAverage: 4.9,
     ratingCount: 24,
     jobsCount: 24,
-    verified: true,
+    verified: false,
   },
   {
     id: "sample-tolu",
@@ -133,7 +135,7 @@ const sampleWorkers: readonly Worker[] = [
     ratingAverage: 4.7,
     ratingCount: 12,
     jobsCount: 12,
-    verified: true,
+    verified: false,
   },
   {
     id: "sample-sade",
@@ -146,7 +148,7 @@ const sampleWorkers: readonly Worker[] = [
     ratingAverage: 4.8,
     ratingCount: 40,
     jobsCount: 40,
-    verified: true,
+    verified: false,
   },
   {
     id: "sample-kemi",
@@ -159,7 +161,7 @@ const sampleWorkers: readonly Worker[] = [
     ratingAverage: 4.9,
     ratingCount: 18,
     jobsCount: 18,
-    verified: true,
+    verified: false,
   },
   {
     id: "sample-emeka",
@@ -172,7 +174,7 @@ const sampleWorkers: readonly Worker[] = [
     ratingAverage: 4.6,
     ratingCount: 9,
     jobsCount: 9,
-    verified: true,
+    verified: false,
   },
   {
     id: "sample-zainab",
@@ -185,7 +187,7 @@ const sampleWorkers: readonly Worker[] = [
     ratingAverage: 4.8,
     ratingCount: 55,
     jobsCount: 55,
-    verified: true,
+    verified: false,
   },
 ];
 
@@ -239,8 +241,8 @@ const workerDetailExtras: Readonly<Record<string, WorkerDetailExtras>> = {
       "I work from research and sketches to final screens, and I hand over files that developers can build from.",
     ],
     memberSince: "2026",
-    identityVerified: true,
-    emailVerified: true,
+    identityVerified: false,
+    emailVerified: false,
     portfolio: samplePortfolio,
   },
   "sample-tunde": {
@@ -249,8 +251,8 @@ const workerDetailExtras: Readonly<Record<string, WorkerDetailExtras>> = {
       "I work well with designers and enjoy turning a fixed design into something fast and accessible.",
     ],
     memberSince: "2024",
-    identityVerified: true,
-    emailVerified: true,
+    identityVerified: false,
+    emailVerified: false,
     portfolio: samplePortfolio,
   },
   "sample-ife": {
@@ -259,8 +261,8 @@ const workerDetailExtras: Readonly<Record<string, WorkerDetailExtras>> = {
       "I can work from a short brief and will ask the questions needed to get the tone right.",
     ],
     memberSince: "2025",
-    identityVerified: true,
-    emailVerified: true,
+    identityVerified: false,
+    emailVerified: false,
     portfolio: samplePortfolio,
   },
   "sample-kunle": {
@@ -269,8 +271,8 @@ const workerDetailExtras: Readonly<Record<string, WorkerDetailExtras>> = {
       "I send a rough cut early so feedback arrives before the final colour pass.",
     ],
     memberSince: "2025",
-    identityVerified: true,
-    emailVerified: true,
+    identityVerified: false,
+    emailVerified: false,
     portfolio: samplePortfolio,
   },
   "sample-chinedu": {
@@ -279,8 +281,8 @@ const workerDetailExtras: Readonly<Record<string, WorkerDetailExtras>> = {
       "I start with sketches, then supply source files and a short guide the team can use straight away.",
     ],
     memberSince: "2023",
-    identityVerified: true,
-    emailVerified: true,
+    identityVerified: false,
+    emailVerified: false,
     portfolio: samplePortfolio,
   },
   "sample-ife-adebayo": {
@@ -289,8 +291,8 @@ const workerDetailExtras: Readonly<Record<string, WorkerDetailExtras>> = {
       "I test with real people where I can and keep the handover simple for developers.",
     ],
     memberSince: "2025",
-    identityVerified: true,
-    emailVerified: true,
+    identityVerified: false,
+    emailVerified: false,
     portfolio: samplePortfolio,
   },
   "sample-tolu": {
@@ -299,8 +301,8 @@ const workerDetailExtras: Readonly<Record<string, WorkerDetailExtras>> = {
       "I work comfortably with engineers and keep a record of why each decision was made.",
     ],
     memberSince: "2026",
-    identityVerified: true,
-    emailVerified: true,
+    identityVerified: false,
+    emailVerified: false,
     portfolio: samplePortfolio,
   },
   "sample-sade": {
@@ -309,8 +311,8 @@ const workerDetailExtras: Readonly<Record<string, WorkerDetailExtras>> = {
       "I am happy to take a rough draft and make it ready to publish.",
     ],
     memberSince: "2022",
-    identityVerified: true,
-    emailVerified: true,
+    identityVerified: false,
+    emailVerified: false,
     portfolio: samplePortfolio,
   },
   "sample-kemi": {
@@ -319,8 +321,8 @@ const workerDetailExtras: Readonly<Record<string, WorkerDetailExtras>> = {
       "I write tests for the tricky parts and leave clear notes for the next person.",
     ],
     memberSince: "2025",
-    identityVerified: true,
-    emailVerified: true,
+    identityVerified: false,
+    emailVerified: false,
     portfolio: samplePortfolio,
   },
   "sample-emeka": {
@@ -329,8 +331,8 @@ const workerDetailExtras: Readonly<Record<string, WorkerDetailExtras>> = {
       "I keep the project files tidy so a later edit is easy to pick up.",
     ],
     memberSince: "2026",
-    identityVerified: true,
-    emailVerified: true,
+    identityVerified: false,
+    emailVerified: false,
     portfolio: samplePortfolio,
   },
   "sample-zainab": {
@@ -339,8 +341,8 @@ const workerDetailExtras: Readonly<Record<string, WorkerDetailExtras>> = {
       "I check my work twice and flag anything that looks inconsistent before it becomes a problem.",
     ],
     memberSince: "2023",
-    identityVerified: true,
-    emailVerified: true,
+    identityVerified: false,
+    emailVerified: false,
     portfolio: samplePortfolio,
   },
 };
