@@ -1,8 +1,7 @@
 "use client";
 
-import { createSupportReference } from "@gigshive/shared/id";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { serverErrorCopy as copy } from "../copy/system";
 import { siteRoutes } from "../routes";
@@ -13,23 +12,37 @@ import {
   type SystemPageProps,
 } from "../components/SystemPage";
 
+/**
+ * FE-011 hook: replace this no-op with the scrubbed error-tracker call.
+ * It stays dependency-free here; callers already pass the server-issued digest.
+ */
+export function reportError(error: Error, reference?: string): void {
+  void error;
+  void reference;
+}
+
 export interface ServerErrorScreenProps {
   /** Next.js error boundary reset. When absent, the retry action reloads the page. */
   reset?: () => void;
   /** Technical detail is rendered only in development, never in production. */
   error?: Error | null;
+  /** Next's server-render error digest. It is the only support reference. */
+  digest?: string;
   /** global-error.tsx replaces the root layout, so it renders without site chrome. */
   standalone?: boolean;
 }
 
-export function ServerErrorScreen({ reset, error, standalone = false }: ServerErrorScreenProps) {
-  // Generate after mount: a random value in a state initialiser would differ
-  // between the server render and hydration.
-  const [reference, setReference] = useState("");
+export function ServerErrorScreen({
+  reset,
+  error,
+  digest,
+  standalone = false,
+}: ServerErrorScreenProps) {
+  const reference = digest?.trim() || undefined;
 
   useEffect(() => {
-    setReference(createSupportReference());
-  }, []);
+    if (error) reportError(error, reference);
+  }, [error, reference]);
 
   const referenceNode: SystemPageProps["reference"] = reference ? (
     <>
@@ -42,7 +55,7 @@ export function ServerErrorScreen({ reset, error, standalone = false }: ServerEr
     <SystemPage
       code={copy.code}
       title={copy.title}
-      description={copy.description}
+      description={reference ? copy.description : copy.descriptionWithoutReference}
       image={copy.image}
       reference={referenceNode}
       standalone={standalone}

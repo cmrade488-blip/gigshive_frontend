@@ -30,6 +30,8 @@ export const serverErrorCopy = {
   title: "Something went wrong on our side",
   description:
     "Please try again in a moment. If it keeps happening, contact support and quote the reference below.",
+  descriptionWithoutReference:
+    "Please try again in a moment. If it keeps happening, contact support.",
   retryLabel: "Try again",
   homeLabel: "Go to home",
   referenceIntro: "Reference",
