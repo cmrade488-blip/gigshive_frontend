@@ -27,6 +27,10 @@
     "./status-map": {
       "types": "./src/status-map.ts",
       "default": "./src/status-map.ts"
+    },
+    "./routes": {
+      "types": "./src/routes.ts",
+      "default": "./src/routes.ts"
     }
   },
   "scripts": {

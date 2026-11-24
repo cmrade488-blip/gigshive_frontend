@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { siteRoutes } from "@/features/site";
+import { siteRoutes } from "@gigshive/shared/routes";
 import { getSiteUrl } from "@/lib/site-url";
 
 // Only routes that exist today. The preview error pages, sample detail pages

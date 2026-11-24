@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { siteRoutes } from "@/features/site";
+import { siteRoutes } from "@gigshive/shared/routes";
 
 import type { WorkerDetail } from "../api/workers";
 import { workerProfileCopy as copy } from "../copy/worker-profile";

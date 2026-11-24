@@ -1,8 +1,8 @@
 "use client";
 
+import { workerDetailPath } from "@gigshive/shared/routes";
 import Image from "next/image";
 import Link from "next/link";
-import { workersRoutes } from "@/features/profiles";
 
 import { homeCopy as copy } from "../copy/home";
 import { useHomeWorkers } from "../state/use-home-workers";
@@ -64,7 +64,7 @@ export function HomeWorkers() {
         <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
           {data?.map((worker) => (
             <li key={worker.id}>
-              <Link href={workersRoutes.detail(worker.id)} className={`${cardClass} ${focusRing}`}>
+              <Link href={workerDetailPath(worker.id)} className={`${cardClass} ${focusRing}`}>
                 <Image src={worker.avatar} width={88} height={88} alt="" className="rounded-full" />
                 <b className="mt-2 text-[18px] font-semibold">{worker.name}</b>
                 <span className="text-sm text-ink-600">{worker.role}</span>
