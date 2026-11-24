@@ -55,6 +55,6 @@ index.ts      public surface
 
 - Inter and Poppins load through `next/font/google` in the root layout and expose `--font-inter` / `--font-poppins`. `apps/web/src/app/globals.css` maps those onto the brand's `--gh-font-sans` / `--gh-font-display` variables with system-font fallbacks so `global-error.tsx` still renders legibly without the layout's font classes.
 - Icons, the web manifest, the social card, `robots.txt` and `sitemap.xml` reference files already in `packages/brand` (`favicon/`, `social/`); `scripts/copy-brand-assets.mjs` publishes them. No images are generated or copied by hand.
-- `getSiteUrl()` in `apps/web/src/lib/site-url.ts` reads the existing `PUBLIC_SITE_URL`. Production must set it; the localhost fallback exists only so local builds work. Invalid values and values with credentials are rejected without being logged.
+- `getSiteUrl()` in `apps/web/src/lib/site-url.ts` reads the existing `PUBLIC_SITE_URL`. When `GIGSHIVE_ENV=production`, a missing, invalid or credentialed URL throws and fails the build; otherwise the localhost fallback keeps local builds working. Invalid local values warn without echoing the value.
 - `robots.txt` excludes the three error-state preview routes. `sitemap.xml` lists only pages that exist today; routes owned by later tasks are added when they ship.
 - The site copy owns the shared description and the home page title/description. Every existing page already sets its own title and description.
