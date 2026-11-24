@@ -26,6 +26,11 @@ export const contactCopy = {
 
   successTitle: "Message sent",
   successText: "Thanks for getting in touch. We will get back to you by email.",
+  demoSuccessTitle: "Demo submitted",
+  demoSuccessText: "Demo only, nothing was sent.",
+  unavailableTitle: "Contact form is not available yet",
+  unavailableText:
+    "We cannot receive messages here yet. The Help centre has answers to common questions.",
   errorTitle: "We could not send your message",
   errorText: "Please try again in a moment.",
 
@@ -44,5 +49,7 @@ export const contactCopy = {
     topicRequired: "Choose a topic.",
     messageRequired: "Tell us what happened.",
     messageTooShort: "Write at least 10 characters.",
+    nameTooLong: "Your name must be 100 characters or fewer.",
+    messageTooLong: "Your message must be 5,000 characters or fewer.",
   },
 } as const;

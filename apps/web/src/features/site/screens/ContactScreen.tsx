@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { isContactSubmissionAvailable } from "../api/contact";
 import { ContactForm } from "../components/ContactForm";
 import { SitePage } from "../components/SitePage";
 import { contactCopy as copy } from "../copy/contact";
@@ -19,10 +20,12 @@ export function ContactScreen() {
             <ContactForm />
 
             <aside className="flex flex-col gap-5">
-              <div className="rounded-[32px] bg-ink-50 p-8">
-                <h2 className="mb-2 text-xl font-bold">{copy.emailHeading}</h2>
-                <p className="text-base text-ink-700">{copy.emailAddress}</p>
-              </div>
+              {isContactSubmissionAvailable() ? (
+                <div className="rounded-[32px] bg-ink-50 p-8">
+                  <h2 className="mb-2 text-xl font-bold">{copy.emailHeading}</h2>
+                  <p className="text-base text-ink-700">{copy.emailAddress}</p>
+                </div>
+              ) : null}
 
               <div className="rounded-[32px] border border-gh-border p-8">
                 <h2 className="mb-2 text-xl font-bold">{copy.beforeHeading}</h2>

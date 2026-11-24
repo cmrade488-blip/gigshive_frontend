@@ -3,9 +3,10 @@
 import { Button, Input, Textarea } from "@gigshive/ui";
 import { useState, type FormEvent } from "react";
 
-import type { ContactSubmission } from "../api/contact";
+import { isContactSubmissionAvailable, type ContactSubmission } from "../api/contact";
 import { contactCopy as copy, contactTopics } from "../copy/contact";
 import {
+  contactLimits,
   emptyContactForm,
   isContactTopic,
   validateContactForm,
@@ -20,6 +21,20 @@ export function ContactForm() {
   const [errors, setErrors] = useState<ContactFormErrors>({});
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const submission = useContactSubmission();
+
+  // A2 interim: production must not offer a form whose messages go nowhere.
+  if (!isContactSubmissionAvailable()) {
+    return (
+      <div className="rounded-[36px] border border-gh-border bg-white p-8 shadow-sm sm:p-11">
+        <h2 className="font-display text-[28px] font-bold tracking-[-0.5px]">
+          {copy.unavailableTitle}
+        </h2>
+        <p role="status" className="mt-3 text-base text-ink-600">
+          {copy.unavailableText}
+        </p>
+      </div>
+    );
+  }
 
   function updateField<K extends keyof ContactFormValues>(field: K, value: ContactFormValues[K]) {
     const nextValues = { ...values, [field]: value };
@@ -64,10 +79,10 @@ export function ContactForm() {
     return (
       <div className="rounded-[36px] border border-gh-border bg-white p-8 shadow-sm sm:p-11">
         <h2 className="font-display text-[28px] font-bold tracking-[-0.5px]">
-          {copy.successTitle}
+          {copy.demoSuccessTitle}
         </h2>
         <p role="status" className="mt-3 text-base text-ink-600">
-          {copy.successText}
+          {copy.demoSuccessText}
         </p>
         <Button type="button" onClick={startAgain} className="mt-7">
           {copy.anotherLabel}
@@ -101,6 +116,7 @@ export function ContactForm() {
           value={values.name}
           onChange={(event) => updateField("name", event.target.value)}
           error={errors.name}
+          maxLength={contactLimits.name}
           required
         />
         <Input
@@ -155,6 +171,7 @@ export function ContactForm() {
           value={values.message}
           onChange={(event) => updateField("message", event.target.value)}
           error={errors.message}
+          maxLength={contactLimits.message}
           required
         />
       </div>
