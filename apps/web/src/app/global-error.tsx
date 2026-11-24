@@ -16,7 +16,7 @@ export default function GlobalError({
   return (
     <html lang="en">
       <body>
-        <ServerErrorScreen error={error} reset={reset} standalone />
+        <ServerErrorScreen error={error} digest={error.digest} reset={reset} standalone />
       </body>
     </html>
   );
