@@ -10,6 +10,12 @@ export interface ContactFormValues {
 
 export type ContactFormErrors = Partial<Record<keyof ContactFormValues, string>>;
 
+/** Input ceilings from review fix A2; shared by validation and the fields. */
+export const contactLimits = {
+  name: 100,
+  message: 5000,
+} as const;
+
 export const emptyContactForm: ContactFormValues = {
   name: "",
   email: "",
@@ -33,6 +39,8 @@ export function validateContactForm(values: ContactFormValues): ContactFormError
 
   if (!values.name.trim()) {
     errors.name = contactCopy.validation.nameRequired;
+  } else if (values.name.trim().length > contactLimits.name) {
+    errors.name = contactCopy.validation.nameTooLong;
   }
 
   if (!values.email.trim()) {
@@ -49,6 +57,8 @@ export function validateContactForm(values: ContactFormValues): ContactFormError
     errors.message = contactCopy.validation.messageRequired;
   } else if (values.message.trim().length < 10) {
     errors.message = contactCopy.validation.messageTooShort;
+  } else if (values.message.trim().length > contactLimits.message) {
+    errors.message = contactCopy.validation.messageTooLong;
   }
 
   return errors;
