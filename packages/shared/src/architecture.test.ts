@@ -2,7 +2,12 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { globalViolationFor, parseImports, violationFor } from "./architecture-rules";
+import {
+  findFeatureBarrelCycles,
+  globalViolationFor,
+  parseImports,
+  violationFor,
+} from "./architecture-rules";
 
 const SKIP_DIRS = new Set(["node_modules", ".next", "dist", "build", "coverage"]);
 
@@ -205,4 +210,30 @@ describe("repository import graph", () => {
       expect(violations).toEqual([]);
     });
   }
+});
+
+describe("feature barrel cycle guard", () => {
+  it("detects the deliberate site <-> profiles barrel cycle pattern", () => {
+    const cycles = findFeatureBarrelCycles({
+      "apps/web/src/features/site/index.ts": `export * from "./components/HomeWorkers";`,
+      "apps/web/src/features/site/components/HomeWorkers.tsx": `import { WorkersCard } from "@/features/profiles";`,
+      "apps/web/src/features/profiles/index.ts": `export * from "./components/WorkersCard";`,
+      "apps/web/src/features/profiles/components/WorkersCard.tsx": `import { siteRoutes } from "../../site";`,
+    });
+
+    expect(cycles).toEqual([["web:profiles", "web:site"]]);
+  });
+
+  it("detects a simple two-barrel cycle", () => {
+    const cycles = findFeatureBarrelCycles({
+      "apps/admin/src/features/alpha/index.ts": `export * from "@/features/beta";`,
+      "apps/admin/src/features/beta/index.ts": `export * from "@/features/alpha";`,
+    });
+
+    expect(cycles).toEqual([["admin:alpha", "admin:beta"]]);
+  });
+
+  it("finds no cycles in the repository sources", () => {
+    expect(findFeatureBarrelCycles(sources)).toEqual([]);
+  });
 });
