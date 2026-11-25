@@ -15,6 +15,7 @@ export const siteRoutes = {
   howItWorks: "/how-it-works",
   login: "/login",
   register: "/register",
+  verifyEmail: "/verify-email",
   terms: "/terms",
   privacy: "/privacy",
   safety: "/safety",

@@ -118,6 +118,9 @@ importers:
         specifier: ^19.0.0
         version: 19.3.1(react@19.3.1)
     devDependencies:
+      '@gigshive/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
       '@gigshive/brand':
         specifier: workspace:*
         version: link:../../packages/brand
