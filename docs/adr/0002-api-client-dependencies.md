@@ -30,7 +30,7 @@ The spec copy is a mirror of gigshive_doc. When the backend contract changes, re
 - A spec change in gigshive_doc does not automatically reach this repository; the mirror commit is the integration point and must be explicit.
 - No runtime dependency is added: the client uses the platform `fetch` and `crypto.randomUUID`.
 - `apps/web` now has a `test` script, so the root `pnpm run test` runs feature unit tests, DOM component tests and axe checks as well as package tests.
-- Playwright was not added in B1: it is a new dependency that needs separate approval, and the review item only permits a skeleton when no approval is needed. The 360 px check was done with the already-installed Chrome via CDP viewport measurement instead.
+- Playwright was not added in B1: it is a new dependency that needs separate approval, and the review item only permits a skeleton when no approval is needed. `scripts/check-360.mjs` instead uses the already-installed Chrome/Edge through CDP with no new dependency; `pnpm run check:360` is an explicit check because CI runners have no browser.
 
 ## Alternatives considered
 
