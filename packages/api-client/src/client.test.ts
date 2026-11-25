@@ -92,7 +92,7 @@ describe("createApiClient request building", () => {
     await expect(client.delete("/a")).resolves.toEqual({ data: { id: "ok" } });
   });
 
-  it("unwraps collection envelopes and supplies a default meta", async () => {
+  it("unwraps collection envelopes with the API-supplied meta", async () => {
     const paged = clientFor(
       jsonResponse({ data: [{ id: "1" }], meta: { next_cursor: "2", per_page: 1 } }),
     );
@@ -100,11 +100,20 @@ describe("createApiClient request building", () => {
       data: [{ id: "1" }],
       meta: { next_cursor: "2", per_page: 1 },
     });
+  });
 
-    const plain = clientFor(jsonResponse({ data: [{ id: "2" }] }));
-    await expect(plain.client.getCollection("/workers")).resolves.toEqual({
-      data: [{ id: "2" }],
-      meta: { next_cursor: null, per_page: 20 },
+  it("rejects collection envelopes without a valid meta instead of inventing one", async () => {
+    const missing = clientFor(jsonResponse({ data: [{ id: "2" }] }));
+    await expect(missing.client.getCollection("/workers")).rejects.toMatchObject({
+      code: "MALFORMED_RESPONSE",
+      status: 200,
+    });
+
+    const invalid = clientFor(
+      jsonResponse({ data: [{ id: "3" }], meta: { next_cursor: "2", per_page: "twenty" } }),
+    );
+    await expect(invalid.client.postCollection("/workers", {})).rejects.toMatchObject({
+      code: "MALFORMED_RESPONSE",
     });
   });
 
@@ -131,6 +140,26 @@ describe("createApiClient error mapping", () => {
       code: "UNAUTHENTICATED",
       kind: "auth",
       requestId: "req-1",
+    });
+    expect(onUnauthorized).toHaveBeenCalledTimes(1);
+  });
+
+  it("lets credential checks skip the global 401 handler", async () => {
+    const onUnauthorized = vi.fn();
+    const response = () =>
+      jsonResponse(
+        { error: { code: "INVALID_CREDENTIALS", message: "Sign in", request_id: "req-login" } },
+        { status: 401 },
+      );
+    const { client } = clientFor(response, { onUnauthorized });
+
+    await expect(
+      client.post("/auth/login", { email: "a@example.test" }, { skipUnauthorizedHandler: true }),
+    ).rejects.toMatchObject({ status: 401, code: "INVALID_CREDENTIALS" });
+    expect(onUnauthorized).not.toHaveBeenCalled();
+
+    await expect(client.post("/auth/verify-otp", { code: "123456" })).rejects.toMatchObject({
+      status: 401,
     });
     expect(onUnauthorized).toHaveBeenCalledTimes(1);
   });
@@ -173,6 +202,43 @@ describe("createApiClient error mapping", () => {
       expect(apiError.kind).toBe("rateLimit");
       expect(apiError.retryAfterSeconds).toBe(30);
     }
+  });
+
+  it("accepts an HTTP-date Retry-After header and ignores unparseable values", async () => {
+    const retryAt = new Date(Date.now() + 45_000);
+    const dated = clientFor(
+      jsonResponse(
+        { error: { code: "TOO_MANY_REQUESTS", message: "Slow down", request_id: "req-date" } },
+        {
+          status: 429,
+          headers: {
+            "Content-Type": "application/json",
+            "Retry-After": retryAt.toUTCString(),
+          },
+        },
+      ),
+    );
+    try {
+      await dated.client.get("/jobs");
+      expect.unreachable("expected a rate limit error");
+    } catch (error) {
+      const apiError = error as ApiError;
+      expect(apiError.retryAfterSeconds).toBeGreaterThanOrEqual(44);
+      expect(apiError.retryAfterSeconds).toBeLessThanOrEqual(45);
+    }
+
+    const nonsense = clientFor(
+      jsonResponse(
+        { error: { code: "TOO_MANY_REQUESTS", message: "Slow down", request_id: "req-nope" } },
+        {
+          status: 429,
+          headers: { "Content-Type": "application/json", "Retry-After": "later" },
+        },
+      ),
+    );
+    await expect(nonsense.client.get("/jobs")).rejects.toMatchObject({
+      retryAfterSeconds: null,
+    });
   });
 
   it("classifies every documented status without exposing raw codes as copy", () => {
@@ -234,10 +300,23 @@ describe("createApiClient error mapping", () => {
     });
   });
 
-  it("maps fetch failures to NetworkError with a reference", async () => {
-    const fetchFn = vi.fn<typeof fetch>().mockRejectedValue(new Error("offline"));
+  it("maps fetch failures to fixed NetworkError copy with the raw cause hidden", async () => {
+    const cause = new Error("offline: db-password=secret");
+    const fetchFn = vi.fn<typeof fetch>().mockRejectedValue(cause);
     const client = createApiClient({ baseUrl: "/api/proxy", fetchFn });
-    await expect(client.get("/jobs")).rejects.toBeInstanceOf(NetworkError);
+
+    try {
+      await client.get("/jobs");
+      expect.unreachable("expected a network error");
+    } catch (error) {
+      expect(error).toBeInstanceOf(NetworkError);
+      const networkError = error as NetworkError;
+      expect(networkError.kind).toBe("network");
+      expect(networkError.requestId).toMatch(/^[0-9a-f-]{36}$/i);
+      expect(networkError.message).toBe("The network request could not be completed.");
+      expect(networkError.message).not.toContain("db-password");
+      expect(networkError.cause).toBe(cause);
+    }
   });
 });
 
@@ -254,6 +333,33 @@ describe("createApiClient upload", () => {
     expect(init?.body).toBe(form);
     expect(headerOf(init, "Content-Type")).toBeUndefined();
     expect(headerOf(init, "Idempotency-Key")).toBe("key-1");
+  });
+
+  it("rejects a non-JSON success response with MALFORMED_RESPONSE", async () => {
+    const { client } = clientFor(new Response("<html>oops</html>", { status: 200 }));
+    const form = new FormData();
+
+    await expect(client.upload("/media", form)).rejects.toMatchObject({
+      code: "MALFORMED_RESPONSE",
+      status: 200,
+    });
+  });
+
+  it("honours skipUnauthorizedHandler on uploads", async () => {
+    const onUnauthorized = vi.fn();
+    const { client } = clientFor(
+      jsonResponse(
+        { error: { code: "UNAUTHENTICATED", message: "Sign in", request_id: "req-upload" } },
+        { status: 401 },
+      ),
+      { onUnauthorized },
+    );
+    const form = new FormData();
+
+    await expect(
+      client.upload("/media", form, { skipUnauthorizedHandler: true }),
+    ).rejects.toMatchObject({ status: 401, code: "UNAUTHENTICATED" });
+    expect(onUnauthorized).not.toHaveBeenCalled();
   });
 
   it("maps upload errors the same way as JSON requests", async () => {

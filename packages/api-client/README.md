@@ -31,5 +31,7 @@ A spec change without regenerated types is a failing check, not a silent rebuild
 ## Exports
 
 - `createApiClient({ baseUrl, fetchFn?, onUnauthorized?, getHeaders? })` — `get`, `post`, `patch`, `put`, `delete`, `getCollection`, `postCollection` and `upload`.
-- `ApiError`, `NetworkError`, `ErrorKind`, `isApiError`, `isNetworkError` — codes are branchable; UI copy maps from `kind` and never shows raw server text.
+- `RequestOptions` supports `query`, `idempotencyKey`, `headers`, `signal` and `skipUnauthorizedHandler`. The last one lets credential checks such as login and OTP receive a 401 without a global logout or redirect (FE-014).
+- Collections require a valid `meta` from the API; a missing or malformed cursor envelope raises `ApiError` with code `MALFORMED_RESPONSE` instead of inventing a page size.
+- `ApiError`, `NetworkError`, `ErrorKind`, `isApiError`, `isNetworkError` — codes are branchable; UI copy maps from `kind` and never shows raw server text. `NetworkError` uses fixed public copy; the raw failure stays in `cause` for diagnostics only.
 - `schema` — generated OpenAPI types, authoritative for response shapes.

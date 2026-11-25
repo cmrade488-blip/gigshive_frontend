@@ -61,8 +61,15 @@ export class NetworkError extends Error {
   readonly kind: ErrorKind = "network";
   readonly requestId: string;
 
-  constructor(message: string, requestId: string) {
-    super(message);
+  /**
+   * The public message is fixed copy. The original failure is kept only in
+   * `cause` for diagnostics; callers must never render it to users.
+   */
+  constructor(requestId: string, cause?: unknown) {
+    super(
+      "The network request could not be completed.",
+      cause === undefined ? undefined : { cause },
+    );
     this.name = "NetworkError";
     this.requestId = requestId;
   }

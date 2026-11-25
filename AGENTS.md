@@ -22,7 +22,7 @@ Precedence when documents disagree: backend docs (API behaviour, business rules,
 
 ```bash
 pnpm install --frozen-lockfile   # install
-pnpm run check                   # format:check, lint, typecheck, test, build (the local gate)
+pnpm run check                   # format:check, lint, typecheck, generate:check, test, build (the local gate)
 pnpm run format                  # fix formatting
 pnpm run generate:check          # API types must match the OpenAPI spec
 ```

@@ -32,6 +32,11 @@ export interface RequestOptions {
   query?: Query;
   /** Idempotency-Key for POSTs that require one (funding, payouts, refunds). */
   idempotencyKey?: string;
+  /**
+   * Let a 401 reach the caller without clearing the session or redirecting.
+   * Used by credential checks such as login and OTP verification (FE-014).
+   */
+  skipUnauthorizedHandler?: boolean;
   signal?: AbortSignal;
   headers?: Record<string, string>;
 }
@@ -56,6 +61,9 @@ type Method = "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
 interface RawResponse<T> {
   data: T | T[] | null;
   meta?: CursorMeta;
+  /** Transport details used to report malformed payloads; not part of the public response. */
+  status: number;
+  requestId: string;
 }
 
 function buildUrl(baseUrl: string, path: string, query?: Query): string {
@@ -86,8 +94,41 @@ function parseRetryAfter(header: string | null): number | null {
   if (header === null) {
     return null;
   }
-  const seconds = Number(header);
-  return Number.isFinite(seconds) ? seconds : null;
+  const value = header.trim();
+  if (value === "") {
+    return null;
+  }
+
+  const seconds = Number(value);
+  if (Number.isFinite(seconds)) {
+    return Math.max(0, seconds);
+  }
+
+  // Retry-After also permits an HTTP-date (RFC 9110, section 10.2.3).
+  const retryAt = Date.parse(value);
+  if (Number.isNaN(retryAt)) {
+    return null;
+  }
+  return Math.max(0, Math.ceil((retryAt - Date.now()) / 1000));
+}
+
+function malformedResponse(status: number, requestId: string): ApiError {
+  return new ApiError({
+    status,
+    code: "MALFORMED_RESPONSE",
+    message: "The server returned an unreadable response.",
+    requestId,
+  });
+}
+
+function isCursorMeta(value: unknown): value is CursorMeta {
+  return (
+    isRecord(value) &&
+    (value["next_cursor"] === null || typeof value["next_cursor"] === "string") &&
+    typeof value["per_page"] === "number" &&
+    Number.isInteger(value["per_page"]) &&
+    value["per_page"] >= 0
+  );
 }
 
 function errorBody(payload: unknown): ApiErrorBody | null {
@@ -133,23 +174,20 @@ export function createApiClient(options: ApiClientOptions) {
       });
     } catch (cause) {
       // No response at all: a connectivity problem, not a server error.
-      throw new NetworkError(
-        cause instanceof Error ? cause.message : "Network request failed",
-        requestId,
-      );
+      throw new NetworkError(requestId, cause);
     }
 
     const responseRequestId = response.headers.get("X-Request-Id") ?? requestId;
 
     if (response.status === 204) {
-      return { data: null };
+      return { data: null, status: response.status, requestId: responseRequestId };
     }
 
     const payload: unknown = await response.json().catch(() => null);
 
     if (!response.ok) {
       const envelope = errorBody(payload);
-      if (response.status === 401) {
+      if (response.status === 401 && !requestOptions.skipUnauthorizedHandler) {
         options.onUnauthorized?.();
       }
       throw new ApiError({
@@ -163,15 +201,14 @@ export function createApiClient(options: ApiClientOptions) {
     }
 
     if (!isRecord(payload)) {
-      throw new ApiError({
-        status: response.status,
-        code: "MALFORMED_RESPONSE",
-        message: "The server returned an unreadable response.",
-        requestId: responseRequestId,
-      });
+      throw malformedResponse(response.status, responseRequestId);
     }
 
-    return payload as unknown as RawResponse<T>;
+    return {
+      ...(payload as unknown as RawResponse<T>),
+      status: response.status,
+      requestId: responseRequestId,
+    };
   }
 
   async function request<T>(
@@ -191,9 +228,12 @@ export function createApiClient(options: ApiClientOptions) {
     requestOptions: RequestOptions,
   ): Promise<CollectionResponse<T>> {
     const result = await requestRaw<T>(method, path, body, requestOptions);
+    if (!isCursorMeta(result.meta)) {
+      throw malformedResponse(result.status, result.requestId);
+    }
     return {
       data: (result.data ?? []) as T[],
-      meta: result.meta ?? { next_cursor: null, per_page: 20 },
+      meta: result.meta,
     };
   }
 
@@ -243,16 +283,13 @@ export function createApiClient(options: ApiClientOptions) {
           ...(requestOptions.signal ? { signal: requestOptions.signal } : {}),
         });
       } catch (cause) {
-        throw new NetworkError(
-          cause instanceof Error ? cause.message : "Network request failed",
-          requestId,
-        );
+        throw new NetworkError(requestId, cause);
       }
 
       const payload: unknown = await response.json().catch(() => null);
       if (!response.ok) {
         const envelope = errorBody(payload);
-        if (response.status === 401) {
+        if (response.status === 401 && !requestOptions.skipUnauthorizedHandler) {
           options.onUnauthorized?.();
         }
         throw new ApiError({
@@ -264,7 +301,10 @@ export function createApiClient(options: ApiClientOptions) {
           retryAfterSeconds: parseRetryAfter(response.headers.get("Retry-After")),
         });
       }
-      return (payload as SingleResponse<T>).data;
+      if (!isRecord(payload)) {
+        throw malformedResponse(response.status, response.headers.get("X-Request-Id") ?? requestId);
+      }
+      return (payload as unknown as SingleResponse<T>).data;
     },
   };
 }
