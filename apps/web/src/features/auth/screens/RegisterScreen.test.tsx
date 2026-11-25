@@ -1,3 +1,4 @@
+import { errorCopy } from "@gigshive/shared/error-copy";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
@@ -93,6 +94,25 @@ describe("RegisterScreen", () => {
     expect(await screen.findByText(authCopy.errors.email)).toBeInTheDocument();
     expect(screen.queryByText("raw database detail")).not.toBeInTheDocument();
     expect(screen.queryByText("raw email detail")).not.toBeInTheDocument();
+  });
+
+  it("shows fixed copy for a forbidden response", async () => {
+    const user = userEvent.setup();
+    mocks.register.mockRejectedValue(
+      makeTestApiError({
+        status: 403,
+        code: "HTTP_403",
+        message: "raw csrf detail",
+        requestId: "req_403",
+      }),
+    );
+    render(<RegisterScreen />);
+
+    await fillValidForm(user);
+    await user.click(screen.getByRole("button", { name: authCopy.register.submitLabel }));
+
+    expect(await screen.findByText(errorCopy.forbidden.title)).toBeInTheDocument();
+    expect(screen.queryByText("raw csrf detail")).not.toBeInTheDocument();
   });
 
   it("shows a support reference for a server error", async () => {
