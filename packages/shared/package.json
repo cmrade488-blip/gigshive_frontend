@@ -28,6 +28,10 @@
       "types": "./src/status-map.ts",
       "default": "./src/status-map.ts"
     },
+    "./error-copy": {
+      "types": "./src/error-copy.ts",
+      "default": "./src/error-copy.ts"
+    },
     "./routes": {
       "types": "./src/routes.ts",
       "default": "./src/routes.ts"

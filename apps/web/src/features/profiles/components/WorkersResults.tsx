@@ -1,5 +1,7 @@
 "use client";
 
+import { EmptyState, ErrorState, LoadingState } from "@gigshive/ui";
+
 import { workersCopy } from "../copy/workers";
 import type { WorkersFilterValues } from "../state/workers-filters";
 import { useWorkers } from "../state/use-workers";
@@ -32,22 +34,17 @@ export function WorkersResults({ filters }: { filters: WorkersFilterValues }) {
       </p>
       <p className="mt-2 text-xs text-ink-500">{workersCopy.sampleNotice}</p>
 
-      {isPending ? (
-        <p role="status" className="mt-6 text-base text-ink-600">
-          {workersCopy.loading}
-        </p>
-      ) : null}
+      {isPending ? <LoadingState label={workersCopy.loading} className="mt-6" /> : null}
 
       {isError ? (
-        <p role="alert" className="mt-6 rounded-2xl bg-gh-danger-bg p-4 text-base text-gh-danger">
-          {isForbiddenError(error) ? workersCopy.forbidden : workersCopy.error}
-        </p>
+        <ErrorState
+          title={isForbiddenError(error) ? workersCopy.forbidden : workersCopy.error}
+          className="mt-6"
+        />
       ) : null}
 
       {!isPending && !isError && workers.length === 0 ? (
-        <p role="status" className="mt-6 text-base text-ink-600">
-          {workersCopy.empty}
-        </p>
+        <EmptyState title={workersCopy.empty} className="mt-6" />
       ) : null}
 
       <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
