@@ -23,6 +23,7 @@ describe("admin error boundaries", () => {
       expect(source).toContain("errorCopy.server");
       expect(source).toContain("ErrorState");
       expect(source).toContain("reference={error.digest}");
+      expect(source).toContain("reportError(error, error.digest)");
       expect(source).not.toContain("error.message");
     },
   );

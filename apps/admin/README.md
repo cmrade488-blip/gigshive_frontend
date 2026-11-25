@@ -2,7 +2,8 @@
 
 Staff console for verification, moderation, support and finance. Next.js App Router.
 
-- `src/app`: routes and layouts only. `src/features`: feature modules (see each README). `src/lib`: app glue (session, providers).
+- `src/app`: routes and layouts only. `src/features`: feature modules (see each README). `src/lib`: app glue (session, providers, observability).
+- FE-011 observability runs in `src/lib/providers.tsx` and the error boundaries: scrubbed errors, web vitals and global handlers use a provider-neutral sink. No vendor SDK, endpoint or restricted data is added.
 - Separate origin and session from the marketplace web app.
 - Environment: copy `.env.example` to `.env.local`.
 - Must not import from `apps/web`.

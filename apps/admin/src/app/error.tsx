@@ -1,7 +1,9 @@
 "use client";
 
+import { reportError } from "@/lib/observability";
 import { errorCopy } from "@gigshive/shared/error-copy";
 import { Button, ErrorState } from "@gigshive/ui";
+import { useEffect } from "react";
 
 export default function Error({
   error,
@@ -11,6 +13,10 @@ export default function Error({
   reset: () => void;
 }) {
   const copy = errorCopy.server;
+
+  useEffect(() => {
+    reportError(error, error.digest);
+  }, [error]);
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
