@@ -17,7 +17,7 @@
     "generate:check": "pnpm -r --if-present run generate:check",
     "smoke": "pnpm --filter @gigshive/web build && node scripts/smoke.mjs",
     "check:360": "node scripts/check-360.mjs",
-    "check": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build"
+    "check": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run generate:check && pnpm run test && pnpm run build"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
