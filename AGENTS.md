@@ -66,6 +66,7 @@ Rules:
 - Copy lives in the feature's `copy/` folder. Backend error codes map to messages; never show raw codes.
 - Accessibility is part of "done": labels, focus, keyboard path, axe passing, usable at 360 px.
 - Do not invent endpoints, fields, enum values or business rules. If the spec does not cover it, stop and raise it (see section 7).
+- Never leave placeholder facts (fees, legal text, support email, sample people) visible in production builds. Hide the section until the API or approved copy exists.
 
 ## 5a. Design and brand
 
@@ -80,11 +81,13 @@ Rules:
 
 1. Work on one task (FE-nnn) at a time. Create a branch from the latest `main`: `<type>/<FE-id>-<short-description>`, for example `feat/FE-013-register-screen`. Types: `feat fix refactor perf test docs chore ci`.
 2. Commit small and often with Conventional Commits, lower-case imperative: `feat(auth): add register screen`. Scope is a feature or package (`auth`, `wallet`, `ui`, `api-client`, `ci`, `docs`, `deps`, `repo`). Add `Refs: FE-013` in the body when useful.
-3. Add or update tests with the code. Money, date and idempotency utilities need full branch coverage; every status map and `availableActions` function needs every status and role combination.
-4. Run `pnpm run check`. Fix everything before pushing. If the PR changes `apps/`, also run `pnpm run smoke`.
+3. Add or update tests with the code. Commit verification probes as tests; never delete them. Money, date and idempotency utilities need full branch coverage; every status map and `availableActions` function needs every status and role combination.
+4. Run `pnpm run check`. Fix everything before pushing. Run `pnpm run smoke` before opening a PR that changes `apps/`.
 5. Push the branch and open a pull request with `.github/PULL_REQUEST_TEMPLATE.md` filled in. PR title follows the same Conventional Commit format (it becomes the squash commit). Reference the task ID and business-rule IDs in the description.
 6. If the change alters the client model, routes or a decision, open a matching PR in `gigshive_doc` and link it. Update `docs/tasks/TASKS.md` status in the same PR when a task is finished.
 7. Wait for the GitHub checks and review. Address review comments with new commits (do not force-push over a review in progress).
+
+Do not tick Definition of Done boxes that are not met. Leave them unchecked and say why in the PR description.
 
 Never: push to `main`, merge your own PR, bypass CI or hooks, force-push shared branches, rewrite history on `main`, or bundle unrelated changes into one PR.
 
