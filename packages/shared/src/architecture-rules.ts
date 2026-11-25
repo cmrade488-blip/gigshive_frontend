@@ -133,6 +133,13 @@ function isApiClientSpecifier(specifier: string): boolean {
   return specifier === "@gigshive/api-client" || specifier.startsWith("@gigshive/api-client/");
 }
 
+/**
+ * Narrow secondary entries routes may import instead of a full feature barrel.
+ * Keep this list explicit: a global layout that imports one screen must not pull
+ * the rest of the feature into its bundle.
+ */
+const ALLOWED_ROUTE_FEATURE_ENTRIES = new Set(["@/features/site/system"]);
+
 function isDeepFeatureImport(specifier: string): boolean {
   return specifier.startsWith("@/features/") && specifier.split("/").length > 3;
 }
@@ -340,7 +347,11 @@ export function violationFor(filePath: string, specifier: string): string | null
   const file = normaliseFilePath(filePath);
 
   if (isDeepFeatureImport(specifier)) {
-    return "Import a feature only through its index.ts.";
+    const isAllowedRouteEntry =
+      isAppRouteFile(file) && ALLOWED_ROUTE_FEATURE_ENTRIES.has(specifier);
+    if (!isAllowedRouteEntry) {
+      return "Import a feature only through its index.ts.";
+    }
   }
 
   if (isRouteImport(specifier) && !isAppRouteFile(file)) {
