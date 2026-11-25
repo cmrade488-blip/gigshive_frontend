@@ -36,7 +36,7 @@ Run `pnpm run check` before every push. Never push with a failing check. GitHub 
 - `packages/*`: shared code. Never imports from apps or features.
 
 Rules:
-1. A feature must not import another feature's folders. Use its `index.ts` or move shared code to a package.
+1. A feature must not import another feature's folders. Use its `index.ts` or move shared code to a package. Routes may use a documented narrow secondary entry (currently only `@/features/site/system`) when a full barrel would pull unrelated screens into a global layout; ESLint and the architecture test enforce the exception.
 2. Only a feature's `api/` folder calls the API client. Components get data through hooks. Never call `fetch` directly.
 3. Routes import screens; screens import components; components never import routes.
 4. `apps/web` and `apps/admin` never import each other.

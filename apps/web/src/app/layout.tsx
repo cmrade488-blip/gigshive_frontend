@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import type { ReactNode } from "react";
 
-import { MaintenanceScreen, siteCopy } from "@/features/site";
+import { MaintenanceScreen, siteCopy } from "@/features/site/system";
 import { Providers } from "@/lib/providers";
 import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";

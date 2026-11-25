@@ -3,6 +3,14 @@ const DEEP_FEATURE_IMPORT = {
   message: "Import a feature only through its index.ts (AGENTS.md section 4).",
 };
 
+// Routes may use the one documented narrow entry instead of a full barrel.
+// Everything deeper, and every other feature's "system" entry, stays blocked.
+const ROUTE_DEEP_FEATURE_IMPORT = {
+  regex: String.raw`^@/features/(?!site/system$).+/.+`,
+  caseSensitive: true,
+  message: DEEP_FEATURE_IMPORT.message,
+};
+
 const ROUTE_IMPORT = {
   group: ["@/app/*", "@/app/*/**", "**/src/app/**"],
   message:
@@ -66,10 +74,15 @@ function crossAppImports(app) {
 
 /**
  * @param {"web" | "admin"} app
- * @returns {Array<{ group: string[]; message: string }>}
+ * @param {{ route?: boolean }} options
+ * @returns {Array<{ group?: string[]; regex?: string; message: string }>}
  */
-function appImportPatterns(app) {
-  return [DEEP_FEATURE_IMPORT, ROUTE_IMPORT, ...crossAppImports(app)];
+function appImportPatterns(app, { route = false } = {}) {
+  return [
+    route ? ROUTE_DEEP_FEATURE_IMPORT : DEEP_FEATURE_IMPORT,
+    ROUTE_IMPORT,
+    ...crossAppImports(app),
+  ];
 }
 
 /**
@@ -82,6 +95,7 @@ function appImportPatterns(app) {
 export function appBoundaries(app) {
   const general = appImportPatterns(app);
   const restricted = [...general, API_CLIENT_IMPORT];
+  const routeRestricted = [...appImportPatterns(app, { route: true }), API_CLIENT_IMPORT];
 
   return [
     {
@@ -103,6 +117,14 @@ export function appBoundaries(app) {
         "no-restricted-imports": ["error", { patterns: general }],
         "no-restricted-globals": "off",
         "no-restricted-properties": "off",
+      },
+    },
+    {
+      files: ["src/app/**/*.{ts,tsx}"],
+      rules: {
+        "no-restricted-imports": ["error", { patterns: routeRestricted }],
+        "no-restricted-globals": ["error", FETCH_GLOBAL],
+        "no-restricted-properties": ["error", FETCH_GLOBAL_THIS, FETCH_WINDOW],
       },
     },
   ];

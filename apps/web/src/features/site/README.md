@@ -23,11 +23,12 @@ state/        query/mutation hooks wrapping the typed mocks
 copy/         page text (legal text is placeholder until the company supplies it)
 __tests__/
 index.ts      public surface
+system.ts     narrow route entry for root-layout metadata and the maintenance screen
 ```
 
 ## Rules for this folder
 
-- Never import another feature's internals; use its `index.ts` or a shared package.
+- Never import another feature's internals; use its `index.ts` or a shared package. Routes may use `system.ts` instead of the full barrel; it exports only `siteCopy` and `MaintenanceScreen`, and the architecture test keeps that exception route-only.
 - Public pages are server rendered. No restricted data. Each page sets its own title and description.
 - Production error rule: never show server messages, codes, URLs or stack traces (see docs/DESIGN.md).
 - The Fees page renders amounts from `api/fees.ts`. Those kobo values are placeholders behind a typed mock: no public fee endpoint exists yet, and the client never calculates a fee or a worker amount.

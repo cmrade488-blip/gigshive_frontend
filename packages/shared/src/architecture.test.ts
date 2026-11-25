@@ -112,6 +112,19 @@ describe("violationFor", () => {
     );
   });
 
+  it("allows only the documented narrow system entry from a route", () => {
+    expect(violationFor("apps/web/src/app/layout.tsx", "@/features/site/system")).toBeNull();
+    expect(
+      violationFor("apps/web/src/features/site/screens/HomeScreen.tsx", "@/features/site/system"),
+    ).toContain("index.ts");
+    expect(violationFor("apps/web/src/app/layout.tsx", "@/features/site/system/extra")).toContain(
+      "index.ts",
+    );
+    expect(violationFor("apps/web/src/app/page.tsx", "@/features/jobs/system")).toContain(
+      "index.ts",
+    );
+  });
+
   it("rejects route imports outside the app folder", () => {
     expect(violationFor("apps/web/src/features/site/screens/Home.tsx", "@/app/page")).toContain(
       "entry points",
