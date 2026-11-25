@@ -25,7 +25,7 @@ Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are p
 ## Slice A: Auth and Session
 | ID | Task | Module | Owner | Depends on | Size | Status |
 |---|---|---|---|---|---|---|
-| FE-013 | Register and email OTP verification screens | auth | FE1 | FE-006, FE-008 | M | todo |
+| FE-013 | Register and email OTP verification screens | auth | FE1 | FE-006, FE-008 | M | done (API-supported fields only; design full name/goal omitted pending backend fields) |
 | FE-014 | Login and logout, return path, throttling messages | auth | FE1 | FE-008 | M | todo |
 | FE-015 | Forgot, reset and change password | auth | FE1 | FE-014 | S | todo |
 | FE-016 | Phone verification and account settings | auth | FE1 | FE-013 | S | todo |

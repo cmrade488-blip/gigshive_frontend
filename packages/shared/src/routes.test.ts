@@ -9,6 +9,7 @@ describe("siteRoutes", () => {
     expect(siteRoutes.workers).toBe("/workers");
     expect(siteRoutes.login).toBe("/login");
     expect(siteRoutes.register).toBe("/register");
+    expect(siteRoutes.verifyEmail).toBe("/verify-email");
   });
 
   it("keeps every public path absolute", () => {

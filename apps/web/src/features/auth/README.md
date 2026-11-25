@@ -8,13 +8,17 @@
 | Tasks | FE-013 to FE-017, FE-019 (see [docs/tasks/TASKS.md](../../../../../docs/tasks/TASKS.md)) |
 | Spec | [Blueprint section 6.3](https://github.com/cmrade488-blip/gigshive_doc/blob/main/docs/frontend/GigsHive_Frontend_Engineering_Blueprint_v1_1.md) and the Data and State Design |
 | Business rules | BR-02, BR-05, BR-41 |
-| Status | not started |
+| Status | FE-013 done: register and email OTP screens; remaining auth tasks not started |
 
 ## API used
 
 POST /auth/register, /auth/verify-email, /auth/login, /auth/logout, /auth/forgot-password, /auth/reset-password; GET /me; admin: POST /admin/auth/login, /admin/auth/verify-otp
 
-Endpoint paths are indicative until the generated OpenAPI document is final. Only `api/` calls the client.
+Endpoint paths come from the generated OpenAPI types. Only `api/` calls the client.
+
+FE-013 collects only `email`, `password` and optional `phone`: the design's full name and goal choice are not accepted by `/auth/register` and were omitted by owner decision rather than invented. Post-registration goal handling needs a backend contract.
+
+FE-013 uses pure validators in `schemas/` because React Hook Form and Zod are not installed; adding them requires an ADR.
 
 ## States to handle
 

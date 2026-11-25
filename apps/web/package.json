@@ -17,6 +17,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@gigshive/api-client": "workspace:*",
     "@gigshive/brand": "workspace:*",
     "@gigshive/config": "workspace:*",
     "@gigshive/session": "workspace:*",
