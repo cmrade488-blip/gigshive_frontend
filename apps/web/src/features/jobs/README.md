@@ -49,7 +49,7 @@ index.ts      the public surface; other features import only this
 - `state/use-jobs.ts` uses an infinite query with an opaque offset cursor; `nextCursor: null` ends the list. The design's numbered pagination is represented by a cursor-driven "Load more" control until the API defines its page contract.
 - The route is server-rendered with a Suspense boundary because the screen reads `useSearchParams`; the listing itself is client-driven for now, matching the home page.
 - Cards now link to `jobsRoutes.detail(id)`. Public discovery has no meaningful 403 state, but an error carrying status 403 maps to the forbidden copy rather than exposing a raw code.
-- Automated component tests need Vitest/Testing Library in `apps/web`, which is FE-012's test-tooling task; no dependency was added here. The pure filter logic is validated with a throwaway Node 24 probe before each push.
+- B1 adds committed Vitest tests for filter parsing/serialising, active-count, filtering and sorting. They run with `pnpm --filter @gigshive/web test`; no throwaway probe is needed.
 
 ## Job detail (FE-030)
 
