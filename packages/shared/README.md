@@ -15,6 +15,7 @@ Pure shared utilities used by both apps and other packages.
 | `@gigshive/shared/id` | Client-side UUID helper |
 | `@gigshive/shared/idempotency` | Idempotency-Key generation and session |
 | `@gigshive/shared/status-map` | Status → label/tone maps and `availableActions` |
+| `@gigshive/shared/error-copy` | API error kind → fixed public copy (FE-009) |
 
 ```ts
 import { formatMoney, parseMoney, nextIdempotencySession } from "@gigshive/shared";
@@ -22,6 +23,8 @@ import { formatMoney, parseMoney, nextIdempotencySession } from "@gigshive/share
 formatMoney(150050); // "₦1,500.50"
 parseMoney("1,500.50"); // { ok: true, kobo: 150050 }
 ```
+
+`errorCopyFor(error)` is the shared fallback for 401/403/404/409/422/429/5xx/offline errors. It reads only the error's `kind` or `status`, never its message or code, so raw server text cannot leak into the UI. Features may override a string with more specific copy from their own `copy/` folder.
 
 ## Scripts
 

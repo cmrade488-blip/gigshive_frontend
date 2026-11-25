@@ -1,5 +1,7 @@
 "use client";
 
+import { EmptyState, ErrorState, LoadingState } from "@gigshive/ui";
+
 import { jobsCopy } from "../copy/jobs";
 import { jobsRoutes } from "../routes";
 import type { JobSort, JobsFilterValues } from "../state/jobs-filters";
@@ -73,22 +75,17 @@ export function JobsResults({ filters, onSortChange }: JobsResultsProps) {
 
       <p className="mt-3 text-xs text-ink-500">{jobsCopy.sampleNotice}</p>
 
-      {isPending ? (
-        <p role="status" className="mt-6 text-base text-ink-600">
-          {jobsCopy.loading}
-        </p>
-      ) : null}
+      {isPending ? <LoadingState label={jobsCopy.loading} className="mt-6" /> : null}
 
       {isError ? (
-        <p role="alert" className="mt-6 rounded-2xl bg-gh-danger-bg p-4 text-base text-gh-danger">
-          {isForbiddenError(error) ? jobsCopy.forbidden : jobsCopy.error}
-        </p>
+        <ErrorState
+          title={isForbiddenError(error) ? jobsCopy.forbidden : jobsCopy.error}
+          className="mt-6"
+        />
       ) : null}
 
       {!isPending && !isError && jobs.length === 0 ? (
-        <p role="status" className="mt-6 text-base text-ink-600">
-          {jobsCopy.empty}
-        </p>
+        <EmptyState title={jobsCopy.empty} className="mt-6" />
       ) : null}
 
       <ul className="mt-5 grid gap-4 sm:gap-5">

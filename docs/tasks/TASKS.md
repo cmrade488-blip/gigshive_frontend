@@ -17,7 +17,7 @@ Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are p
 | FE-006 | Design tokens, Tailwind preset, base components (use packages/brand; replaces the placeholder set, FOI-05) | ui | FE1 | FE-002 | L | done (tokens, Tailwind wiring, Button, Input, Textarea, Card, Badge, Modal in packages/ui; fonts and favicon not wired yet, see FE-080) |
 | FE-007 | Shared utilities: money, dates (Africa/Lagos), ids, idempotency key, status-map framework | shared | FE1 | FE-001 | M | done |
 | FE-008 | Session proxy layer: server-held session, token attach, CSRF, logout (FOI-01) | session | FE2 | FE-004 | L | done |
-| FE-009 | Error boundaries and standard screen states | shared | FE1 | FE-006 | M | todo |
+| FE-009 | Error boundaries and standard screen states | shared | FE1 | FE-006 | M | done (shared error-copy mapping, `@gigshive/ui` state components adopted by public lists, and admin error/not-found boundaries) |
 | FE-010 | Import-boundary lint rules and architecture tests | shared | FE1 | FE-002 | S | done |
 | FE-011 | Observability: error tracker hook, web vitals, request-id surfacing, scrubber | infra | FE2 | FE-002 | S | todo |
 | FE-012 | Test tooling: Vitest, Testing Library, axe, Playwright skeleton | testing | FE2 | FE-003 | M | todo |

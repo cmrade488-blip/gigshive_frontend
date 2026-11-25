@@ -1,0 +1,30 @@
+"use client";
+
+import { errorCopy } from "@gigshive/shared/error-copy";
+import { Button, ErrorState } from "@gigshive/ui";
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  const copy = errorCopy.server;
+
+  return (
+    <main className="mx-auto max-w-3xl px-6 py-16">
+      <ErrorState
+        variant="page"
+        title={copy.title}
+        description={copy.description}
+        reference={error.digest}
+        action={
+          <Button type="button" onClick={reset}>
+            {copy.actionLabel}
+          </Button>
+        }
+      />
+    </main>
+  );
+}

@@ -26,3 +26,11 @@ export {
   createStatusMap,
   createAvailableActions,
 } from "./status-map";
+
+export {
+  type ErrorCopy,
+  type ErrorCopyKind,
+  type ErrorCopyTone,
+  errorCopy,
+  errorCopyFor,
+} from "./error-copy";
