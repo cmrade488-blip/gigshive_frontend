@@ -1,5 +1,6 @@
 "use client";
 
+import { reportError } from "@/lib/observability";
 import Link from "next/link";
 import { useEffect } from "react";
 
@@ -11,15 +12,6 @@ import {
   systemSecondaryClass,
   type SystemPageProps,
 } from "../components/SystemPage";
-
-/**
- * FE-011 hook: replace this no-op with the scrubbed error-tracker call.
- * It stays dependency-free here; callers already pass the server-issued digest.
- */
-export function reportError(error: Error, reference?: string): void {
-  void error;
-  void reference;
-}
 
 export interface ServerErrorScreenProps {
   /** Next.js error boundary reset. When absent, the retry action reloads the page. */

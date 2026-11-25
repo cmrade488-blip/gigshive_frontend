@@ -19,7 +19,7 @@ Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are p
 | FE-008 | Session proxy layer: server-held session, token attach, CSRF, logout (FOI-01) | session | FE2 | FE-004 | L | done |
 | FE-009 | Error boundaries and standard screen states | shared | FE1 | FE-006 | M | done (shared error-copy mapping, `@gigshive/ui` state components adopted by public lists, and admin error/not-found boundaries) |
 | FE-010 | Import-boundary lint rules and architecture tests | shared | FE1 | FE-002 | S | done |
-| FE-011 | Observability: error tracker hook, web vitals, request-id surfacing, scrubber | infra | FE2 | FE-002 | S | todo |
+| FE-011 | Observability: error tracker hook, web vitals, request-id surfacing, scrubber | infra | FE2 | FE-002 | S | done (scrubbed provider-neutral reporter, request/support references, web vitals and global handlers; FOI-02 still owns the vendor sink) |
 | FE-012 | Test tooling: Vitest, Testing Library, axe, Playwright skeleton | testing | FE2 | FE-003 | M | todo |
 
 ## Slice A: Auth and Session

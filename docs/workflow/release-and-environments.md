@@ -17,4 +17,4 @@ Hosting, CI host and error tracker details are decision FOI-02. The planning def
 5. Tag the production release: `web-vMAJOR.MINOR.PATCH` and `admin-vMAJOR.MINOR.PATCH`. Breaking API changes (v2) are coordinated with the backend; v1 stays additive.
 
 ## Configuration
-Environment variables per app, documented in each `.env.example`. No secrets in the repository. Secrets live in the host's secret store and GitHub environment secrets. Required settings: API base URL, public site URL, session secret and cookie settings, allowed gateway redirect host, error tracker keys, feature flags for P1 modules.
+Environment variables per app, documented in each `.env.example`. No secrets in the repository. Secrets live in the host's secret store and GitHub environment secrets. Required settings: API base URL, public site URL, session secret and cookie settings, allowed gateway redirect host, `NEXT_PUBLIC_RELEASE_VERSION` for scrubbed observability events, error tracker keys, feature flags for P1 modules.
