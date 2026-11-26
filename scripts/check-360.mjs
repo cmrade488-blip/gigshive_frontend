@@ -20,6 +20,8 @@ const nextBin = join(webRoot, "node_modules", "next", "dist", "bin", "next");
 const routes = [
   "/",
   "/login",
+  "/forgot-password",
+  "/reset-password",
   "/register",
   "/verify-email",
   "/jobs",

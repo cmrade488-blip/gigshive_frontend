@@ -55,7 +55,10 @@ describe("LoginScreen", () => {
     expect(screen.getByRole("navigation", { name: authCopy.tabs.label })).toBeInTheDocument();
     expect(screen.getByLabelText(/^Email/)).toHaveAttribute("autocomplete", "email");
     expect(screen.getByLabelText(/^Password/)).toHaveAttribute("autocomplete", "current-password");
-    expect(screen.queryByText(/forgot password/i)).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: authCopy.login.forgotLabel })).toHaveAttribute(
+      "href",
+      siteRoutes.forgotPassword,
+    );
     expect((await axe(container)).violations).toEqual([]);
   });
 
