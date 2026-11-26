@@ -1,4 +1,5 @@
 export { authCopy } from "./copy/auth";
+export { ChangePasswordForm } from "./components/ChangePasswordForm";
 export { LogoutButton } from "./components/LogoutButton";
 export { ForgotPasswordScreen } from "./screens/ForgotPasswordScreen";
 export { LoginScreen } from "./screens/LoginScreen";
