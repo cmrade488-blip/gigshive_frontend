@@ -12,7 +12,7 @@
 
 ## API used
 
-POST /auth/register, /auth/verify-email, /auth/login, /auth/logout, /auth/forgot-password, /auth/reset-password; GET /me; admin: POST /admin/auth/login, /admin/auth/verify-otp
+POST /auth/register, /auth/verify-email, /auth/login, /auth/logout, /auth/forgot-password, /auth/reset-password, /auth/change-password; GET /me; admin: POST /admin/auth/login, /admin/auth/verify-otp
 
 Endpoint paths come from the generated OpenAPI types. Only `api/` calls the client.
 
