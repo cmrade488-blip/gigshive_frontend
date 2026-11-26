@@ -19,6 +19,7 @@ const webRoot = join(repoRoot, "apps", "web");
 const nextBin = join(webRoot, "node_modules", "next", "dist", "bin", "next");
 const routes = [
   "/",
+  "/login",
   "/register",
   "/verify-email",
   "/jobs",

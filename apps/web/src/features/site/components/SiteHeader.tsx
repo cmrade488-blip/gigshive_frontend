@@ -1,5 +1,6 @@
 "use client";
 
+import { LogoutButton, useSessionStatus } from "@/features/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -25,6 +26,8 @@ function navLinkClass(active: boolean): string {
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const { data: session } = useSessionStatus();
+  const signedIn = Boolean(session);
   const [open, setOpen] = useState(false);
   const [menuPath, setMenuPath] = useState(pathname);
 
@@ -82,18 +85,26 @@ export function SiteHeader() {
           </div>
 
           <div className="flex items-center gap-1.5">
-            <Link
-              href={siteRoutes.login}
-              className={`hidden min-h-11 items-center rounded-full px-[18px] text-[15px] font-semibold text-ink-900 hover:bg-ink-50 md:inline-flex ${focusRing}`}
-            >
-              {siteCopy.signIn}
-            </Link>
-            <Link
-              href={siteRoutes.register}
-              className={`inline-flex min-h-11 items-center rounded-full bg-honey-500 px-6 text-[15px] font-semibold text-ink-900 hover:bg-honey-400 ${focusRing}`}
-            >
-              {siteCopy.joinFree}
-            </Link>
+            {signedIn ? (
+              <div className="hidden md:block">
+                <LogoutButton />
+              </div>
+            ) : (
+              <>
+                <Link
+                  href={siteRoutes.login}
+                  className={`hidden min-h-11 items-center rounded-full px-[18px] text-[15px] font-semibold text-ink-900 hover:bg-ink-50 md:inline-flex ${focusRing}`}
+                >
+                  {siteCopy.signIn}
+                </Link>
+                <Link
+                  href={siteRoutes.register}
+                  className={`inline-flex min-h-11 items-center rounded-full bg-honey-500 px-6 text-[15px] font-semibold text-ink-900 hover:bg-honey-400 ${focusRing}`}
+                >
+                  {siteCopy.joinFree}
+                </Link>
+              </>
+            )}
             <button
               type="button"
               aria-expanded={open}
@@ -136,13 +147,19 @@ export function SiteHeader() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href={siteRoutes.login}
-                onClick={() => setOpen(false)}
-                className={`${navLinkClass(false)} min-h-12 font-semibold`}
-              >
-                {siteCopy.signIn}
-              </Link>
+              {signedIn ? (
+                <div className="px-2 py-1 md:hidden">
+                  <LogoutButton />
+                </div>
+              ) : (
+                <Link
+                  href={siteRoutes.login}
+                  onClick={() => setOpen(false)}
+                  className={`${navLinkClass(false)} min-h-12 font-semibold`}
+                >
+                  {siteCopy.signIn}
+                </Link>
+              )}
             </nav>
           </div>
         ) : null}

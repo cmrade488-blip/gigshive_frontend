@@ -2,6 +2,11 @@ import { type schema } from "@gigshive/api-client";
 
 import { authClient, csrfHeaders } from "@/lib/api";
 
+export type LoginRequest =
+  schema.paths["/auth/login"]["post"]["requestBody"]["content"]["application/json"];
+export type LoginData = NonNullable<
+  schema.paths["/auth/login"]["post"]["responses"][200]["content"]["application/json"]["data"]
+>;
 export type RegisterRequest =
   schema.paths["/auth/register"]["post"]["requestBody"]["content"]["application/json"];
 export type RegisterData = NonNullable<
@@ -14,6 +19,23 @@ export type ResendOtpRequest =
   schema.paths["/auth/resend-otp"]["post"]["requestBody"]["content"]["application/json"];
 export type ResendOtpData =
   schema.paths["/auth/resend-otp"]["post"]["responses"][202]["content"]["application/json"]["data"];
+
+/** POST /auth/login through the session-start route handler. */
+export async function login(payload: LoginRequest): Promise<LoginData> {
+  const response = await authClient.post<LoginData>("/login", payload, {
+    headers: await csrfHeaders(),
+    skipUnauthorizedHandler: true,
+  });
+  return response.data;
+}
+
+/** POST /auth/logout; the route clears the session cookies on success. */
+export async function logoutSession(): Promise<void> {
+  await authClient.post<void>("/logout", undefined, {
+    headers: await csrfHeaders(),
+    skipUnauthorizedHandler: true,
+  });
+}
 
 /** POST /auth/register through the same-origin public-auth forwarder. */
 export async function registerAccount(payload: RegisterRequest): Promise<RegisterData> {
