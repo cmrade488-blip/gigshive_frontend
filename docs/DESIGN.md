@@ -79,7 +79,7 @@ Mapped from the design README, `PAGES_AND_ERRORS.md` and file names. Confirm aga
 |---|---|---|---|---|
 | `/login`, `/register`, `/verify-email` | `Auth` | `sign-in-join.png`, `join-step-1.png` to `join-step-3.png` | auth | FE-013, FE-014 |
 | `/forgot-password`, `/reset-password` | `Recover` | `pub-recover.png` | auth | FE-015 |
-| Account settings | `Settings` | `settings.png` | auth | FE-016 |
+| `/settings/account` | `Settings` | `settings.png` | auth | FE-016 |
 
 **Signed in (apps/web)**
 
