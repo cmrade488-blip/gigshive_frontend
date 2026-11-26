@@ -4,7 +4,13 @@ import { siteRoutes } from "@gigshive/shared/routes";
 export const DEFAULT_RETURN_PATH = siteRoutes.dashboard;
 
 const PROBE_ORIGIN = "https://gigshive.invalid";
-const AUTH_PATHS = new Set<string>([siteRoutes.login, siteRoutes.register, siteRoutes.verifyEmail]);
+const AUTH_PATHS = new Set<string>([
+  siteRoutes.login,
+  siteRoutes.register,
+  siteRoutes.verifyEmail,
+  siteRoutes.forgotPassword,
+  siteRoutes.resetPassword,
+]);
 
 interface ParamReader {
   get(name: string): string | null;

@@ -7,7 +7,8 @@ import { AuthTabs, type AuthTab } from "./AuthTabs";
 import { StepIndicator, type AuthStep } from "./StepIndicator";
 
 export interface AuthShellProps {
-  step: AuthStep;
+  /** Recovery screens have no registration steps, so the indicator is optional. */
+  step?: AuthStep;
   title: string;
   children: ReactNode;
   /** Login and registration show the design's account switcher. */
@@ -67,7 +68,7 @@ export function AuthShell({ step, title, children, activeTab }: AuthShellProps) 
         </section>
 
         <section className="w-full rounded-2xl border border-ink-100 bg-white p-6 shadow-sm sm:p-8">
-          <StepIndicator step={step} />
+          {step ? <StepIndicator step={step} /> : null}
           {activeTab ? <AuthTabs active={activeTab} /> : null}
           <h1 className="mt-7 font-poppins text-2xl font-bold text-ink-900">{title}</h1>
           {children}

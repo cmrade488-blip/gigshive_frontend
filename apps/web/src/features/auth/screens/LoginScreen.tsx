@@ -138,6 +138,15 @@ export function LoginScreen() {
           required
         />
 
+        <div className="-mt-2 text-right">
+          <Link
+            href={siteRoutes.forgotPassword}
+            className="rounded text-sm font-semibold text-gh-primary underline focus-visible:ring-2 focus-visible:ring-gh-focus-ring focus-visible:outline-none"
+          >
+            {authCopy.login.forgotLabel}
+          </Link>
+        </div>
+
         <Button
           type="submit"
           size="lg"

@@ -10,6 +10,8 @@ describe("siteRoutes", () => {
     expect(siteRoutes.login).toBe("/login");
     expect(siteRoutes.register).toBe("/register");
     expect(siteRoutes.verifyEmail).toBe("/verify-email");
+    expect(siteRoutes.forgotPassword).toBe("/forgot-password");
+    expect(siteRoutes.resetPassword).toBe("/reset-password");
   });
 
   it("keeps every public path absolute", () => {

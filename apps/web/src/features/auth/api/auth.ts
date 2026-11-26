@@ -1,6 +1,6 @@
 import { type schema } from "@gigshive/api-client";
 
-import { authClient, csrfHeaders } from "@/lib/api";
+import { authClient, csrfHeaders, sessionClient } from "@/lib/api";
 
 export type LoginRequest =
   schema.paths["/auth/login"]["post"]["requestBody"]["content"]["application/json"];
@@ -19,6 +19,15 @@ export type ResendOtpRequest =
   schema.paths["/auth/resend-otp"]["post"]["requestBody"]["content"]["application/json"];
 export type ResendOtpData =
   schema.paths["/auth/resend-otp"]["post"]["responses"][202]["content"]["application/json"]["data"];
+export type ForgotPasswordRequest =
+  schema.paths["/auth/forgot-password"]["post"]["requestBody"]["content"]["application/json"];
+export type ForgotPasswordData = NonNullable<
+  schema.paths["/auth/forgot-password"]["post"]["responses"][202]["content"]["application/json"]["data"]
+>;
+export type ResetPasswordRequest =
+  schema.paths["/auth/reset-password"]["post"]["requestBody"]["content"]["application/json"];
+export type ChangePasswordRequest =
+  schema.paths["/auth/change-password"]["post"]["requestBody"]["content"]["application/json"];
 
 /** POST /auth/login through the session-start route handler. */
 export async function login(payload: LoginRequest): Promise<LoginData> {
@@ -63,4 +72,34 @@ export async function resendEmailOtp(email: string): Promise<ResendOtpData> {
     skipUnauthorizedHandler: true,
   });
   return response.data;
+}
+
+/**
+ * POST /auth/forgot-password. The 202 response is deliberately identical for
+ * every email so the UI cannot reveal whether an account exists.
+ */
+export async function requestPasswordReset(
+  payload: ForgotPasswordRequest,
+): Promise<ForgotPasswordData> {
+  const response = await authClient.post<ForgotPasswordData>("/forgot-password", payload, {
+    headers: await csrfHeaders(),
+    skipUnauthorizedHandler: true,
+  });
+  return response.data;
+}
+
+/** POST /auth/reset-password with the one-time token read from the email link. */
+export async function resetPassword(payload: ResetPasswordRequest): Promise<void> {
+  await authClient.post<void>("/reset-password", payload, {
+    headers: await csrfHeaders(),
+    skipUnauthorizedHandler: true,
+  });
+}
+
+/** POST /auth/change-password through the authenticated session proxy. */
+export async function changePassword(payload: ChangePasswordRequest): Promise<void> {
+  await sessionClient.post<void>("/change-password", payload, {
+    headers: await csrfHeaders(),
+    skipUnauthorizedHandler: true,
+  });
 }
