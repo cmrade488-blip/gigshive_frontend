@@ -32,6 +32,27 @@ describe("describeAuthError", () => {
     expect(JSON.stringify(issue)).not.toContain("raw");
   });
 
+  it("maps password-reset and change-password details to fixed copy", () => {
+    const issue = describeAuthError(
+      makeTestApiError({
+        status: 422,
+        code: "VALIDATION_FAILED",
+        message: "raw password detail",
+        details: {
+          current_password: ["raw current detail"],
+          token: ["raw token detail"],
+        },
+        requestId: "req_password",
+      }),
+    );
+
+    expect(issue.fieldErrors).toEqual({
+      current_password: authCopy.errors.currentPassword,
+      token: authCopy.errors.token,
+    });
+    expect(JSON.stringify(issue)).not.toContain("raw");
+  });
+
   it("keeps the retry window from a 429", () => {
     const issue = describeAuthError(
       makeTestApiError({

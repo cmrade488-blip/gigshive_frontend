@@ -3,7 +3,7 @@ import { errorCopy, type ErrorCopyKind } from "@gigshive/shared/error-copy";
 
 import { authCopy } from "../copy/auth";
 
-export type AuthField = "email" | "password" | "phone" | "otp";
+export type AuthField = "email" | "password" | "phone" | "otp" | "current_password" | "token";
 export type AuthFieldErrors = Partial<Record<AuthField, string>>;
 
 export interface AuthFormIssue {
@@ -21,6 +21,8 @@ const FIELD_COPY: Readonly<Record<AuthField, string>> = {
   password: authCopy.errors.password,
   phone: authCopy.errors.phone,
   otp: authCopy.errors.code,
+  current_password: authCopy.errors.currentPassword,
+  token: authCopy.errors.token,
 };
 
 const KNOWN_KINDS = new Set<ErrorCopyKind>([
@@ -36,7 +38,14 @@ const KNOWN_KINDS = new Set<ErrorCopyKind>([
 ]);
 
 function isAuthField(value: string): value is AuthField {
-  return value === "email" || value === "password" || value === "phone" || value === "otp";
+  return (
+    value === "email" ||
+    value === "password" ||
+    value === "phone" ||
+    value === "otp" ||
+    value === "current_password" ||
+    value === "token"
+  );
 }
 
 function kindOf(error: unknown): ErrorCopyKind {

@@ -1,5 +1,5 @@
 /**
- * FE-013 and FE-014 copy. Every string shown by the auth screens lives here;
+ * FE-013, FE-014 and FE-015 copy. Every string shown by the auth screens lives here;
  * backend messages and codes are never rendered.
  *
  * Scope note: only fields accepted by `/auth/register` are collected. The
@@ -19,6 +19,14 @@ export const authCopy = {
     verifyEmail: {
       title: "Verify email",
       description: "Confirm your email address to finish setting up your account.",
+    },
+    forgotPassword: {
+      title: "Forgot password",
+      description: "Request a link to set a new GigsHive password.",
+    },
+    resetPassword: {
+      title: "Reset password",
+      description: "Choose a new password for your GigsHive account.",
     },
   },
 
@@ -54,6 +62,7 @@ export const authCopy = {
     loading: "Preparing sign in…",
     newHereLabel: "New to GigsHive?",
     createAccountLabel: "Create an account",
+    forgotLabel: "Forgot password?",
     invalidCredentialsTitle: "Those details do not match",
     invalidCredentialsDescription: "Check your email and password, then try again.",
     rateLimitCountdown: (seconds: number) => `You can try again in ${seconds}s.`,
@@ -105,6 +114,53 @@ export const authCopy = {
     loggingOutLabel: "Signing out…",
   },
 
+  forgotPassword: {
+    heading: "Forgot your password?",
+    subtitle: "Enter your email and we will send you a link to set a new one.",
+    emailLabel: "Email",
+    submitLabel: "Send reset link",
+    submittingLabel: "Sending link…",
+    loading: "Preparing password reset…",
+    sentTitle: "Check your email",
+    sentText:
+      "If there is an account for that email, a reset link is on its way. It works for a short time only.",
+    sentNote: "Nothing yet? Check your spam folder, or try again in a minute.",
+    backToSignIn: "Back to sign in",
+  },
+
+  resetPassword: {
+    heading: "Set a new password",
+    subtitle: "Choose a password you have not used here before.",
+    newPasswordLabel: "New password",
+    confirmLabel: "Confirm new password",
+    passwordHint: "Use at least 8 characters.",
+    submitLabel: "Save password",
+    submittingLabel: "Saving password…",
+    loading: "Preparing password reset…",
+    missingTokenTitle: "This link cannot be used",
+    missingTokenText: "Request a new reset link to continue.",
+    requestNewLabel: "Request a new link",
+    expiredTitle: "This link has expired",
+    expiredText: "Request a new reset link and try again.",
+    successTitle: "Password updated",
+    successText: "You can now sign in with your new password.",
+    signInLabel: "Sign in",
+  },
+
+  changePassword: {
+    heading: "Change password",
+    currentLabel: "Current password",
+    newLabel: "New password",
+    passwordHint: "Use at least 8 characters.",
+    submitLabel: "Save password",
+    submittingLabel: "Saving password…",
+    successTitle: "Password changed",
+    successText: "Your password has been updated. Other sessions have been signed out.",
+    sessionEndedTitle: "Your session has ended",
+    sessionEndedText: "Sign in again to continue.",
+    signInLabel: "Sign in",
+  },
+
   validation: {
     emailRequired: "Enter your email address.",
     emailInvalid: "Enter a valid email address.",
@@ -113,6 +169,9 @@ export const authCopy = {
     phoneInvalid: "Enter a valid phone number with its country code.",
     codeRequired: "Enter the 6-digit code from your email.",
     codeInvalid: "The code must be 6 digits.",
+    tokenRequired: "Open a current reset link to continue.",
+    currentPasswordRequired: "Enter your current password.",
+    passwordMismatch: "The passwords do not match.",
     generic: "Please check the highlighted fields.",
   },
 
@@ -121,6 +180,8 @@ export const authCopy = {
     password: "Choose a password with at least 8 characters.",
     phone: "Check the phone number and include its country code.",
     code: "That code is not valid. Request a new one if it has expired.",
+    currentPassword: "Your current password is not correct.",
+    token: "This reset link is not valid. Request a new one.",
     rateLimit: "Too many attempts. Wait before trying again.",
     serverWithReference: "Please try again. If it keeps happening, quote the reference to support.",
   },
