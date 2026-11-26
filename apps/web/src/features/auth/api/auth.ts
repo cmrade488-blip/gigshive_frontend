@@ -28,6 +28,10 @@ export type ResetPasswordRequest =
   schema.paths["/auth/reset-password"]["post"]["requestBody"]["content"]["application/json"];
 export type ChangePasswordRequest =
   schema.paths["/auth/change-password"]["post"]["requestBody"]["content"]["application/json"];
+export type VerifyPhoneRequest =
+  schema.paths["/auth/verify-phone"]["post"]["requestBody"]["content"]["application/json"];
+export type PhoneVerificationData =
+  schema.paths["/auth/verify-phone"]["post"]["responses"][200]["content"]["application/json"]["data"];
 
 /** POST /auth/login through the session-start route handler. */
 export async function login(payload: LoginRequest): Promise<LoginData> {
@@ -98,8 +102,29 @@ export async function resetPassword(payload: ResetPasswordRequest): Promise<void
 
 /** POST /auth/change-password through the authenticated session proxy. */
 export async function changePassword(payload: ChangePasswordRequest): Promise<void> {
-  await sessionClient.post<void>("/change-password", payload, {
+  await sessionClient.post<void>("/auth/change-password", payload, {
     headers: await csrfHeaders(),
     skipUnauthorizedHandler: true,
   });
+}
+
+/**
+ * POST /auth/resend-otp for PHONE through the authenticated session proxy.
+ * Sending the same E.164 number restarts pending phone verification.
+ */
+export async function sendPhoneOtp(payload: ResendOtpRequest): Promise<ResendOtpData> {
+  const response = await sessionClient.post<ResendOtpData>("/auth/resend-otp", payload, {
+    headers: await csrfHeaders(),
+    skipUnauthorizedHandler: true,
+  });
+  return response.data;
+}
+
+/** POST /auth/verify-phone; the response is the updated session user. */
+export async function verifyPhone(payload: VerifyPhoneRequest): Promise<PhoneVerificationData> {
+  const response = await sessionClient.post<PhoneVerificationData>("/auth/verify-phone", payload, {
+    headers: await csrfHeaders(),
+    skipUnauthorizedHandler: true,
+  });
+  return response.data;
 }
