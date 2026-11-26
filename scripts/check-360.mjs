@@ -24,6 +24,7 @@ const routes = [
   "/reset-password",
   "/register",
   "/verify-email",
+  "/settings/account",
   "/jobs",
   "/jobs/sample-clinic-site",
   "/workers",

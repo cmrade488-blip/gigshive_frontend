@@ -9,18 +9,21 @@ export interface OtpInputProps {
   onChange: (value: string) => void;
   error?: string;
   disabled?: boolean;
+  /** Defaults to the email wording; phone verification supplies its own copy. */
+  label?: string;
+  hint?: string;
 }
 
 /** Single six-digit field with paste and one-time-code autofill support. */
 export const OtpInput = React.forwardRef<HTMLInputElement, OtpInputProps>(function OtpInput(
-  { value, onChange, error, disabled },
+  { value, onChange, error, disabled, label, hint },
   ref,
 ) {
   return (
     <Input
       ref={ref}
-      label={authCopy.verify.codeLabel}
-      hint={authCopy.verify.codeHint}
+      label={label ?? authCopy.verify.codeLabel}
+      hint={hint ?? authCopy.verify.codeHint}
       error={error}
       value={value}
       onChange={(event) => onChange(normaliseOtp(event.target.value))}

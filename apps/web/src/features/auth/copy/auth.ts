@@ -1,5 +1,5 @@
 /**
- * FE-013, FE-014 and FE-015 copy. Every string shown by the auth screens lives here;
+ * FE-013 to FE-016 copy. Every string shown by the auth screens lives here;
  * backend messages and codes are never rendered.
  *
  * Scope note: only fields accepted by `/auth/register` are collected. The
@@ -27,6 +27,10 @@ export const authCopy = {
     resetPassword: {
       title: "Reset password",
       description: "Choose a new password for your GigsHive account.",
+    },
+    settingsAccount: {
+      title: "Account settings",
+      description: "Manage your GigsHive sign in details and profiles.",
     },
   },
 
@@ -161,14 +165,72 @@ export const authCopy = {
     signInLabel: "Sign in",
   },
 
+  settings: {
+    heading: "Account settings",
+    subtitle: "Your sign in details and profiles.",
+    loading: "Checking your account…",
+    signedOutTitle: "Sign in to manage your account",
+    signedOutText: "Account settings are available to signed-in users.",
+    signInLabel: "Sign in",
+    unavailableTitle: "Account unavailable",
+    unavailableText: "This account cannot be managed right now.",
+    detailsTitle: "Sign in details",
+    emailLabel: "Email",
+    phoneLabel: "Phone",
+    passwordLabel: "Password",
+    verified: "Verified",
+    notVerified: "Not verified",
+    noPhone: "Not added",
+    passwordMask: "••••••••••",
+    profilesTitle: "Your profiles",
+    profilesEmpty: "No profiles yet.",
+    unknownStatus: "Status unavailable",
+    profileStatus: {
+      PENDING: "Pending",
+      SUBMITTED: "In review",
+      ACTIVE: "Active",
+      REJECTED: "Not approved",
+      SUSPENDED: "Suspended",
+    },
+    securityTitle: "Keep your account safe.",
+    securityText: "We will never ask for your password or a code.",
+  },
+
+  phoneVerification: {
+    changeLabel: "Change phone",
+    addLabel: "Add phone",
+    cancelLabel: "Cancel",
+    phoneLabel: "Phone number",
+    phoneHint: "Include the country code, for example +2348012345678.",
+    sendLabel: "Send code",
+    sendingLabel: "Sending…",
+    codeLabel: "Verification code",
+    codeHint: "Enter the 6 digits from your SMS. You can paste the whole code.",
+    verifyLabel: "Verify phone",
+    verifyingLabel: "Verifying…",
+    resendLabel: "Send again",
+    resendingLabel: "Sending…",
+    cooldown: (seconds: number) => `Try again in ${seconds}s`,
+    sentTitle: "Code sent",
+    sentText: "Check your messages for the 6-digit code.",
+    successTitle: "Phone verified",
+    successText: "Your phone number is now confirmed.",
+    sessionEndedTitle: "Your session has ended",
+    sessionEndedText: "Sign in again to continue.",
+    signInLabel: "Sign in",
+  },
+
   validation: {
     emailRequired: "Enter your email address.",
     emailInvalid: "Enter a valid email address.",
     passwordRequired: "Enter a password.",
     passwordTooShort: "Use at least 8 characters.",
     phoneInvalid: "Enter a valid phone number with its country code.",
+    phoneRequired: "Enter your phone number.",
     codeRequired: "Enter the 6-digit code from your email.",
     codeInvalid: "The code must be 6 digits.",
+    phoneCodeRequired: "Enter the 6-digit code from your SMS.",
+    phoneCodeInvalid: "The code must be 6 digits.",
     tokenRequired: "Open a current reset link to continue.",
     currentPasswordRequired: "Enter your current password.",
     passwordMismatch: "The passwords do not match.",

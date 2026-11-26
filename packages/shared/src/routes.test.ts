@@ -12,6 +12,7 @@ describe("siteRoutes", () => {
     expect(siteRoutes.verifyEmail).toBe("/verify-email");
     expect(siteRoutes.forgotPassword).toBe("/forgot-password");
     expect(siteRoutes.resetPassword).toBe("/reset-password");
+    expect(siteRoutes.settingsAccount).toBe("/settings/account");
   });
 
   it("keeps every public path absolute", () => {
