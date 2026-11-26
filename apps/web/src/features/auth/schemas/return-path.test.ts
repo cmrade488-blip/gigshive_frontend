@@ -24,6 +24,8 @@ describe("resolveReturnPath", () => {
     [siteRoutes.login],
     [siteRoutes.register],
     [siteRoutes.verifyEmail],
+    [siteRoutes.forgotPassword],
+    [siteRoutes.resetPassword],
   ])("falls back to the dashboard for %j", (candidate) => {
     expect(resolveReturnPath(candidate)).toBe(DEFAULT_RETURN_PATH);
     expect(DEFAULT_RETURN_PATH).toBe(siteRoutes.dashboard);
