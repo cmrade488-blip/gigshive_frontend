@@ -6,6 +6,12 @@ import { HowItWorksScreen } from "./HowItWorksScreen";
 
 vi.mock("next/navigation", () => ({ usePathname: () => "/how-it-works" }));
 
+// The header reads session state; this screen test only checks its own content.
+vi.mock("@/features/auth", () => ({
+  useSessionStatus: () => ({ data: null }),
+  LogoutButton: () => null,
+}));
+
 describe("HowItWorksScreen", () => {
   it("renders both audiences and has no axe violations", async () => {
     const { container } = render(<HowItWorksScreen />);

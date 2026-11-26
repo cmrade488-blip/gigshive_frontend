@@ -7,6 +7,12 @@ import { csrfHeaderName, readCsrfToken } from "@gigshive/session/browser";
  */
 export const authClient: ApiClient = createApiClient({ baseUrl: "/api/auth" });
 
+/**
+ * Browser client for authenticated calls. The proxy attaches the server-held
+ * token; FE-017 owns global 401 handling, so callers opt in per request here.
+ */
+export const sessionClient: ApiClient = createApiClient({ baseUrl: "/api/proxy" });
+
 /** Fixed public copy: a failed CSRF bootstrap is never surfaced as raw text. */
 export class CsrfTokenError extends Error {
   constructor() {

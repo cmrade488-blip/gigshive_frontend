@@ -1,6 +1,6 @@
 /**
- * FE-013 copy. Every string shown by the auth screens lives here; backend
- * messages and codes are never rendered.
+ * FE-013 and FE-014 copy. Every string shown by the auth screens lives here;
+ * backend messages and codes are never rendered.
  *
  * Scope note: only fields accepted by `/auth/register` are collected. The
  * design's full-name and goal step were not in the generated contract, so they
@@ -8,6 +8,10 @@
  */
 export const authCopy = {
   meta: {
+    login: {
+      title: "Sign in",
+      description: "Sign in to your GigsHive account to continue.",
+    },
     register: {
       title: "Create account",
       description: "Create a GigsHive account to hire people or find work.",
@@ -32,6 +36,27 @@ export const authCopy = {
     account: "Account",
     verify: "Verify email",
     current: "Current step",
+  },
+
+  tabs: {
+    label: "Account",
+    signIn: "Sign in",
+    join: "Create account",
+  },
+
+  login: {
+    heading: "Welcome back",
+    subtitle: "Sign in to continue to your dashboard.",
+    emailLabel: "Email",
+    passwordLabel: "Password",
+    submitLabel: "Sign in",
+    submittingLabel: "Signing in…",
+    loading: "Preparing sign in…",
+    newHereLabel: "New to GigsHive?",
+    createAccountLabel: "Create an account",
+    invalidCredentialsTitle: "Those details do not match",
+    invalidCredentialsDescription: "Check your email and password, then try again.",
+    rateLimitCountdown: (seconds: number) => `You can try again in ${seconds}s.`,
   },
 
   register: {
@@ -72,6 +97,12 @@ export const authCopy = {
     successText: "Your email is confirmed. You can continue to GigsHive.",
     successActionLabel: "Continue to GigsHive",
     privacyNote: "Never share your password or a code. We will never ask for them.",
+  },
+
+  session: {
+    checkingLabel: "Checking your session",
+    logoutLabel: "Sign out",
+    loggingOutLabel: "Signing out…",
   },
 
   validation: {

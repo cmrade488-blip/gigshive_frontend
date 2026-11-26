@@ -3,16 +3,19 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { authCopy } from "../copy/auth";
+import { AuthTabs, type AuthTab } from "./AuthTabs";
 import { StepIndicator, type AuthStep } from "./StepIndicator";
 
 export interface AuthShellProps {
   step: AuthStep;
   title: string;
   children: ReactNode;
+  /** Login and registration show the design's account switcher. */
+  activeTab?: AuthTab;
 }
 
 /** Public auth pages: skip link, narrow header, brand panel and form card. */
-export function AuthShell({ step, title, children }: AuthShellProps) {
+export function AuthShell({ step, title, children, activeTab }: AuthShellProps) {
   return (
     <div className="min-h-screen bg-ink-50 font-sans text-ink-900">
       <a
@@ -65,6 +68,7 @@ export function AuthShell({ step, title, children }: AuthShellProps) {
 
         <section className="w-full rounded-2xl border border-ink-100 bg-white p-6 shadow-sm sm:p-8">
           <StepIndicator step={step} />
+          {activeTab ? <AuthTabs active={activeTab} /> : null}
           <h1 className="mt-7 font-poppins text-2xl font-bold text-ink-900">{title}</h1>
           {children}
         </section>

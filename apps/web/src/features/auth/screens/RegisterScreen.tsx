@@ -74,7 +74,7 @@ export function RegisterScreen() {
 
   if (succeeded) {
     return (
-      <AuthShell step="verify" title={authCopy.register.successTitle}>
+      <AuthShell step="verify" title={authCopy.register.successTitle} activeTab="join">
         <div className="mt-5 space-y-5">
           <StateMessage
             role="status"
@@ -97,7 +97,7 @@ export function RegisterScreen() {
   }
 
   return (
-    <AuthShell step="account" title={authCopy.register.heading}>
+    <AuthShell step="account" title={authCopy.register.heading} activeTab="join">
       <p className="mt-2 text-sm leading-relaxed text-ink-600">{authCopy.register.subtitle}</p>
 
       {issue ? (
