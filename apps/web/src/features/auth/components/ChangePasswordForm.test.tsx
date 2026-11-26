@@ -1,3 +1,4 @@
+import { errorCopy } from "@gigshive/shared/error-copy";
 import { siteRoutes } from "@gigshive/shared/routes";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -143,6 +144,25 @@ describe("ChangePasswordForm", () => {
     expect(
       screen.getByRole("button", { name: authCopy.changePassword.submitLabel }),
     ).toBeDisabled();
+  });
+
+  it("shows fixed copy for a forbidden response", async () => {
+    const user = userEvent.setup();
+    mocks.change.mockRejectedValue(
+      makeTestApiError({
+        status: 403,
+        code: "HTTP_403",
+        message: "raw forbidden detail",
+        requestId: "req_403",
+      }),
+    );
+    render(<ChangePasswordForm />);
+
+    await fillPasswords(user);
+    await submit(user);
+
+    expect(await screen.findByText(errorCopy.forbidden.title)).toBeInTheDocument();
+    expect(screen.queryByText("raw forbidden detail")).not.toBeInTheDocument();
   });
 
   it("shows a support reference for a server error", async () => {
