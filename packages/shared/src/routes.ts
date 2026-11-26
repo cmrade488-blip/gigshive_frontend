@@ -18,6 +18,7 @@ export const siteRoutes = {
   verifyEmail: "/verify-email",
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
+  settingsAccount: "/settings/account",
   terms: "/terms",
   privacy: "/privacy",
   safety: "/safety",
