@@ -25,6 +25,7 @@ const routes = [
   "/register",
   "/verify-email",
   "/settings/account",
+  "/dashboard",
   "/jobs",
   "/jobs/sample-clinic-site",
   "/workers",
