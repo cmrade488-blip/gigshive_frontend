@@ -118,6 +118,12 @@ export const authCopy = {
     loggingOutLabel: "Signing out…",
   },
 
+  prompt: {
+    title: "Verify your email",
+    text: "Confirm your email address before you can post jobs or send proposals.",
+    actionLabel: "Verify now",
+  },
+
   forgotPassword: {
     heading: "Forgot your password?",
     subtitle: "Enter your email and we will send you a link to set a new one.",

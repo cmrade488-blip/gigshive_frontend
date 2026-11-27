@@ -26,6 +26,8 @@ export const jobDetailCopy = {
   deliveryPrefix: "Delivery within",
   deliverySuffix: "days",
   signInToProposal: "Sign in to send a proposal",
+  verifyEmailToProposal: "Verify your email to send a proposal",
+  suspendedCannotApply: "Your profile is suspended, so you cannot send proposals right now.",
   newHere: "New here?",
   createFreeAccount: "Create a free account",
   verifiedProfileNote: "You need a verified worker profile to apply.",
