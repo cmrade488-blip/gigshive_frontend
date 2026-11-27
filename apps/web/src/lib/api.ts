@@ -9,9 +9,25 @@ export const authClient: ApiClient = createApiClient({ baseUrl: "/api/auth" });
 
 /**
  * Browser client for authenticated calls. The proxy attaches the server-held
- * token; FE-017 owns global 401 handling, so callers opt in per request here.
+ * token. FE-017 installs one app-level handler so a 401 clears the session and
+ * returns to sign-in; session and credential checks opt out per request.
  */
-export const sessionClient: ApiClient = createApiClient({ baseUrl: "/api/proxy" });
+let unauthorizedHandler: (() => void) | null = null;
+
+export const sessionClient: ApiClient = createApiClient({
+  baseUrl: "/api/proxy",
+  onUnauthorized: () => unauthorizedHandler?.(),
+});
+
+/** Registers the single global 401 handler and returns its cleanup function. */
+export function registerUnauthorizedHandler(handler: () => void): () => void {
+  unauthorizedHandler = handler;
+  return () => {
+    if (unauthorizedHandler === handler) {
+      unauthorizedHandler = null;
+    }
+  };
+}
 
 /** Fixed public copy: a failed CSRF bootstrap is never surfaced as raw text. */
 export class CsrfTokenError extends Error {
