@@ -4,12 +4,13 @@ import { installGlobalErrorHandlers, startWebVitals } from "@gigshive/shared/obs
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect, useState, type ReactNode } from "react";
 
+import { ConsoleSessionBootstrap } from "@/features/auth";
+
 import { observability } from "./observability";
 
 /**
- * App-level providers for the staff console.
- * Session / auth providers land in FE-008.
- * Theme and design-system providers land with FE-006.
+ * App-level providers for the staff console. FE-018 adds the shared session
+ * bootstrap; theme and design-system providers land with FE-006.
  */
 export function Providers({ children }: { children: ReactNode }) {
   useEffect(() => {
@@ -37,5 +38,9 @@ export function Providers({ children }: { children: ReactNode }) {
       }),
   );
 
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ConsoleSessionBootstrap>{children}</ConsoleSessionBootstrap>
+    </QueryClientProvider>
+  );
 }

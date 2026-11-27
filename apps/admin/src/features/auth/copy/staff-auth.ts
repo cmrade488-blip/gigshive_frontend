@@ -1,0 +1,41 @@
+export const staffAuthCopy = {
+  shell: {
+    skipToContent: "Skip to staff sign-in",
+    brand: "GigsHive",
+    adminBadge: "ADMIN",
+    footnote: "Two steps: password, then a code. Failed attempts are limited and logged.",
+  },
+  passwordStep: {
+    heading: "Staff sign in",
+    subtitle: "For GigsHive staff only.",
+    emailLabel: "Work email",
+    passwordLabel: "Password",
+    submitLabel: "Continue",
+    submittingLabel: "Checking…",
+  },
+  otpStep: {
+    heading: "Enter your code",
+    subtitle: "Enter the 6-digit code for your staff sign-in.",
+    codeLabel: "6-digit code",
+    submitLabel: "Sign in",
+    submittingLabel: "Signing in…",
+    backLabel: "Back",
+  },
+  errors: {
+    email: "Enter a valid work email address.",
+    password: "Enter your password.",
+    code: "Enter the 6-digit code.",
+    invalidCredentialsTitle: "We could not sign you in",
+    invalidCredentialsDescription: "Check your details and try again.",
+    codeInvalidTitle: "That code was not accepted",
+    codeInvalidDescription: "Request a new code and try again.",
+    forbiddenTitle: "This account cannot use the console",
+    forbiddenDescription: "Ask a super admin to check your staff access.",
+  },
+  session: {
+    checkingLabel: "Checking your staff session",
+    signOutLabel: "Sign out",
+    signingOutLabel: "Signing out…",
+    signOutFailed: "Your local session was cleared. Sign in again to continue.",
+  },
+} as const;

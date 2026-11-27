@@ -8,13 +8,13 @@
 | Tasks | FE-018 (see [docs/tasks/TASKS.md](../../../../../docs/tasks/TASKS.md)) |
 | Spec | [Blueprint section 6.3](https://github.com/cmrade488-blip/gigshive_doc/blob/main/docs/frontend/GigsHive_Frontend_Engineering_Blueprint_v1_1.md) and the Data and State Design |
 | Business rules | BR-02, BR-05, BR-41 |
-| Status | not started |
+| Status | done (FE-018: two-step staff sign-in, shared session bootstrap, route guards and logout; public account flows stay in `apps/web`) |
 
 ## API used
 
-POST /auth/register, /auth/verify-email, /auth/login, /auth/logout, /auth/forgot-password, /auth/reset-password; GET /me; admin: POST /admin/auth/login, /admin/auth/verify-otp
+POST /admin/auth/login, POST /admin/auth/verify-otp, POST /auth/logout, GET /me; GET /api/session/csrf through the same-origin proxy.
 
-Endpoint paths are indicative until the generated OpenAPI document is final. Only `api/` calls the client.
+Only `api/` calls the client. Tokens and OTP values stay in server-held cookies or in-memory form state; neither is written to storage or a URL. `SessionUser.permissions` comes from `/me` and is not inferred from role labels.
 
 ## States to handle
 
