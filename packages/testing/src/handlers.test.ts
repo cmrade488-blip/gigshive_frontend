@@ -70,6 +70,26 @@ describe("mock handlers", () => {
     expect(first.data.id).toBe("user_0000000000000001");
   });
 
+  it("serves the generated signed-url shape and test file bytes", async () => {
+    const signed = await api.get<{ url: string; expires_at: string }>("/media/media_1/signed-url");
+    const url = signed.data.url;
+    expect(url).toBe("/mock/private/file.png");
+    expect(signed.data.expires_at).toBe("2030-01-01T00:00:00.000Z");
+    expect(signed.data).not.toHaveProperty("expires_in");
+
+    if (!url) {
+      throw new Error("signed URL was not returned");
+    }
+    const file = await fetch(new URL(url, "https://api.example.test"));
+    expect(file.headers.get("content-type")).toBe("image/png");
+  });
+
+  it("maps media not-found scenarios to ApiError", async () => {
+    await expect(
+      api.get("/media/media_1/signed-url", { query: { mock_scenario: "notFound" } }),
+    ).rejects.toMatchObject({ status: 404, kind: "notFound" });
+  });
+
   it("serves staff and console projections with page meta", async () => {
     const staff = await api.get<{ account_type: string }>("/staff-proxy/me");
     expect(staff.data.account_type).toBe("STAFF");

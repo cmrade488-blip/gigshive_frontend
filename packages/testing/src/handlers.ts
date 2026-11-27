@@ -63,6 +63,36 @@ function forcedFailure(request: Request): Response | null {
   return null;
 }
 
+const MOCK_SIGNED_FILE_URL = "/mock/private/file.png";
+const MOCK_SIGNED_EXPIRES_AT = "2030-01-01T00:00:00.000Z";
+
+function mediaScenario(request: Request): Response | null {
+  const forced = forcedFailure(request);
+  if (forced) {
+    return forced;
+  }
+
+  const scenario = new URL(request.url).searchParams.get("mock_scenario");
+  if (scenario === "notFound") {
+    return mockError(404, "NOT_FOUND", "The mock file is unavailable.");
+  }
+  if (scenario === "validation") {
+    return HttpResponse.json(
+      makeErrorBody("VALIDATION_FAILED", "The mock file was rejected.", {
+        file: ["Choose a valid file."],
+      }),
+      { status: 422 },
+    );
+  }
+  if (scenario === "rateLimit") {
+    return HttpResponse.json(makeErrorBody("TOO_MANY_REQUESTS", "Slow down."), {
+      status: 429,
+      headers: { "Retry-After": "2" },
+    });
+  }
+  return null;
+}
+
 const categories = [
   makeCategory(),
   makeCategory({ slug: "development", name: "Development & IT" }),
@@ -256,9 +286,19 @@ export const handlers: RequestHandler[] = [
   http.get("*/payouts", ({ request }) => forcedFailure(request) ?? collection([makePayout()])),
 
   // Media. The URL is a test placeholder, never a real signed URL.
-  http.post("*/media", () => single(makeMedia(), 201)),
-  http.post("*/media/:id/signed-url", () =>
-    single({ url: "/mock/private/file.png", expires_in: 300 }),
+  http.post("*/media", ({ request }) => mediaScenario(request) ?? single(makeMedia(), 201)),
+  http.get(
+    "*/media/:id/signed-url",
+    ({ request }) =>
+      mediaScenario(request) ??
+      single({ url: MOCK_SIGNED_FILE_URL, expires_at: MOCK_SIGNED_EXPIRES_AT }),
+  ),
+  http.get(
+    "*/mock/private/file.png",
+    () =>
+      new HttpResponse(new Uint8Array([137, 80, 78, 71]), {
+        headers: { "Content-Type": "image/png" },
+      }),
   ),
 
   // Console reads use page meta rather than cursors.
