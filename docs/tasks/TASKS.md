@@ -30,7 +30,7 @@ Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are p
 | FE-015 | Forgot, reset and change password | auth | FE1 | FE-014 | S | done (forgot/reset screens, token stripped from URL, change-password form for FE-016 settings; no dedicated settings route) |
 | FE-016 | Phone verification and account settings | auth | FE1 | FE-013 | S | done (account settings route, phone OTP flow and embedded change-password form; change email omitted pending backend contract) |
 | FE-017 | Session bootstrap: /me seeding, route guards, 401 handling, verify-email prompts | auth | FE2 | FE-008 | M | done (shared client-side /me seed, UX route guards, one-shot 401 redirect, persistent verify prompt and gated proposal action; server-side seed and dashboard banners remain FE-019) |
-| FE-018 | Console shell: layout, permission-aware navigation, staff login with OTP | admin-ops | FE2 | FE-008 | L | todo |
+| FE-018 | Console shell: layout, permission-aware navigation, staff login with OTP | admin-ops | FE2 | FE-008 | L | done (two-step staff sign-in, shared session bootstrap, one-shot 401 handling, permission-driven shell; later queues and finance views remain in their own tasks) |
 | FE-019 | Role-aware web dashboard shell with status banners | auth | FE1 | FE-017 | S | todo |
 
 ## Slice B: Profiles, Media and Catalog
