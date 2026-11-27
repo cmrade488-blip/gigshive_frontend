@@ -93,8 +93,15 @@ function mediaScenario(request: Request): Response | null {
   return null;
 }
 
+const designCategory = makeCategory();
 const categories = [
-  makeCategory(),
+  designCategory,
+  makeCategory({
+    parent_id: designCategory.id,
+    slug: "branding",
+    name: "Branding",
+    sort_order: 1,
+  }),
   makeCategory({ slug: "development", name: "Development & IT" }),
   makeCategory({ slug: "writing", name: "Writing & Translation" }),
   makeCategory({
