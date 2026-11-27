@@ -8,7 +8,7 @@
 | Tasks | FE-013 to FE-017, FE-019 (see [docs/tasks/TASKS.md](../../../../../docs/tasks/TASKS.md)) |
 | Spec | [Blueprint section 6.3](https://github.com/cmrade488-blip/gigshive_doc/blob/main/docs/frontend/GigsHive_Frontend_Engineering_Blueprint_v1_1.md) and the Data and State Design |
 | Business rules | BR-02, BR-05, BR-41 |
-| Status | FE-013 to FE-017 done: register/email OTP, login/logout, password recovery/change, account settings with phone verification, session bootstrap, route guards, 401 handling and verify-email prompts; FE-019 dashboard shell remains |
+| Status | FE-013 to FE-019 done: register/email OTP, login/logout, password recovery/change, account settings with phone verification, session bootstrap, route guards, 401 handling, verify-email prompts and the role-aware dashboard shell |
 
 ## API used
 
@@ -28,7 +28,11 @@ FE-016 adds `/settings/account`, embedding `ChangePasswordForm` and a `PhoneVeri
 
 FE-017 seeds one shared `/me` query from `SessionBootstrap` in the root provider. `guardWebRoute` redirects anonymous users from documented private routes to sign-in with a validated `next`, sends signed-in users away from auth pages, but lets unverified and suspended users reach `/settings/account` so they can resolve the issue. A single app-level 401 handler clears the cached session and redirects once; credential checks opt out with `skipUnauthorizedHandler`. `VerifyEmailPrompt` is persistent for unverified users outside the verification and auth screens, and the job proposal action is gated for unverified or suspended users. Phone verification is explicitly not a gate.
 
-FE-017 assumptions: the current app has no private route group, so `/me` is seeded on first client render rather than in a server component; guards are UX-only and the API remains the authority; OpenAPI status enums (`PENDING`, `SUBMITTED`, `ACTIVE`, `REJECTED`, `SUSPENDED`) are authoritative where the Data and State Design uses older names; there is no client-side token refresh, so a 401 ends the session. FE-019 will own the role-aware dashboard shell and status banners.
+FE-017 assumptions: the current app has no private route group, so `/me` is seeded on first client render rather than in a server component; guards are UX-only and the API remains the authority; OpenAPI status enums (`PENDING`, `SUBMITTED`, `ACTIVE`, `REJECTED`, `SUSPENDED`) are authoritative where the Data and State Design uses older names; there is no client-side token refresh, so a 401 ends the session.
+
+FE-019 adds the private `/dashboard` shell and screen. The shell reads `/me` through the shared query: loading, retry and forbidden states are rendered before any layout, and staff sessions never see the marketplace shell. Navigation, the heading, status banners and next actions are derived only from profile types and account/profile status in `/me`; the API remains the authority for whether an offered action succeeds. A client with both profile types can switch the acting role; a user with neither can choose either setup path. No jobs, balances, fees or other aggregate data are invented because no endpoint supplies them yet.
+
+FE-019 assumptions: role switching changes only the client-side dashboard view, not the server-side account type; review notes and suspension dates are shown only where the design calls for them and are formatted through the shared date utility; every status has an explicit banner/action map using the generated OpenAPI enums. The 360 px check covers the unauthenticated route because there is no committed authenticated session fixture for the browser check.
 
 ## States to handle
 

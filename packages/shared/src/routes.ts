@@ -8,8 +8,14 @@
  */
 export const siteRoutes = {
   home: "/",
-  /** Reserved for the dashboard task; the design links "Switch profile" here. */
   dashboard: "/dashboard",
+  onboarding: "/onboarding",
+  profile: "/profile",
+  myJobs: "/my/jobs",
+  myJobsNew: "/my/jobs/new",
+  myProposals: "/my/proposals",
+  contracts: "/contracts",
+  wallet: "/wallet",
   jobs: "/jobs",
   workers: "/workers",
   howItWorks: "/how-it-works",
