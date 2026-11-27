@@ -36,7 +36,7 @@ Source: Frontend MVP Scope and Implementation Plan v1.1, section 8. Owners are p
 ## Slice B: Profiles, Media and Catalog
 | ID | Task | Module | Owner | Depends on | Size | Status |
 |---|---|---|---|---|---|---|
-| FE-020 | Media uploader and signed-URL file viewer | media | FE2 | FE-006 | L | todo |
+| FE-020 | Media uploader and signed-URL file viewer | media | FE2 | FE-006 | L | done (single-file uploader, public/private file list and transient signed-URL viewer; no invented size/MIME rules or media route) |
 | FE-021 | Category tree picker and filter chips | catalog | FE1 | FE-004 | S | todo |
 | FE-022 | Profile wizard with per-type attribute forms and Zod schemas | profiles | FE1 | FE-021 | L | todo |
 | FE-023 | Submit for review, completeness checklist, status banners, rejection resubmit | profiles | FE1 | FE-022 | M | todo |
