@@ -1,7 +1,7 @@
 import { createApiClient } from "@gigshive/api-client";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 
-import { type Job, type Profile } from "./fixtures";
+import { type Category, type Job, type Profile } from "./fixtures";
 import { resetHandlers } from "./handlers";
 import { server } from "./server";
 
@@ -55,6 +55,22 @@ describe("mock handlers", () => {
     expect(Number.isInteger(wallet.data.balance.amount_kobo)).toBe(true);
   });
 
+  it("serves a two-level category tree through the generated contract", async () => {
+    const categories = (await api.get<Category[]>("/categories")).data;
+    const byId = new Map(categories.map((category) => [category.id, category]));
+
+    expect(
+      categories.some(
+        (category) => typeof category.parent_id === "string" && byId.has(category.parent_id),
+      ),
+    ).toBe(true);
+    for (const category of categories) {
+      expect(typeof category.is_active).toBe("boolean");
+      expect(["DIGITAL", "PHYSICAL"]).toContain(category.category_type);
+      expect(Number.isInteger(category.sort_order)).toBe(true);
+    }
+  });
+
   it("maps forced error and forbidden scenarios to ApiError", async () => {
     await expect(api.get("/workers", { query: { mock_scenario: "error" } })).rejects.toMatchObject({
       status: 500,
@@ -63,6 +79,12 @@ describe("mock handlers", () => {
     await expect(api.get("/jobs", { query: { mock_scenario: "forbidden" } })).rejects.toMatchObject(
       { status: 403, kind: "forbidden" },
     );
+    await expect(
+      api.get("/categories", { query: { mock_scenario: "error" } }),
+    ).rejects.toMatchObject({ status: 500, kind: "server" });
+    await expect(
+      api.get("/categories", { query: { mock_scenario: "forbidden" } }),
+    ).rejects.toMatchObject({ status: 403, kind: "forbidden" });
   });
 
   it("resets generated ids between tests", async () => {
