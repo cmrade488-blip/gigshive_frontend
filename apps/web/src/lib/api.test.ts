@@ -1,7 +1,7 @@
 import { createSessionConfig, csrfCookieNameFor, csrfHeaderName } from "@gigshive/session";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { CsrfTokenError, csrfHeaders } from "./api";
+import { CsrfTokenError, csrfHeaders, registerUnauthorizedHandler, sessionClient } from "./api";
 
 const config = createSessionConfig({
   surface: "web",
@@ -17,9 +17,55 @@ function clearCsrfCookie(): void {
   document.cookie = `${csrfCookieNameFor("web")}=; Max-Age=0; path=/`;
 }
 
+let unregisterHandler: (() => void) | null = null;
+
 afterEach(() => {
+  unregisterHandler?.();
+  unregisterHandler = null;
   clearCsrfCookie();
   vi.unstubAllGlobals();
+});
+
+function unauthorisedResponse(): Response {
+  return new Response(
+    JSON.stringify({
+      error: {
+        code: "UNAUTHENTICATED",
+        message: "raw backend message",
+        details: null,
+        request_id: "req_401",
+      },
+    }),
+    { status: 401, headers: { "Content-Type": "application/json" } },
+  );
+}
+
+describe("sessionClient 401 handling", () => {
+  it("calls the registered handler once on an unauthorised response", async () => {
+    const handler = vi.fn();
+    unregisterHandler = registerUnauthorizedHandler(handler);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => unauthorisedResponse()),
+    );
+
+    await expect(sessionClient.get("/me")).rejects.toMatchObject({ status: 401 });
+    expect(handler).toHaveBeenCalledTimes(1);
+  });
+
+  it("leaves credential checks to their own copy when they opt out", async () => {
+    const handler = vi.fn();
+    unregisterHandler = registerUnauthorizedHandler(handler);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => unauthorisedResponse()),
+    );
+
+    await expect(sessionClient.get("/me", { skipUnauthorizedHandler: true })).rejects.toMatchObject(
+      { status: 401 },
+    );
+    expect(handler).not.toHaveBeenCalled();
+  });
 });
 
 describe("csrfHeaders", () => {

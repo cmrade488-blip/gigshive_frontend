@@ -6,7 +6,7 @@ import { getSession } from "../api/session";
 
 export const sessionQueryKey = ["auth", "session"] as const;
 
-/** Header-only session state; full bootstrap and guards belong to FE-017. */
+/** Shared session query, seeded app-wide by FE-017's SessionBootstrap. */
 export function useSessionStatus() {
   return useQuery({
     queryKey: sessionQueryKey,

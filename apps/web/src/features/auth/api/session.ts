@@ -7,9 +7,9 @@ export type SessionData = NonNullable<
 >;
 
 /**
- * Header-only session check for FE-014. FE-017 will own the full bootstrap,
- * route guards and 401 behaviour; a missing or failed session is simply
- * "signed out" here.
+ * Reads the session with 401 handling opted out. Route guards and credential
+ * checks interpret a failed or absent session themselves; the app-level 401
+ * handler is reserved for authenticated API calls.
  */
 export async function getSession(): Promise<SessionData | null> {
   try {
