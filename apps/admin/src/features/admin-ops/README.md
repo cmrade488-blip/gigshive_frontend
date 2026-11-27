@@ -8,13 +8,13 @@
 | Tasks | FE-018, FE-025, FE-028, FE-033, FE-052 to FE-057 (see [docs/tasks/TASKS.md](../../../../../docs/tasks/TASKS.md)) |
 | Spec | [Blueprint section 6.13](https://github.com/cmrade488-blip/gigshive_doc/blob/main/docs/frontend/GigsHive_Frontend_Engineering_Blueprint_v1_1.md) and the Data and State Design |
 | Business rules | BR-40, BR-41, BR-42 |
-| Status | not started |
+| Status | done for FE-018 shell and permission-aware navigation; queues, finance views and settings remain in later tasks |
 
 ## API used
 
-Endpoints under /admin (Backend Blueprint section 9.9)
+FE-018 reads the session from `GET /me` through the auth feature's public API. Later tasks will use endpoints under `/admin` (Backend Blueprint section 9.9). Only `api/` calls the client.
 
-Endpoint paths are indicative until the generated OpenAPI document is final. Only `api/` calls the client.
+Navigation is driven by `SessionUser.permissions`, not staff role names. Unknown permissions hide their section; the API remains the authority when an action is attempted. Placeholder metrics are deliberately omitted until an approved endpoint exists.
 
 ## States to handle
 
